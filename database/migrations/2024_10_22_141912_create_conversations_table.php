@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('socials', function (Blueprint $table) {
+        Schema::create('conversations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('sub');
-            $table->string('icon');
-            $table->string('url')->nullable();
+            $table->string('name')->nullable(); // Tên nhóm, nullable vì có thể là chat 2 người
+            $table->boolean('is_group')->default(false); // Xác định có phải là nhóm không
+            $table->foreignId('created_by')->constrained('users'); // Ai là người tạo nhóm
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('socials');
+        Schema::dropIfExists('conversations');
     }
 };

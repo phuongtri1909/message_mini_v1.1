@@ -18,10 +18,19 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'phone',
+        'full_name',
+        'avatar',
+        'cover_image',
         'email',
         'password',
+        'key_reset_password',
+        'reset_password_at',
+        'phone',
+        'date_of_birth',
+        'gender',
+        'google_id',
+        'active',
+        'key_active',
     ];
 
     /**
@@ -43,8 +52,36 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function bankAccount()
+    public function friends()
     {
-        return $this->hasOne(BankAccount::class);
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id');
     }
+
+    public function friendRequests()
+    {
+        return $this->hasMany(FriendRequest::class, 'receiver_id');
+    }
+
+    public function isFriendsWith($userId)
+    {
+        return $this->friends()->where('friend_id', $userId)->exists();
+    }
+
+    public function conversations()
+    {
+        return $this->belongsToMany(User::class, 'conversation_user')
+                ->withPivot('role', 'invited_by', 'nickname') // Thêm 'nickname' vào pivot
+                ->withTimestamps();
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    public function invitations()
+    {
+        return $this->hasMany(Invitation::class, 'invited_user_id');
+    }
+
 }

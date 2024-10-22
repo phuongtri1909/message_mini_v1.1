@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BankAccount;
+use App\Models\Message;
 use Illuminate\Http\Request;
 
-class BankAccountController extends Controller
+class MessageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class BankAccountController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(BankAccount $bankAccount)
+    public function show(Message $message)
     {
         //
     }
@@ -42,7 +42,7 @@ class BankAccountController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(BankAccount $bankAccount)
+    public function edit(Message $message)
     {
         //
     }
@@ -50,7 +50,7 @@ class BankAccountController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, BankAccount $bankAccount)
+    public function update(Request $request, Message $message)
     {
         //
     }
@@ -58,7 +58,7 @@ class BankAccountController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(BankAccount $bankAccount)
+    public function destroy(Message $message)
     {
         //
     }

@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bank_accounts', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('bank_id')->constrained()->onDelete('cascade');
-            $table->string('account_number');
-            $table->string('account_name');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('conversation_id')->constrained()->onDelete('cascade'); // Liên kết với conversation
+            $table->foreignId('sender_id')->constrained('users')->onDelete('cascade'); // Người gửi tin nhắn
+            $table->text('message'); // Nội dung tin nhắn
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bank_accounts');
+        Schema::dropIfExists('messages');
     }
 };
