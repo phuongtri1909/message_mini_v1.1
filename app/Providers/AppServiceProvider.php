@@ -22,11 +22,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-       
-        $socials = Socials::all();
-        
-        View::composer('layouts.app', function ($view) use ($socials) {
-            $view->with('socials', $socials);
-        });
+        //
     }
 }
