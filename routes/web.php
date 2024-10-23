@@ -19,6 +19,7 @@ use App\Http\Controllers\SocialsController;
 */
 
 Route::get('/', [HomeController::class , 'index'])->name('home');
+Route::get('/list', [HomeController::class , 'listfriend'])->name('list');
 
 Route::group(['middleware' => 'auth'], function () {
     

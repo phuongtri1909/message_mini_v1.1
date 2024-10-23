@@ -1,6 +1,5 @@
 body {
     background: #f4f4f5;
-    padding-top: 108px;
     font-family: 'Quicksand', sans-serif;
 }
 
@@ -11,18 +10,18 @@ header .sticky-header {
     z-index: 1030;
 }
 
-.logohoanxu{
+.logohoanxu {
     width: 210px;
     height: 75px;
 }
 
-footer .icon-footer{
+footer .icon-footer {
     width: 30px;
     height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
 }
 
 .custom-container {
@@ -39,17 +38,17 @@ footer .icon-footer{
 @media (min-width: 1024px) {
     .custom-container {
         width: 1024px !important;
-    }  
+    }
 }
 
 
 /* custom */
 .box-shadow-top {
-    box-shadow: 0 -4px 8px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 -4px 8px 0 rgba(0, 0, 0, 0.1);
 }
 
-.box-shadow{
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
+.box-shadow {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 }
 
@@ -65,26 +64,26 @@ footer .icon-footer{
     border-radius: .5rem;
 }
 
-.bg-coins-refund{
-    background: linear-gradient(90deg, rgba(238,9,121,1) 12%, rgba(255,106,0,1) 83%);
+.bg-coins-refund {
+    background: linear-gradient(90deg, rgba(238, 9, 121, 1) 12%, rgba(255, 106, 0, 1) 83%);
 }
 
-.color-coins-refund{
-    background: linear-gradient(90deg, rgba(238,9,121,1) 12%, rgba(255,106,0,1) 83%);
+.color-coins-refund {
+    background: linear-gradient(90deg, rgba(238, 9, 121, 1) 12%, rgba(255, 106, 0, 1) 83%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-.border-coins-refund{
-  
+.border-coins-refund {
+
     border: 1px solid;
-    border-image: linear-gradient(90deg, rgba(238,9,121,1) 12%, rgba(255,106,0,1) 83%);
+    border-image: linear-gradient(90deg, rgba(238, 9, 121, 1) 12%, rgba(255, 106, 0, 1) 83%);
     border-image-slice: 1;
 }
 
 .border-coins-refund-2 {
-    position: relative; 
-    border-radius: 12px; 
+    position: relative;
+    border-radius: 12px;
     z-index: 1;
 }
 
@@ -95,9 +94,9 @@ footer .icon-footer{
     left: 0;
     right: 0;
     bottom: 0;
-    border-radius: 12px; 
+    border-radius: 12px;
     padding: 1.5px;
-    background: linear-gradient(90deg, rgba(238,9,121,1) 12%, rgba(255,106,0,1) 83%);
+    background: linear-gradient(90deg, rgba(238, 9, 121, 1) 12%, rgba(255, 106, 0, 1) 83%);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
@@ -105,12 +104,12 @@ footer .icon-footer{
     z-index: -1;
 }
 
-.bg-e2e8f0{
+.bg-e2e8f0 {
     background: #e2e8f0;
 }
 
-.bg-shopee{
-    background: linear-gradient(90deg, rgba(238,131,9,1) 12%, rgba(232,208,70,1) 83%);
+.bg-shopee {
+    background: linear-gradient(90deg, rgba(238, 131, 9, 1) 12%, rgba(232, 208, 70, 1) 83%);
 }
 
 .line-height-16 {
@@ -134,7 +133,7 @@ footer .icon-footer{
 }
 
 .responsive-text-medium {
-    font-size: 1rem; 
+    font-size: 1rem;
 }
 
 .responsive-text-large {
@@ -174,7 +173,7 @@ footer .icon-footer{
     }
 
     .responsive-text-medium {
-        font-size: 1.5rem; 
+        font-size: 1.5rem;
     }
 
     .responsive-text-large {
@@ -187,7 +186,7 @@ footer .icon-footer{
 }
 
 .small-input::placeholder {
-    font-size: 0.75rem; 
+    font-size: 0.75rem;
 }
 
 
@@ -196,14 +195,14 @@ footer .icon-footer{
 }
 
 .medium-input::placeholder {
-    font-size: 1rem; 
+    font-size: 1rem;
 }
 
-.border-cl-shopee{
+.border-cl-shopee {
     border: 1px solid #ee4d2d;
 }
 
-.icon-menu{
+.icon-menu {
     height: 35px;
     width: 35px;
 }
@@ -274,147 +273,226 @@ footer .icon-footer{
         font-size: 18px;
     }
 }
+
 .sidebar {
     background-color: #0084ff;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 20px;
-  }
-  
-  .profile img {
+    height: 100vh;
+}
+
+.profile img {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     margin-bottom: 20px;
-  }
-  .menu-item{
+}
+
+.menu-item {
     margin-bottom: 50px;
     justify-items: center;
-  }
-  .menu-item i {
+}
+
+.menu-item i {
     color: white;
     font-size: 24px;
-    
-  }
-  .setting{
-    margin-top: 250px;
-  }
-  .chat-list {
+    margin: auto;
+}
+
+.fa-people-group {
+    margin-right: 5px;
+}
+
+.setting {
+    margin-top: auto;
+}
+
+.chat-list {
     background-color: #f7f7f7;
     border-right: 1px solid #ccc;
-  }
-  
-  .search-bar input {
+}
+
+.search-bar input {
     width: 300px;
     height: 30px;
     padding: 10px;
     border-radius: 20px;
     border: 1px solid #ddd;
-  
-  }
-  .search-bar i {
-      cursor: pointer;
-      color: #333;
-      font-size: 30px;
-      margin: 10px;
-  }
-  .chat-item {
+    flex-grow: 1;
+    /* Để thanh tìm kiếm chiếm hết không gian trống */
+    flex-wrap: nowrap;
+    max-width: 100%;
+    /* Giới hạn chiều rộng của input không vượt quá container */
+}
+
+.search-bar i {
+    cursor: pointer;
+    color: #333;
+    margin: 0 auto;
+    margin: 10px;
+    font-size: 24px;
+    /* Điều chỉnh kích thước icon nếu cần */
+    vertical-align: middle;
+    /* Đảm bảo icon căn giữa theo chiều dọc */
+    flex-wrap: nowrap;
+}
+
+.chat-list-container {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.chat-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 0;
     border-radius: 10px;
-    margin:  10px;
+    margin: 10px;
     cursor: pointer;
-  }
-  .chat-item:hover{
+}
+
+.chat-item:hover {
     background: #f0ecec;
-  }
-  
-  .chat-item img {
+}
+
+.chat-item img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-  }
-  
-  .chat-info h5 {
-  
+}
+
+.chat-info h5 {
+
     font-size: 16px;
-  }
-  
-  .chat-info p {
+}
+
+.chat-info p {
     margin: 0;
     font-size: 12px;
     color: #888;
-  }
-  
-  .chat-time {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 150px;
+}
+
+.chat-time {
     font-size: 10px;
     color: #888;
-  }
-  
-  .chat-header {
+}
+
+.chat-header {
     padding: 20px;
     background-color: #fff;
     border-bottom: 1px solid #ddd;
-  }
-  
-  .chat-messages {
-    flex-grow: 1; /* Cho phép khung tin nhắn chiếm hết chiều cao còn lại */
-    padding: 20px; /* Padding cho khung tin nhắn */
-    overflow-y: auto; /* Cuộn dọc khi có nhiều tin nhắn */
+}
+
+.chat-messages {
+    padding: 20px;
+    overflow-y: auto;
     background-color: #f0f0f0;
-  }
-  
-  .message, .message-sticker {
+    flex-grow: 1;
+    height: 600px;
+}
+
+.message {
     display: flex;
     align-items: flex-start;
     margin-bottom: 10px;
-  }
-  
-  .message img, .message-sticker img {
+}
+
+.message img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
-  }
-  
-  .message-content {
+}
+
+.message-content {
     background-color: #fff;
-    padding: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
     position: relative;
-    max-width: 300px; /* Giới hạn chiều rộng tối đa cho khoảng 30 ký tự (điều chỉnh theo nhu cầu) */
-    word-wrap: break-word; /* Tự động xuống dòng khi vượt quá max-width */
-    word-break: break-word; /* Đảm bảo từ dài bị ngắt nếu cần */
-  }
-  
-  .message-time {
+    max-width: 500px;
+    word-break: break-word;
+    margin: 0;
+}
+
+.message-time {
     font-size: 10px;
     color: #888;
-    margin-left: 50px;
-  }
-  
-  .chat-window {
-    position: relative; /* Để cho các phần tử con có thể dùng position tuyệt đối */
-  }
-  
-  .chat-input {
-    position: absolute; /* Đặt vị trí tuyệt đối */
-    bottom: 0; /* Đặt ở dưới cùng của chat window */
-    left: 0; /* Căn lề trái */
-    right: 0; /* Căn lề phải */ 
-    
-    background-color: #fff; /* Màu nền cho chat input */
-    border-top: 1px solid #ddd; /* Đường viền trên */
-  }
-  
-  .chat-input input {
-    flex-grow: 1; /* Đảm bảo ô input chiếm toàn bộ chiều rộng còn lại */
-   
-    border-radius: 20px; /* Bo tròn các góc */
-    border: 1px solid #ddd; /* Đường viền */
-  }
-  
-  
+    margin-left: 5px;
+}
+
+.chat-window {
+    position: relative;
+}
+
+.chat-input {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    /* Đường viền trên */
+}
+
+.chat-input input {
+    flex-grow: 1;
+    border-radius: 20px;
+    /* Bo tròn các góc */
+    border: 1px solid #ddd;
+    /* Đường viền */
+}
+
+.container {
+    max-height: 100%;
+}
+
+.input-icons {
+    position: absolute;
+    /* Đặt vị trí tuyệt đối cho .input-icons */
+    top: -1px;
+    /* Điều chỉnh chiều cao của icon lên trên */
+    left: 10px;
+    /* Căn lề bên trái cho icon */
+    z-index: 1;
+    /* Đặt độ ưu tiên cho icon */
+    font-size: 20px;
+
+}
+
+.input-icons a {
+    margin-right: 10px;
+    /* Khoảng cách giữa các icon */
+    color: #777;
+    /* Màu sắc của icon */
+}
+
+@media (max-width: 768px) {
+
+    .sidebar,
+    .chat-list,
+    .chat-window {
+        width: 100%;
+        /* Chiếm toàn bộ chiều ngang màn hình */
+        margin-bottom: 20px;
+        /* Khoảng cách giữa các phần */
+    }
+
+    .chat-input {
+        position: static;
+        /* Chuyển vị trí từ absolute sang static */
+        width: 100%;
+        bottom: 0;
+    }
+
+    .search-bar input {
+        width: 100%;
+
+    }
+}

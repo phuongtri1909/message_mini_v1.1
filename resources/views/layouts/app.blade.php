@@ -2,114 +2,324 @@
 
 <div class="main-coins ">
     @yield('content')
-    <div class="row h-100">
-        <!-- Left Sidebar -->
-        <div class="col-md-1 pt-3 sidebar">
-            <div class="profile mb-4">
-                <a href="#"><img src="uocmo.jpg" alt="Profile Picture" class="rounded-circle" width="50" height="50"></a>
+    <div class="container-fluid hehe">
+        <div class="row">
+            <!-- Left Sidebar -->
+            <div class="col-12 col-md-1 sidebar">
+                <div class="profile mb-4">
+                    <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Profile Picture" class="rounded-circle" width="50"
+                            height="50"></a>
+                </div>
+                <div class="menu-item mb-5">
+                    <a href="#"><i class="fa-solid fa-message text-white" style="font-size: 24px;"></i></a>
+                </div>
+                <div class="menu-item mb-5">
+                    <a href="#"><i class="fa-solid fa-cloud text-white" style="font-size: 24px;"></i></a>
+                </div>
+                <div class="menu-item mb-5">
+                    <a href="#"><i class="fa-solid fa-user text-white" style="font-size: 24px;"></i></a>
+                </div>
+                <div class="menu-item setting dropdown">
+                    <a href="#" class="dropdown-toggle" id="settingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-cog text-white" style="font-size: 24px;"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
+                        <li><a class="dropdown-item" href="#" id="logoutOption">Đăng xuất</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#languageSettingsModal">Cài đặt ngôn ngữ</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="menu-item mb-5">
-              <a href="#"><i class="fa-solid fa-message text-white" style="font-size: 24px;"></i></a>
-          </div>
-            <div class="menu-item mb-5">
-              <a href="#"><i class="fa-solid fa-cloud text-white" style="font-size: 24px;"></i></a>
-            </div>
-            <div class="menu-item mb-5">
-              <a href="#"><i class="fa-solid fa-user text-white" style="font-size: 24px;"></i></a>
-            </div>
-            <div class="menu-item setting">
-              <a href="#"><i class="fa-solid fa-cog text-white" style="font-size: 24px;"></i></a>
-            </div>
-        </div>
 
-        <!-- Chat List -->
-        <div class="col-md-3 chat-list p-3">
-          <div class="search-bar mb-4 d-flex align-items-center">
-            <input type="text" class="form-control me-2" placeholder="Tìm kiếm">
-            <a href="#"><i class="fa-solid fa-user-plus me-2"></i></a>
-            <a href="#"><i class="fa-solid fa-people-group"></i></a>
-        </div>
-            <div class="chat-item rounded">
-                <div class="d-flex align-items-center">
-                   <a href="#"><img src="uocmo.jpg" alt="User" class="rounded-circle me-3" width="40" height="40"></a>
-                    <div class="chat-info">
-                        <h5 class="mb-0">Tên người dùng</h5>
-                        <p class="text-muted mb-0">Đoạn tin nhắn gần nhất</p>
+            <!-- Chat List -->
+            <div class="col-md-3 chat-list p-3">
+                <div class="search-bar mb-4 d-flex align-items-center">
+                    <input type="text" class="form-control me-2" placeholder="Tìm kiếm">
+                    <button class="btn" style="border: none; background: none;" data-bs-toggle="modal"
+                        data-bs-target="#addFriendModal">
+                        <i class="fa-solid fa-user-plus me-2"></i>
+                    </button>
+                    <a href="#"><i class="fa-solid fa-people-group"></i></a>
+                </div>
+            
+                <!-- Thêm div bọc các cuộc hội thoại -->
+                <div class="chat-list-container">
+                    <div class="chat-item rounded">
+                        <div class="d-flex align-items-center">
+                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle me-3" width="40"
+                                    height="40"></a>
+                            <div class="chat-info">
+                                <h5 class="mb-0">Tên người dùng</h5>
+                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhất</p>
+                            </div>
+                        </div>
+                        <span class="chat-time text-muted small">5 phút trước</span>
+                    </div>
+                    <div class="chat-item rounded">
+                        <div class="d-flex align-items-center">
+                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle me-3" width="40"
+                                    height="40"></a>
+                            <div class="chat-info">
+                                <h5 class="mb-0">Tên người dùng</h5>
+                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhất</p>
+                            </div>
+                        </div>
+                        <span class="chat-time text-muted small">5 phút trước</span>
+                    </div>
+                     <div class="chat-item rounded">
+                        <div class="d-flex align-items-center">
+                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle me-3" width="40"
+                                    height="40"></a>
+                            <div class="chat-info">
+                                <h5 class="mb-0">Tên người dùng </h5>
+                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft</p>
+                            </div>
+                        </div>
+                        <span class="chat-time text-muted small">5 phút trước</span>
+                    </div>
+                    <div class="chat-item rounded">
+                        <div class="d-flex align-items-center">
+                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle me-3" width="40"
+                                    height="40"></a>
+                            <div class="chat-info">
+                                <h5 class="mb-0">Tên người dùng </h5>
+                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấfffffffffffffffffffffffĐoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffftĐoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffftĐoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffftĐoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffftfffffffffffffft</p>
+                            </div>
+                        </div>
+                        <span class="chat-time text-muted small">5 phút trước</span>
+                    </div>
+                    <div class="chat-item rounded">
+                        <div class="d-flex align-items-center">
+                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle me-3" width="40"
+                                    height="40"></a>
+                            <div class="chat-info">
+                                <h5 class="mb-0">Tên người dùng </h5>
+                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft</p>
+                            </div>
+                        </div>
+                        <span class="chat-time text-muted small">5 phút trước</span>
+                    </div>
+                    <div class="chat-item rounded">
+                        <div class="d-flex align-items-center">
+                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle me-3" width="40"
+                                    height="40"></a>
+                            <div class="chat-info">
+                                <h5 class="mb-0">Tên người dùng </h5>
+                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft</p>
+                            </div>
+                        </div>
+                        <span class="chat-time text-muted small">5 phút trước</span>
+                    </div>
+                    <div class="chat-item rounded">
+                        <div class="d-flex align-items-center">
+                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle me-3" width="40"
+                                    height="40"></a>
+                            <div class="chat-info">
+                                <h5 class="mb-0">Tên người dùng </h5>
+                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft</p>
+                            </div>
+                        </div>
+                        <span class="chat-time text-muted small">5 phút trước</span>
+                    </div>
+                    <div class="chat-item rounded">
+                        <div class="d-flex align-items-center">
+                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle me-3" width="40"
+                                    height="40"></a>
+                            <div class="chat-info">
+                                <h5 class="mb-0">Tên người dùng </h5>
+                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft</p>
+                            </div>
+                        </div>
+                        <span class="chat-time text-muted small">5 phút trước</span>
+                    </div>
+                    <div class="chat-item rounded">
+                        <div class="d-flex align-items-center">
+                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle me-3" width="40"
+                                    height="40"></a>
+                            <div class="chat-info">
+                                <h5 class="mb-0">Tên người dùng </h5>
+                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft</p>
+                            </div>
+                        </div>
+                        <span class="chat-time text-muted small">5 phút trước</span>
+                    </div>
+                    
+                    <!-- Thêm các cuộc hội thoại khác tại đây -->
+                    
+                </div>
+            </div>
+            
+
+            <!-- Main Chat Window -->
+            <div class="col-12 col-md-8 chat-window">
+                <div class="chat-header bg-white p-3 border-bottom">
+                    <h3 class="mb-0">Tên nhóm/Người dùng</h3>
+                    <p class="text-muted mb-0">7 thành viên | Tin nhắn đã đọc</p>
+                </div>
+                <div class="chat-messages flex-grow-1 p-3 bg-light overflow-auto">
+                    <!-- Tin nhắn của người khác -->
+                    <div class="message d-flex mb-3">
+                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle me-3" width="40" height="40">
+                        <div class="message-content bg-white p-2 rounded">
+                            <p class="mb-0">@All tôi cf ae</p>
+                            <span class="message-time text-muted small">15:00</span>
+                        </div>
+                    </div>
+                    <div class="message d-flex mb-3">
+                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle me-3" width="40" height="40">
+                        <div class="message-content bg-white p-2 rounded">
+                            <p class="mb-0">@All tôi cf
+                                aeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                            <span class="message-time text-muted small">15:00</span>
+                        </div>
+                    </div>
+                    <div class="message d-flex mb-3">
+                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle me-3" width="40" height="40">
+                        <div class="message-content bg-white p-2 rounded">
+                            <p class="mb-0">@All tôi cf
+                                aeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                            <span class="message-time text-muted small">15:00</span>
+                        </div>
+                    </div>
+                    <div class="message d-flex mb-3">
+                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle me-3" width="40" height="40">
+                        <div class="message-content bg-white p-2 rounded">
+                            <p class="mb-0"> @All tôi cf
+                                aeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                            <span class="message-time text-muted small">15:00</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Tin nhắn của chính mình -->
+                    <div class="message justify-content-end">
+                        <div class="message-content bg-primary text-white ">
+                            <p>thằng tổng ngu </p>
+                            <span class="message-time text-light small">15:02</span>
+                        </div>
+                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle ms-3" width="40" height="40">
+                    </div>
+                    <div class="message justify-content-end">
+                        <div class="message-content bg-primary text-white">
+                            <p>thằng tổng nguaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                            <span class="message-time text-light small">15:02</span>
+                        </div>
+
+                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle ms-3" width="40" height="40">
+                    </div>
+                    <div class="message justify-content-end">
+                        <div class="message-content bg-primary text-white mb-5">
+                            <p>thằng tổng nguaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                            <span class="message-time text-light small">15:02</span>
+                        </div>
+
+                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle ms-3" width="40" height="40">
                     </div>
                 </div>
-                <span class="chat-time text-muted small">5 phút trước</span>
-            </div>
-            <div class="chat-item rounded">
-              <div class="d-flex align-items-center">
-                <a href="#"><img src="uocmo.jpg" alt="User" class="rounded-circle me-3" width="40" height="40"></a>
-                  <div class="chat-info">
-                      <h5 class="mb-0">Tên người dùng</h5>
-                      <p class="text-muted mb-0">Đoạn tin nhắn gần nhất</p>
-                  </div>
-              </div>
-              <span class="chat-time text-muted small">5 phút trước</span>
-          </div>
-        </div>
 
-        <!-- Main Chat Window -->
-        <div class="col-md-8 chat-window">
-          <div class="chat-header bg-white p-3 border-bottom">
-              <h3 class="mb-0">Tên nhóm/Người dùng</h3>
-              <p class="text-muted mb-0">7 thành viên | Tin nhắn đã đọc</p>
-          </div>
-          <div class="chat-messages flex-grow-1 p-3 bg-light overflow-auto">
-              <!-- Tin nhắn của người khác -->
-              <div class="message d-flex mb-3">
-                  <img src="uocmo.jpg" alt="User" class="rounded-circle me-3" width="40" height="40">
-                  <div class="message-content bg-white p-2 rounded">
-                      <p class="mb-0">@All tôi cf ae</p>
-                      <span class="message-time text-muted small">15:00</span>
-                  </div>
-              </div>
-              <div class="message d-flex mb-3">
-                <img src="uocmo.jpg" alt="User" class="rounded-circle me-3" width="40" height="40">
-                <div class="message-content bg-white p-2 rounded">
-                    <p class="mb-0">@All tôi cf aeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                    <span class="message-time text-muted small">15:00</span>
+                <div class="chat-input d-flex align-items-center bg-white p-3 border-top">
+                    <div class="input-icons ms-3" style="display: flex;">
+                        <a href="#"><i class="fa-solid fa-folder"></i></a>
+                        <a href="#"><i class="fa-solid fa-image"></i></a>
+                        <a href="#"><i class="fa-solid fa-paperclip"></i></a>
+                    </div>
+                    <input type="text" class="form-control rounded-pill" id="messageInput" placeholder="Nhập @, tin nhắn tới ..." oninput="toggleSendIcon()">
+                    <a href="#" id="sendIcon" style="display: none;">
+                        <i class="fa-solid fa-paper-plane" style="font-size: 25px;"></i>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!--modal thêm bạn-->
+    <div class="modal fade" id="addFriendModal" tabindex="-1" aria-labelledby="addFriendModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addFriendModalLabel">Thêm Bạn Mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="friendName" class="form-label">Nhập Email:</label>
+                            <input type="text" class="form-control" id="friendName" placeholder="Nhập Email">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Thêm bạn</button>
                 </div>
             </div>
-            <div class="message d-flex mb-3">
-              <img src="uocmo.jpg" alt="User" class="rounded-circle me-3" width="40" height="40">
-              <div class="message-content bg-white p-2 rounded">
-                  <p class="mb-0">@All tôi cf aeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                  <span class="message-time text-muted small">15:00</span>
-              </div>
-          </div>
-          <div class="message d-flex mb-3">
-            <img src="uocmo.jpg" alt="User" class="rounded-circle me-3" width="40" height="40">
-            <div class="message-content bg-white p-2 rounded">
-                <p class="mb-0">@All tôi cf aeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                <span class="message-time text-muted small">15:00</span>
-            </div>
         </div>
-            
-          
-              <!-- Tin nhắn của chính mình -->
-              <div class="message d-flex mb-3 justify-content-end">
-                  <div class="message-content bg-primary text-white p-2 rounded">
-                      <p class="mb-0">OK, hẹn gặp</p>
-                      <span class="message-time text-light small">15:02</span>
-                  </div>
-                  <img src="uocmo.jpg" alt="User" class="rounded-circle ms-3" width="40" height="40">
-              </div>
-          </div>
-          
-          <div class="chat-input d-flex align-items-center bg-white p-3 border-top">
-              <input type="text" class="form-control rounded-pill" placeholder="Nhập @, tin nhắn tới ...">
-              <div class="input-icons ms-3">
-                  <img src="icon-emoji.png" alt="Emoji" width="24" height="24">
-                  <img src="icon-file.png" alt="File" width="24" height="24" class="ms-2">
-              </div>
-          </div>
-      </div>
-      
     </div>
 </div>
+<!--modal cài đặt ngôn ngữ -->
 
+<div class="modal fade" id="languageSettingsModal" tabindex="-1" aria-labelledby="languageSettingsLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="languageSettingsLabel">Cài đặt</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="settings-container">
+            <div class="row">
+              <div class="col-4">
+                <button type="button" class="btn btn-light" id="generalSettingsBtn">
+                  <i class="fa-solid fa-gear"></i> Cài đặt chung
+                </button>
+              </div>
+              <div class="col-8">
+                <label for="languageSelect" class="form-label">Thay đổi ngôn ngữ</label>
+                <select class="form-select" id="languageSelect" aria-label="Language select">
+                  <option value="en">Tiếng Anh</option>
+                  <option value="vi">Tiếng Việt</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" class="btn btn-primary" id="saveSettingsBtn">Đồng ý</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Modal tìm kiếm kết bạn-->
+  <div class="modal fade" id="friendSearchModal" tabindex="-1" aria-labelledby="friendSearchLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="friendSearchLabel">Thêm bạn</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Form tìm kiếm -->
+        <div class="search-form">
+          <input type="text" class="form-control" id="emailSearch" placeholder="Nhập email bạn bè...">
+        </div>
+
+        <!-- Kết quả tìm kiếm -->
+        <div class="search-result mt-3" style="display: none;" id="searchResult">
+          <div class="avatar" style="float: left; margin-right: 10px;">
+            <img src="https://via.placeholder.com/50" alt="Avatar" class="rounded-circle">
+          </div>
+          <div class="user-info">
+            <p><strong id="userName">User1</strong></p>
+            <p id="userEmail" style="color: gray;">User1@gmail.com</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary" id="searchButton">Tìm kiếm</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 @include('layouts.partials.footer')
