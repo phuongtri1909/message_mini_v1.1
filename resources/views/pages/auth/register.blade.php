@@ -3,7 +3,6 @@
 @push('styles-main')
     <style>
         
-
     </style>
 @endpush
 

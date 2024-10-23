@@ -8,7 +8,7 @@
 
 @section('content')
     @include('components.toast')
-  
+    
 @endsection
 
 @push('scripts')

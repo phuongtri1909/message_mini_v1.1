@@ -274,3 +274,147 @@ footer .icon-footer{
         font-size: 18px;
     }
 }
+.sidebar {
+    background-color: #0084ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+  }
+  
+  .profile img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+  }
+  .menu-item{
+    margin-bottom: 50px;
+    justify-items: center;
+  }
+  .menu-item i {
+    color: white;
+    font-size: 24px;
+    
+  }
+  .setting{
+    margin-top: 250px;
+  }
+  .chat-list {
+    background-color: #f7f7f7;
+    border-right: 1px solid #ccc;
+  }
+  
+  .search-bar input {
+    width: 300px;
+    height: 30px;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+  
+  }
+  .search-bar i {
+      cursor: pointer;
+      color: #333;
+      font-size: 30px;
+      margin: 10px;
+  }
+  .chat-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-radius: 10px;
+    margin:  10px;
+    cursor: pointer;
+  }
+  .chat-item:hover{
+    background: #f0ecec;
+  }
+  
+  .chat-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .chat-info h5 {
+  
+    font-size: 16px;
+  }
+  
+  .chat-info p {
+    margin: 0;
+    font-size: 12px;
+    color: #888;
+  }
+  
+  .chat-time {
+    font-size: 10px;
+    color: #888;
+  }
+  
+  .chat-header {
+    padding: 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .chat-messages {
+    flex-grow: 1; /* Cho phép khung tin nhắn chiếm hết chiều cao còn lại */
+    padding: 20px; /* Padding cho khung tin nhắn */
+    overflow-y: auto; /* Cuộn dọc khi có nhiều tin nhắn */
+    background-color: #f0f0f0;
+  }
+  
+  .message, .message-sticker {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  
+  .message img, .message-sticker img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .message-content {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    position: relative;
+    max-width: 300px; /* Giới hạn chiều rộng tối đa cho khoảng 30 ký tự (điều chỉnh theo nhu cầu) */
+    word-wrap: break-word; /* Tự động xuống dòng khi vượt quá max-width */
+    word-break: break-word; /* Đảm bảo từ dài bị ngắt nếu cần */
+  }
+  
+  .message-time {
+    font-size: 10px;
+    color: #888;
+    margin-left: 50px;
+  }
+  
+  .chat-window {
+    position: relative; /* Để cho các phần tử con có thể dùng position tuyệt đối */
+  }
+  
+  .chat-input {
+    position: absolute; /* Đặt vị trí tuyệt đối */
+    bottom: 0; /* Đặt ở dưới cùng của chat window */
+    left: 0; /* Căn lề trái */
+    right: 0; /* Căn lề phải */ 
+    
+    background-color: #fff; /* Màu nền cho chat input */
+    border-top: 1px solid #ddd; /* Đường viền trên */
+  }
+  
+  .chat-input input {
+    flex-grow: 1; /* Đảm bảo ô input chiếm toàn bộ chiều rộng còn lại */
+   
+    border-radius: 20px; /* Bo tròn các góc */
+    border: 1px solid #ddd; /* Đường viền */
+  }
+  
+  
