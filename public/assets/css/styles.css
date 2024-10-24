@@ -342,7 +342,7 @@ footer .icon-footer {
 }
 
 .chat-list-container {
-    max-height: 600px;
+    max-height: 620px;
     overflow-y: auto;
 }
 
@@ -396,7 +396,7 @@ footer .icon-footer {
     overflow-y: auto;
     background-color: #f0f0f0;
     flex-grow: 1;
-    height: 600px;
+    height: 620px;
 }
 
 .message {
