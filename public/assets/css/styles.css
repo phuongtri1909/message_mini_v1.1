@@ -300,7 +300,9 @@ footer .icon-footer {
     font-size: 24px;
     margin: auto;
 }
-
+#settingsDropdown::after {
+    display: none !important; 
+}
 .fa-people-group {
     margin-right: 5px;
 }
@@ -383,7 +385,6 @@ footer .icon-footer {
     font-size: 10px;
     color: #888;
 }
-
 .chat-header {
     padding: 20px;
     background-color: #fff;
@@ -425,6 +426,7 @@ footer .icon-footer {
     color: #888;
     margin-left: 5px;
 }
+
 
 .chat-window {
     position: relative;
@@ -472,7 +474,16 @@ footer .icon-footer {
     color: #777;
     /* Màu sắc của icon */
 }
-
+#messageInput {
+    width: 100%; /* Chiếm toàn bộ chiều ngang */
+    border-radius: 20px; /* Bo tròn các góc */
+    border: 1px solid #ddd; /* Đường viền */
+    resize: none; /* Không cho phép thay đổi kích thước thủ công */
+    overflow: hidden; /* Ẩn phần cuộn ngang, cuộn dọc tự động */
+    min-height: 40px; /* Chiều cao tối thiểu */
+    max-height: 150px; /* Chiều cao tối đa khi tự động mở rộng */
+    padding: 10px; /* Padding cho khoảng cách văn bản */
+}
 @media (max-width: 768px) {
 
     .sidebar,
@@ -496,3 +507,4 @@ footer .icon-footer {
 
     }
 }
+/*List friend*/
