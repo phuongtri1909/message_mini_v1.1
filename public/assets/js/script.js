@@ -111,3 +111,17 @@ function toggleSendIcon() {
         sendIcon.style.display = "none";
     }
 }
+//Hàm biểu tượng ảnh
+function previewImage(event) {
+    var reader = new FileReader();
+    reader.onload = function() {
+        var output = document.createElement('img');
+        output.src = reader.result;
+        
+        // Thêm hình ảnh vào container
+        var imageCircle = document.querySelector('.group-image-circle');
+        imageCircle.innerHTML = ''; // Xóa biểu tượng camera
+        imageCircle.appendChild(output); // Thêm ảnh mới
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}

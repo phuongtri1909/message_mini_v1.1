@@ -38,7 +38,10 @@
                         data-bs-target="#addFriendModal">
                         <i class="fa-solid fa-user-plus me-2"></i>
                     </button>
-                    <a href="#"><i class="fa-solid fa-people-group"></i></a>
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#createGroupModal">
+                        <a href="#"><i class="fa-solid fa-people-group"></i></a>
+                    </button>
+                    
                 </div>
             
                 <!-- Thêm div bọc các cuộc hội thoại -->
@@ -322,4 +325,66 @@
   </div>
 </div>
 
+  <!-- Modal tạo nhóm-->
+  <div class="modal fade" id="createGroupModal" tabindex="-1" aria-labelledby="createGroupModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createGroupModalLabel">Tạo Nhóm Mới</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="createGroupForm">
+            <div class="form-group d-flex">
+                <div class="group-image-container">
+                    <label for="groupImageInput">
+                        <div class="group-image-circle">
+                            <i class="fa-solid fa-camera"></i>
+                        </div>
+                    </label>
+                    <input type="file" id="groupImageInput" style="display:none;" onchange="previewImage(event)">
+                </div>
+                <div class="group-name-container w-100">
+                    <label for="groupName">Tên nhóm</label>
+                    <input type="text" class="form-control" id="groupName" placeholder="Nhập tên nhóm">
+                </div>
+            </div>
+            <div class="form-group">
+              <label for="groupMembers">Thành viên</label>
+              <input type="text" class="form-control" id="groupMembers" placeholder="Nhập tên thành viên">
+            </div>
+            <!-- Danh sách thành viên -->
+          <div class="list-group" id="membersList">
+            <!-- Đây là nơi danh sách thành viên sẽ xuất hiện -->
+            <label>Tất cả thành viên</label>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="1" id="member1">
+              <label class="form-check-label" for="member1">
+                <img src="{{ asset('assets/images/svg/lenovo.jpg') }}" alt="avatar" width="60" height="60" style="border-radius: 50%"> Tiểu Cường Nè
+              </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="1" id="member1">
+                <label class="form-check-label" for="member1">
+                  <img src="{{ asset('assets/images/svg/lenovo.jpg') }}" alt="avatar" width="60" height="60" style="border-radius: 50%"> Tiểu Cường Đây
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="1" id="member1">
+                <label class="form-check-label" for="member1">
+                  <img src="{{ asset('assets/images/svg/lenovo.jpg') }}" alt="avatar" width="60" height="60" style="border-radius: 50%"> Tiểu Cường Kia
+                </label>
+              </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+          <button type="button" class="btn btn-primary" onclick="submitGroup()">Tạo nhóm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 @include('layouts.partials.footer')
