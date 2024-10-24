@@ -17,7 +17,7 @@
                     <a href="#"><i class="fa-solid fa-cloud text-white" style="font-size: 24px;"></i></a>
                 </div>
                 <div class="menu-item mb-5">
-                    <a href="#"><i class="fa-solid fa-user text-white" style="font-size: 24px;"></i></a>
+                    <a href="{{ route('listfriend')}}"><i class="fa-solid fa-user text-white" style="font-size: 24px;"></i></a>
                 </div>
                 <div class="menu-item setting dropdown">
                     <a href="#" class="dropdown-toggle" id="settingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
