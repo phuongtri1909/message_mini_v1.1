@@ -209,13 +209,15 @@
                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle ms-3" width="40" height="40">
                     </div>
                     <div class="message justify-content-end">
-                        <div class="message-content bg-primary text-white mb-5">
-                            <p>thằng tổng nguaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                        <div class="message-content bg-primary text-white">
+                            <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Image Message" class="img-fluid" style="width: 300px; height: 300px; border-radius: 10px;">
                             <span class="message-time text-light small">15:02</span>
                         </div>
-
+                    
                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User" class="rounded-circle ms-3" width="40" height="40">
                     </div>
+                    
+                    
                 </div>
 
                 <div class="chat-input d-flex align-items-center bg-white p-3 border-top">
@@ -224,11 +226,13 @@
                         <a href="#"><i class="fa-solid fa-image"></i></a>
                         <a href="#"><i class="fa-solid fa-paperclip"></i></a>
                     </div>
-                    <input type="text" class="form-control rounded-pill" id="messageInput" placeholder="Nhập @, tin nhắn tới ..." oninput="toggleSendIcon()">
+                    <!-- Thay đổi input thành textarea -->
+                    <textarea class="form-control rounded-pill" id="messageInput" placeholder="Nhập @, tin nhắn tới ..." rows="1" oninput="toggleSendIcon()" style="resize: none; overflow: hidden;"></textarea>
                     <a href="#" id="sendIcon" style="display: none;">
                         <i class="fa-solid fa-paper-plane" style="font-size: 25px;"></i>
                     </a>
                 </div>
+                
                 
             </div>
         </div>

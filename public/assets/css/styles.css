@@ -300,7 +300,9 @@ footer .icon-footer {
     font-size: 24px;
     margin: auto;
 }
-
+#settingsDropdown::after {
+    display: none !important; 
+}
 .fa-people-group {
     margin-right: 5px;
 }
@@ -383,7 +385,6 @@ footer .icon-footer {
     font-size: 10px;
     color: #888;
 }
-
 .chat-header {
     padding: 20px;
     background-color: #fff;
@@ -425,6 +426,7 @@ footer .icon-footer {
     color: #888;
     margin-left: 5px;
 }
+
 
 .chat-window {
     position: relative;
@@ -472,7 +474,16 @@ footer .icon-footer {
     color: #777;
     /* Màu sắc của icon */
 }
-
+#messageInput {
+    width: 100%; /* Chiếm toàn bộ chiều ngang */
+    border-radius: 20px; /* Bo tròn các góc */
+    border: 1px solid #ddd; /* Đường viền */
+    resize: none; /* Không cho phép thay đổi kích thước thủ công */
+    overflow: hidden; /* Ẩn phần cuộn ngang, cuộn dọc tự động */
+    min-height: 40px; /* Chiều cao tối thiểu */
+    max-height: 150px; /* Chiều cao tối đa khi tự động mở rộng */
+    padding: 10px; /* Padding cho khoảng cách văn bản */
+}
 @media (max-width: 768px) {
 
     .sidebar,
@@ -495,44 +506,4 @@ footer .icon-footer {
         width: 100%;
 
     }
-}
-.group-image-container {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.group-image-circle {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    color: #888;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-
-.group-image-circle img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.group-image-circle i {
-    z-index: 1;
-}
-
-.group-image-circle:hover {
-    background-color: #e0e0e0;
-}
-.group-image-container {
-    margin-right: 23px;
 }
