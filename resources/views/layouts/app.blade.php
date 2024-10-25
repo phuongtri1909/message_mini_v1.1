@@ -6,10 +6,13 @@
         <div class="row">
             <!-- Left Sidebar -->
             <div class="col-12 col-md-1 sidebar">
+                <!-- Modal Profile -->
+                @include('layouts.profile')
                 <div class="profile mb-4">
                     <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Profile Picture" class="rounded-circle" width="50"
-                            height="50"></a>
+                            height="50" data-bs-toggle="modal" data-bs-target="#profileModal" style="cursor: pointer;"></a>
                 </div>
+                
                 <div class="menu-item mb-5">
                     <a href="#"><i class="fa-solid fa-message text-white" style="font-size: 24px;"></i></a>
                 </div>
@@ -350,7 +353,7 @@
                     </label>
                     <input type="file" id="groupImageInput" style="display:none;" onchange="previewImage(event)">
                 </div>
-                <div class="group-name-container w-100">
+                <div class="group-name-container w-100 " style="padding-left: 20px;top: 15px;position: relative; padding-left: 20px">
                     <label for="groupName">Tên nhóm</label>
                     <input type="text" class="form-control" id="groupName" placeholder="Nhập tên nhóm">
                 </div>
