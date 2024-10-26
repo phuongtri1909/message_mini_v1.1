@@ -2,7 +2,7 @@
 
 @push('styles-main')
     <style>
-        
+
     </style>
 @endpush
 
@@ -134,6 +134,26 @@
                                 <label for="password" class="form-label">Mật khẩu</label>
                                 <i class="fa fa-eye position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer" id="togglePassword"></i>
                             </div>
+                            <div class="form-floating mb-3 position-relative">
+                                <input type="text" class="form-control" name="name" id="name" value="" placeholder="Name" required>
+                                <label for="name" class="form-label">Name</label>
+                            </div>
+                            <div class="form-floating mb-3 position-relative">
+                                <input type="text" class="form-control" name="phone" id="phone" value="" placeholder="Phone" required>
+                                <label for="phone" class="form-label">Phone</label>
+                            </div>
+                            <div class="form-floating mb-3 position-relative">
+                                <input type="date" class="form-control" name="dob" id="dob" value="" placeholder="Date of Birth" required>
+                                <label for="dob" class="form-label">Date of Birth</label>
+                            </div>
+                            <div class="form-floating mb-3 position-relative">
+                                <select class="form-control" name="gender" id="gender" required>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <label for="gender" class="form-label">Gender</label>
+                            </div>
                         </div>
                     `);
 
@@ -145,26 +165,29 @@
                                 const otpInputs = $('.otp-input');
                                 const input_otp = $('#input-otp');
                                 const passwordInput = $('#password');
+                                const nameInput = $('#name');
+                                const phoneInput = $('#phone');
+                                const dobInput = $('#dob');
+                                const genderInput = $('#gender');
 
                                 let otp = '';
                                 otpInputs.each(function() {
                                     otp += $(this).val();
                                 });
                                 const password = passwordInput.val();
+                                const name = nameInput.val();
+                                const phone = phoneInput.val();
+                                const dob = dobInput.val();
+                                const gender = genderInput.val();
 
-                                const oldInvalidFeedback = passwordInput.parent().find('.invalid-feedback');
-                                passwordInput.removeClass('is-invalid');
-                                    if (oldInvalidFeedback.length) {
-                                    oldInvalidFeedback.remove();
-                                }
-
+                                removeInvalidFeedback(passwordInput);
                                 input_otp.find('.invalid-otp').remove();
+                                removeInvalidFeedback(emailInput);
+                                removeInvalidFeedback(nameInput);
+                                removeInvalidFeedback(phoneInput);
+                                removeInvalidFeedback(dobInput);
+                                removeInvalidFeedback(genderInput);
 
-                                const oldInvalidFeedbackEmail = emailInput.parent().find('.invalid-feedback');
-                                emailInput.removeClass('is-invalid');
-                                if (oldInvalidFeedbackEmail.length) {
-                                    oldInvalidFeedbackEmail.remove();
-                                }
 
                                 $.ajax({
                                     url: '{{ route('register') }}',
@@ -176,10 +199,14 @@
                                     data: JSON.stringify({
                                         email: email,
                                         otp: otp,
-                                        password: password
+                                        password: password,
+                                        name: name,
+                                        phone: phone,
+                                        dob: dob,
+                                        gender: gender
                                     }),
                                     success: function(response) {
-                                        
+
                                         if (response.status === 'success') {
                                             showToast(response.message,
                                                 'success');
@@ -195,31 +222,48 @@
                                     error: function(xhr) {
                                         const response = xhr.responseJSON;
 
-                                        if (response && response.status ===
-                                            'error') {
+                                        if (response && response.status === 'error') {
                                             if (response.message.email) {
-                                               
                                                 response.message.email.forEach(error => {
                                                     const invalidFeedback = $('<div class="invalid-feedback"></div>').text(error);
                                                     emailInput.addClass('is-invalid').parent().append(invalidFeedback);
                                                 });
                                             }
                                             if (response.message.otp) {
-
-                                               
                                                 input_otp.append(`<div class="invalid-otp text-danger fs-7">${response.message.otp[0]}</div>`);
                                             }
                                             if (response.message.password) {
-                                                
                                                 response.message.password.forEach(error => {
                                                     const invalidFeedback = $('<div class="invalid-feedback"></div>').text(error);
                                                     passwordInput.addClass('is-invalid').parent().append(invalidFeedback);
                                                 });
                                             }
+                                            if (response.message.name) {
+                                                response.message.name.forEach(error => {
+                                                    const invalidFeedback = $('<div class="invalid-feedback"></div>').text(error);
+                                                    nameInput.addClass('is-invalid').parent().append(invalidFeedback);
+                                                });
+                                            }
+                                            if (response.message.phone) {
+                                                response.message.phone.forEach(error => {
+                                                    const invalidFeedback = $('<div class="invalid-feedback"></div>').text(error);
+                                                    phoneInput.addClass('is-invalid').parent().append(invalidFeedback);
+                                                });
+                                            }
+                                            if (response.message.dob) {
+                                                response.message.dob.forEach(error => {
+                                                    const invalidFeedback = $('<div class="invalid-feedback"></div>').text(error);
+                                                    dobInput.addClass('is-invalid').parent().append(invalidFeedback);
+                                                });
+                                            }
+                                            if (response.message.gender) {
+                                                response.message.gender.forEach(error => {
+                                                    const invalidFeedback = $('<div class="invalid-feedback"></div>').text(error);
+                                                    genderInput.addClass('is-invalid').parent().append(invalidFeedback);
+                                                });
+                                            }
                                         } else {
-                                            showToast(
-                                                'Đã xảy ra lỗi, vui lòng thử lại.',
-                                                'error');
+                                            showToast('Đã xảy ra lỗi, vui lòng thử lại.', 'error');
                                         }
                                     }
                                 });
@@ -234,10 +278,16 @@
                     error: function(xhr) {
                         const response = xhr.responseJSON;
 
+                        console.log(response);
+
+
                         if (response && response.message && response.message.email) {
                             response.message.email.forEach(error => {
-                                const invalidFeedback = $('<div class="invalid-feedback"></div>').text(error);
-                                emailInput.addClass('is-invalid').parent().append(invalidFeedback);
+                                const invalidFeedback = $(
+                                    '<div class="invalid-feedback"></div>').text(
+                                    error);
+                                emailInput.addClass('is-invalid').parent().append(
+                                    invalidFeedback);
                             });
                         } else {
                             showToast('Đã xảy ra lỗi, vui lòng thử lại.', 'error');
@@ -248,5 +298,14 @@
                 });
             });
         });
+
+
+        function removeInvalidFeedback(input) {
+            const oldInvalidFeedback = input.parent().find('.invalid-feedback');
+            input.removeClass('is-invalid');
+            if (oldInvalidFeedback.length) {
+                oldInvalidFeedback.remove();
+            }
+        }
     </script>
 @endpush
