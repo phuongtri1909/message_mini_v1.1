@@ -111,3 +111,63 @@ function toggleSendIcon() {
         sendIcon.style.display = "none";
     }
 }
+//Hàm biểu tượng ảnh
+function previewImage(event) {
+    var reader = new FileReader();
+    reader.onload = function() {
+        var output = document.createElement('img');
+        output.src = reader.result;
+        
+        // Thêm hình ảnh vào container
+        var imageCircle = document.querySelector('.group-image-circle');
+        imageCircle.innerHTML = ''; // Xóa biểu tượng camera
+        imageCircle.appendChild(output); // Thêm ảnh mới
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+
+//Hàm chỉnh cài đặt danh sách bạn bè 3 chấm
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.toggle-menu').forEach(function (toggleButton) {
+        toggleButton.addEventListener('click', function (event) {
+            const dropdownMenu = document.getElementById('global-dropdown-menu');
+
+            // Ẩn tất cả các dropdown trước khi hiển thị dropdown mới
+            document.querySelectorAll('.dropdown-menu-custom').forEach(function (menu) {
+                menu.style.display = 'none';
+            });
+
+            // Tính toán vị trí của phần tử
+            const rect = toggleButton.getBoundingClientRect();
+            const dropdownWidth = dropdownMenu.offsetWidth;
+            const dropdownHeight = dropdownMenu.offsetHeight;
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            // Xử lý vị trí dọc
+            const topPosition = rect.top + window.scrollY;
+
+            // Xử lý vị trí ngang - hiển thị dropdown bên trái icon 3 chấm
+            const leftPosition = rect.left - dropdownWidth;
+
+            // Kiểm tra nếu tràn khỏi màn hình bên trái thì hiển thị bên phải icon 3 chấm
+            const finalLeftPosition = leftPosition < 0 ? rect.right : leftPosition;
+
+            // Gán vị trí cho dropdown menu
+            dropdownMenu.style.top = `${topPosition}px`;
+            dropdownMenu.style.left = `${finalLeftPosition}px`;
+            dropdownMenu.style.display = 'block';
+
+            // Ngăn không cho trang tự cuộn lên đầu
+            event.preventDefault();
+        });
+    });
+
+    // Ẩn menu khi click bên ngoài
+    window.addEventListener('click', function (e) {
+        const dropdownMenu = document.getElementById('global-dropdown-menu');
+        if (!e.target.matches('.toggle-menu, .toggle-menu *')) {
+            dropdownMenu.style.display = 'none';
+        }
+    });
+});
