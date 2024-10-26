@@ -88,3 +88,26 @@ $(document).ready(function () {
     }
 });
 // Lưu vị trí cuộn trang khi chuyển trang
+
+// Cuộn tin nhắn xuống cuối
+ // Hàm để cuộn xuống dưới
+ function scrollToBottom() {
+    const chatMessages = document.querySelector('.chat-messages');
+    chatMessages.scrollTop = chatMessages.scrollHeight; // Cuộn xuống dưới cùng
+}
+
+// Gọi hàm cuộn xuống khi trang tải xong
+window.onload = function() {
+    scrollToBottom();
+};
+// ẩn hiện nút gửi tin nhắn
+function toggleSendIcon() {
+    const messageInput = document.getElementById("messageInput");
+    const sendIcon = document.getElementById("sendIcon");
+    
+    if (messageInput.value.trim() !== "") {
+        sendIcon.style.display = "inline";
+    } else {
+        sendIcon.style.display = "none";
+    }
+}
