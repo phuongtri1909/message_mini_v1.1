@@ -507,7 +507,43 @@ footer .icon-footer {
 
     }
 }
+.group-image-container {
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+}
 
+.group-image-circle {
+    width: 100px; /* Đặt kích thước hình tròn */
+    height: 100px; /* Đặt kích thước hình tròn */
+    border-radius: 50%; /* Tạo hình tròn */
+    background-color: #f0f0f0; /* Màu nền cho hình tròn */
+    display: flex;
+    justify-content: center; /* Căn giữa biểu tượng camera */
+    align-items: center; /* Căn giữa biểu tượng camera */
+    overflow: hidden; /* Ẩn phần tràn ra ngoài */
+    position: relative; /* Để định vị các phần tử bên trong nếu cần */
+}
+
+.group-image-circle img {
+    width: 100%; /* Đặt width của ảnh bằng 100% */
+    height: 100%; /* Đặt height của ảnh bằng 100% */
+    object-fit: cover; /* Đảm bảo ảnh được cắt đúng tỷ lệ bên trong hình tròn */
+    position: absolute; /* Đặt vị trí ảnh tuyệt đối trong hình tròn */
+    top: 0; /* Đặt vị trí trên cùng */
+    left: 0; /* Đặt vị trí bên trái */
+}
+
+.group-image-circle i {
+    font-size: 36px; /* Kích thước font của biểu tượng camera */
+    color: #000; /* Màu sắc của biểu tượng camera */
+    position: absolute; /* Để định vị biểu tượng camera */
+}
+.form-check-input {
+    position: relative;
+    top: 15px;
+}
+/* ------------------------------------------------------ */
 /* Các mục trong danh sách bạn bè */
 .listfr-item {
     display: flex;
