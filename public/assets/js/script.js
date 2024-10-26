@@ -89,7 +89,8 @@ $(document).ready(function () {
 });
 // Lưu vị trí cuộn trang khi chuyển trang
 
-// Cuộn tin nhắn xuống cuối
+
+
  // Hàm để cuộn xuống dưới
  function scrollToBottom() {
     const chatMessages = document.querySelector('.chat-messages');
@@ -97,20 +98,98 @@ $(document).ready(function () {
 }
 
 // Gọi hàm cuộn xuống khi trang tải xong
-window.onload = function() {
-    scrollToBottom();
-};
-// ẩn hiện nút gửi tin nhắn
-function toggleSendIcon() {
-    const messageInput = document.getElementById("messageInput");
-    const sendIcon = document.getElementById("sendIcon");
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Cuộn xuống cuối cùng của phần chat-messages
+        function scrollToBottom() {
+            const chatMessages = document.querySelector('.chat-messages');
+            if (chatMessages) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        // Ẩn hiện ảnh đã gửi
+        const imagesList = document.querySelectorAll('.images-list .view-image');
+        const viewToggleBtn = document.getElementById('view-toggle-btn');
+
+        function hideExtraImages() {
+            imagesList.forEach((img, index) => {
+                img.classList.toggle('d-none', index >= 6);
+            });
+            viewToggleBtn.textContent = "Xem tất cả";
+        }
+
+        hideExtraImages();
+
+        // Xử lý khi bấm nút "Xem tất cả" hoặc "Ẩn bớt"
+        viewToggleBtn.addEventListener('click', function () {
+            if (viewToggleBtn.textContent === "Xem tất cả") {
+                imagesList.forEach(img => img.classList.remove('d-none'));
+                viewToggleBtn.textContent = "Ẩn bớt";
+            } else {
+                hideExtraImages();
+            }
+        });
+
+        // Hiển thị ảnh lớn khi bấm vào ảnh nhỏ
+        imagesList.forEach(image => {
+            image.addEventListener('click', function () {
+                const modalImage = document.getElementById('modalImage');
+                modalImage.src = this.src;
+                const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+                imageModal.show();
+            });
+        });
+
+        // Gọi hàm cuộn xuống cuối sau khi mọi thứ đã sẵn sàng
+        scrollToBottom();
+    });
     
-    if (messageInput.value.trim() !== "") {
-        sendIcon.style.display = "inline";
+ // JavaScript để xử lý nút "Xem tất cả" và mở modal ảnh
+ document.addEventListener('DOMContentLoaded', function () {
+    const viewAllBtn = document.getElementById('view-all-btn');
+    const extraImages = document.querySelector('.extra-images');
+
+    // Kiểm tra xem cả hai phần tử có tồn tại không
+    if (viewAllBtn && extraImages) {
+        viewAllBtn.addEventListener('click', function () {
+            extraImages.classList.toggle('d-none');
+            this.innerText = this.innerText === "Xem tất cả" ? "Ẩn bớt" : "Xem tất cả";
+        });
     } else {
-        sendIcon.style.display = "none";
+        console.error("Không tìm thấy phần tử với ID 'view-all-btn' hoặc lớp 'extra-images'.");
     }
-}
+});
+// Xử lý sự kiện khi nhấn vào ảnh để xem lớn
+document.querySelectorAll('.view-image').forEach(image => {
+    image.addEventListener('click', function () {
+        const modalImage = document.getElementById('modalImage');
+        modalImage.src = this.src;
+        const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+        imageModal.show();
+    });
+});
+// xem tất cả thành viên
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Lấy các phần tử cần thiết
+    const viewMembersBtn = document.getElementById('view-all-members-btn');
+    const membersOffcanvas = document.getElementById('offcanvasMembers');
+
+    // Kiểm tra xem cả hai phần tử có tồn tại hay không
+    if (viewMembersBtn && membersOffcanvas) {
+        // Khởi tạo offcanvas Bootstrap cho phần tử 'offcanvasMembers'
+        const offcanvasInstance = new bootstrap.Offcanvas(membersOffcanvas);
+
+        // Thêm sự kiện click cho nút để hiển thị offcanvas
+        viewMembersBtn.addEventListener('click', function () {
+            offcanvasInstance.show();
+        });
+    } else {
+        console.error("Không tìm thấy phần tử 'view-all-members-btn' hoặc 'offcanvasMembers'");
+    }
+});
+
 //Hàm biểu tượng ảnh
 function previewImage(event) {
     var reader = new FileReader();
