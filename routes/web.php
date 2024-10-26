@@ -44,9 +44,6 @@ Route::group(['middleware' => 'guest'], function () {
     })->name('forgot-password');
     Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot.password');
 
-    Route::group(['prefix' => 'admin'], function () {
-        Route::get('/login', function () {
-            return view('admin.pages.auth.login');
-        })->name('admin.login');
-    });
+    Route::get('auth/google', [AuthController::class, 'redirectToGoogle']);
+    Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 });

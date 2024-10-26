@@ -29,6 +29,10 @@
                                             </div>
                                         </div>
                                        
+                                        <a href="{{ url('auth/google') }}" class="btn btn-primary">
+                                            <i class="fab fa-google"></i> Đăng nhập bằng Google
+                                        </a>
+
                                         <form action="{{ route('login') }}" method="post">
                                             @csrf
                                             <div class="row gy-3 overflow-hidden">
