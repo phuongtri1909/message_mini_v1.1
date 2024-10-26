@@ -56,7 +56,7 @@
                     <div class="chat-item rounded">
                         <div class="d-flex align-items-center">
                             <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3" width="40" height="40"></a>
+                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
                             <div class="chat-info">
                                 <h5 class="mb-0">Tên người dùng</h5>
                                 <p class="text-muted mb-0">Đoạn tin nhắn gần nhất</p>
@@ -67,7 +67,7 @@
                     <div class="chat-item rounded">
                         <div class="d-flex align-items-center">
                             <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3" width="40" height="40"></a>
+                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
                             <div class="chat-info">
                                 <h5 class="mb-0">Tên người dùng</h5>
                                 <p class="text-muted mb-0">Đoạn tin nhắn gần nhất</p>
@@ -78,7 +78,7 @@
                     <div class="chat-item rounded">
                         <div class="d-flex align-items-center">
                             <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3" width="40" height="40"></a>
+                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
                             <div class="chat-info">
                                 <h5 class="mb-0">Tên người dùng </h5>
                                 <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
@@ -90,7 +90,7 @@
                     <div class="chat-item rounded">
                         <div class="d-flex align-items-center">
                             <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3" width="40" height="40"></a>
+                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
                             <div class="chat-info">
                                 <h5 class="mb-0">Tên người dùng </h5>
                                 <p class="text-muted mb-0">Đoạn tin nhắn gần nhấfffffffffffffffffffffffĐoạn tin nhắn gần
@@ -105,7 +105,7 @@
                     <div class="chat-item rounded">
                         <div class="d-flex align-items-center">
                             <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3" width="40" height="40"></a>
+                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
                             <div class="chat-info">
                                 <h5 class="mb-0">Tên người dùng </h5>
                                 <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
@@ -117,7 +117,7 @@
                     <div class="chat-item rounded">
                         <div class="d-flex align-items-center">
                             <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3" width="40" height="40"></a>
+                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
                             <div class="chat-info">
                                 <h5 class="mb-0">Tên người dùng </h5>
                                 <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
@@ -129,7 +129,7 @@
                     <div class="chat-item rounded">
                         <div class="d-flex align-items-center">
                             <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3" width="40" height="40"></a>
+                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
                             <div class="chat-info">
                                 <h5 class="mb-0">Tên người dùng </h5>
                                 <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
@@ -141,7 +141,7 @@
                     <div class="chat-item rounded">
                         <div class="d-flex align-items-center">
                             <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3" width="40" height="40"></a>
+                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
                             <div class="chat-info">
                                 <h5 class="mb-0">Tên người dùng </h5>
                                 <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
@@ -153,7 +153,7 @@
                     <div class="chat-item rounded">
                         <div class="d-flex align-items-center">
                             <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3" width="40" height="40"></a>
+                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
                             <div class="chat-info">
                                 <h5 class="mb-0">Tên người dùng </h5>
                                 <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
@@ -176,9 +176,10 @@
                         <h3 class="mb-0">Tên nhóm/Người dùng</h3>
                         <p class="text-muted mb-0">7 thành viên | Tin nhắn đã đọc</p>
                     </div>
-                    <button class="btn btn-primary mb-2" id="openAddMembersModal"><i
-                            class="fa-solid fa-user-plus"></i></button>
-
+                    <!-- Nút mở offcanvas để hiển thị thành viên và chọn thêm -->
+                    <button class="btn btn-primary mb-2" id="openAddMembersModal" style="margin-right: 650px"><i
+                            class="fa-solid fa-user-group" ></i></button>
+                            <!-- Button các chức năng của nhóm -->
                     <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                         <i class="fa-solid fa-layer-group"></i>
@@ -208,52 +209,52 @@
                                 <div class="images-list d-flex flex-wrap">
                                     <!-- Thêm hình ảnh mẫu -->
                                     <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 1"
-                                        class="img-thumbnail m-1 view-image"
+                                        class="img-thumbnail m-1 view-image "
                                         style="object-fit:cover; width: 90px; height: 90px;">
                                     <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Ảnh đã gửi 7"
-                                        class="img-thumbnail m-1 view-image"
+                                        class="img-thumbnail m-1 view-image "
                                         style=" object-fit:cover;width: 90px; height: 90px;">
                                     <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Ảnh đã gửi 7"
-                                        class="img-thumbnail m-1 view-image"
+                                        class="img-thumbnail m-1 view-image  "
                                         style=" object-fit:cover;width: 90px; height: 90px;">
                                     <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 4"
-                                        class="img-thumbnail m-1 view-image"
+                                        class="img-thumbnail m-1 view-image "
                                         style=" object-fit:cover; width: 90px; height: 90px;">
                                     <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 5"
-                                        class="img-thumbnail m-1 view-image"
+                                        class="img-thumbnail m-1 view-image "
                                         style=" object-fit:cover;width: 90px; height: 90px;">
                                     <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Ảnh đã gửi 7"
-                                        class="img-thumbnail m-1 view-image"
+                                        class="img-thumbnail m-1 view-image "
                                         style=" object-fit:cover;width: 90px; height: 90px;">
                                     <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 7"
-                                        class="img-thumbnail m-1 view-image"
+                                        class="img-thumbnail m-1 view-image "
                                         style=" object-fit:cover; width: 90px; height: 90px;">
                                     <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 8"
-                                        class="img-thumbnail m-1 view-image"
+                                        class="img-thumbnail m-1 view-image "
                                         style=" object-fit:cover; width: 90px; height: 90px;">
                                     <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 1"
-                                        class="img-thumbnail m-1 view-image"
+                                        class="img-thumbnail m-1 view-image "
                                         style=" object-fit:cover;width: 90px; height: 90px;">
                                     <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 2"
-                                        class="img-thumbnail m-1 view-image"
+                                        class="img-thumbnail m-1 view-image "
                                         style=" object-fit:cover;width: 90px; height: 90px;">
                                     <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 3"
-                                        class="img-thumbnail m-1 view-image"
+                                        class="img-thumbnail m-1 view-image "
                                         style="object-fit:cover; width: 90px; height: 90px;">
                                     <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 4"
-                                        class="img-thumbnail m-1 view-image"
+                                        class="img-thumbnail m-1 view-image "
                                         style=" object-fit:cover;width: 90px; height: 90px;">
                                     <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 5"
-                                        class="img-thumbnail m-1 view-image"
+                                        class="img-thumbnail m-1 view-image "
                                         style="object-fit:cover; width: 90px; height: 90px;">
                                     <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 6"
-                                        class="img-thumbnail m-1 view-image"
+                                        class="img-thumbnail m-1 view-image "
                                         style=" object-fit:cover;width: 90px; height: 90px;">
                                     <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Ảnh đã gửi 7"
-                                        class="img-thumbnail m-1 view-image"
+                                        class="img-thumbnail m-1 view-image "
                                         style=" object-fit:cover;width: 90px; height: 90px;">
                                     <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 8"
-                                        class="img-thumbnail m-1 view-image"
+                                        class="img-thumbnail m-1 view-image "
                                         style=" object-fit:cover; width: 90px; height: 90px;">
                                 </div>
                                 <!-- Nút "Xem tất cả" -->
@@ -276,83 +277,59 @@
                         </div>
                         <div class="offcanvas-body">
                             <ul class="list-unstyled">
-                                <li class="d-flex align-items-center mb-3">
-                                    <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 1"
-                                        class="rounded-circle me-2" style="width: 40px; height: 40px;">
-                                    <span>Thành viên 1</span>
+                                <li class="d-flex align-items-center justify-content-between mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 1"
+                                            class="rounded-circle me-2" style="object-fit:cover; width: 40px; height: 40px;">
+                                        <span>Thành viên 1</span>
+                                    </div>
+                                    <button class="btn btn-danger btn-sm ms-2"><i class="fa-solid fa-user-xmark"></i></button>
                                 </li>
-                                <li class="d-flex align-items-center mb-3">
-                                    <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 2"
-                                        class="rounded-circle me-2" style="width: 40px; height: 40px;">
-                                    <span>Thành viên 2</span>
+                                <li class="d-flex align-items-center justify-content-between mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 2"
+                                            class="rounded-circle me-2" style="object-fit:cover; width: 40px; height: 40px;">
+                                        <span>Thành viên 2</span>
+                                    </div>
+                                    <button class="btn btn-danger btn-sm ms-2"><i class="fa-solid fa-user-xmark"></i></button>
                                 </li>
-                                <li class="d-flex align-items-center mb-3">
-                                    <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 3"
-                                        class="rounded-circle me-2" style="width: 40px; height: 40px;">
-                                    <span>Thành viên 3</span>
+                                <li class="d-flex align-items-center justify-content-between mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 3"
+                                            class="rounded-circle me-2" style="object-fit:cover; width: 40px; height: 40px;">
+                                        <span>Thành viên 3</span>
+                                    </div>
+                                    <button class="btn btn-danger btn-sm ms-2"><i class="fa-solid fa-user-xmark"></i></button>
                                 </li>
-                                <li class="d-flex align-items-center mb-3">
-                                    <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 4"
-                                        class="rounded-circle me-2" style="width: 40px; height: 40px;">
-                                    <span>Thành viên 4</span>
+                                <li class="d-flex align-items-center justify-content-between mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 4"
+                                            class="rounded-circle me-2" style="object-fit:cover; width: 40px; height: 40px;">
+                                        <span>Thành viên 4</span>
+                                    </div>
+                                    <button class="btn btn-danger btn-sm ms-2"><i class="fa-solid fa-user-xmark"></i></button>
                                 </li>
-                                <li class="d-flex align-items-center mb-3">
-                                    <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 5"
-                                        class="rounded-circle me-2" style="width: 40px; height: 40px;">
-                                    <span>Thành viên 5</span>
+                                <li class="d-flex align-items-center justify-content-between mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 5"
+                                            class="rounded-circle me-2" style="object-fit:cover; width: 40px; height: 40px;">
+                                        <span>Thành viên 5</span>
+                                    </div>
+                                    <button class="btn btn-danger btn-sm ms-2"><i class="fa-solid fa-user-xmark"></i></button>
                                 </li>
                             </ul>
                         </div>
                     </div>
 
                 </div>
-                <!-- Modal Thêm Thành Viên -->
-                <div class="modal fade" id="addMembersModal" tabindex="-1" aria-labelledby="addMembersModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="addMembersModalLabel">Chọn thành viên để thêm vào nhóm</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <!-- Danh sách các thành viên có thể chọn -->
-                                <div class="form-check">
-                                    <input class="form-check-input" name="member1" type="checkbox" value="Thành viên 1" id="member1">
-                                    <label class="form-check-label" for="member1">Thành viên 1</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" name="member2" type="checkbox" value="Thành viên 2" id="member2">
-                                    <label class="form-check-label" for="member2">Thành viên 2</label>
-                                </div>
-                                <!-- Thêm các thành viên khác vào đây -->
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" id="addSelectedMembers">Thêm</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal để hiển thị ảnh lớn -->
-                <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <img id="modalImage" src="" alt="Ảnh lớn" class="img-fluid">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+               
 
 
                 <div class="chat-messages flex-grow-1 p-3 bg-light overflow-auto">
                     <!-- Tin nhắn của người khác -->
                     <div class="message d-flex mb-3">
                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                            class="rounded-circle me-3" width="40" height="40">
+                            class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
                         <div class="message-content bg-white p-2 rounded">
                             <p class="mb-0">@All tôi cf ae</p>
                             <span class="message-time text-muted small">15:00</span>
@@ -360,7 +337,7 @@
                     </div>
                     <div class="message d-flex mb-3">
                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                            class="rounded-circle me-3" width="40" height="40">
+                            class="rounded-circle me-3"style="object-fit: cover" width="40" height="40">
                         <div class="message-content bg-white p-2 rounded">
                             <p class="mb-0">@All tôi cf
                                 aeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
@@ -369,7 +346,7 @@
                     </div>
                     <div class="message d-flex mb-3">
                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                            class="rounded-circle me-3" width="40" height="40">
+                            class="rounded-circle me-3"style="object-fit: cover" width="40" height="40">
                         <div class="message-content bg-white p-2 rounded">
                             <p class="mb-0">@All tôi cf
                                 aeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
@@ -378,7 +355,7 @@
                     </div>
                     <div class="message d-flex mb-3">
                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                            class="rounded-circle me-3" width="40" height="40">
+                            class="rounded-circle me-3"style="object-fit: cover" width="40" height="40">
                         <div class="message-content bg-white p-2 rounded">
                             <p class="mb-0"> @All tôi cf
                                 aeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
@@ -393,7 +370,7 @@
                             <span class="message-time text-light small">15:02</span>
                         </div>
                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                            class="rounded-circle ms-3" width="40" height="40">
+                            class="rounded-circle ms-3"style="object-fit: cover" width="40" height="40">
                     </div>
                     <div class="message justify-content-end">
                         <div class="message-content bg-primary text-white">
@@ -403,7 +380,7 @@
                         </div>
 
                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                            class="rounded-circle ms-3" width="40" height="40">
+                            class="rounded-circle ms-3"style="object-fit: cover" width="40" height="40">
                     </div>
                     <div class="message justify-content-end">
                         <div class="message-content bg-primary text-white">
@@ -413,50 +390,95 @@
                         </div>
 
                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                            class="rounded-circle ms-3" width="40" height="40">
+                            class="rounded-circle ms-3"style="object-fit: cover" width="40" height="40">
                     </div>
-
-
                 </div>
-
+                <!-- Thêm input để gửi tin nhắn -->
                 <div class="chat-input d-flex align-items-center bg-white p-3 border-top">
                     <div class="input-icons ms-3" style="display: flex;">
-                        <a href="#"><i class="fa-solid fa-folder"></i></a>
-                        <a href="#"><i class="fa-solid fa-image"></i></a>
-                        <a href="#"><i class="fa-solid fa-paperclip"></i></a>
+                        <a href="#" id="folderIcon"><i class="fa-solid fa-folder"></i></a>
+                        <a href="#" id="imageIcon"><i class="fa-solid fa-image"></i></a>
+                        <a href="#" id="fileIcon"><i class="fa-solid fa-paperclip"></i></a>
                     </div>
-                    <!-- Thay đổi input thành textarea -->
-                    <textarea class="form-control rounded-pill" id="messageInput" placeholder="Nhập @, tin nhắn tới ..."
-                        rows="1" oninput="toggleSendIcon()" style="resize: none; overflow: hidden;"></textarea>
+                    <textarea class="form-control rounded-pill" id="messageInput" placeholder="Nhập @, tin nhắn tới ..." rows="1" oninput="toggleSendIcon()" style="resize: none; overflow: hidden; width:700px"></textarea>
                     <a href="#" id="sendIcon" style="display: none;">
                         <i class="fa-solid fa-paper-plane" style="font-size: 25px;"></i>
                     </a>
                 </div>
-
-
+                
+                <!-- Các phần tử input file ẩn -->
+                <input type="file" id="folderInput" style="display: none;" webkitdirectory>
+                <input type="file" id="imageInput" style="display: none;" accept="image/*">
+                <input type="file" id="fileInput" style="display: none;">
+                
+                <!-- Hiển thị ảnh hoặc tệp đã chọn ngay cạnh nút gửi -->
+                <div id="previewContainer" style="display: none; position: absolute; bottom: 80px; right: 60px; background: white; border: 1px solid #ccc; padding: 5px; border-radius: 5px;">
+                    <div id="previewContent"></div>
+                </div>
+                
             </div>
         </div>
     </div>
-    <!--modal thêm bạn-->
-    <div class="modal fade" id="addFriendModal" tabindex="-1" aria-labelledby="addFriendModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addFriendModalLabel">Thêm Bạn Mới</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    
+</div>
+ <!-- Modal Thêm Thành Viên -->
+ <div class="modal fade" id="addMembersModal" tabindex="-1" aria-labelledby="addMembersModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMembersModalLabel">Chọn thành viên để thêm vào nhóm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Danh sách các thành viên có thể chọn -->
+                <div class="form-check">
+                    <input class="form-check-input" name="member1" type="checkbox" value="Thành viên 1" id="member1">
+                    <label class="form-check-label" for="member1">Thành viên 1</label>
                 </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="friendName" class="form-label">Nhập Email:</label>
-                            <input type="text" class="form-control" id="friendName" placeholder="Nhập Email">
-                        </div>
-                    </form>
+                <div class="form-check">
+                    <input class="form-check-input" name="member2" type="checkbox" value="Thành viên 2" id="member2">
+                    <label class="form-check-label" for="member2">Thành viên 2</label>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="submit" class="btn btn-primary">Thêm bạn</button>
-                </div>
+                <!-- Thêm các thành viên khác vào đây -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="addSelectedMembers">Thêm</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal để hiển thị ảnh lớn -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img id="modalImage" src="" alt="Ảnh lớn" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--modal thêm bạn-->
+<div class="modal fade" id="addFriendModal" tabindex="-1" aria-labelledby="addFriendModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addFriendModalLabel">Thêm Bạn Mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="friendName" class="form-label">Nhập Email:</label>
+                        <input type="text" class="form-control" id="friendName" placeholder="Nhập Email">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-primary">Thêm bạn</button>
             </div>
         </div>
     </div>
@@ -598,29 +620,6 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-    // Khởi tạo modal Thêm thành viên
-    const addMembersModal = new bootstrap.Modal(document.getElementById('addMembersModal'));
-
-    // Sự kiện mở modal
-    document.getElementById('openAddMembersModal').addEventListener('click', function () {
-        addMembersModal.show();
-    });
-
-    // Sự kiện thêm thành viên đã chọn
-    document.getElementById('addSelectedMembers').addEventListener('click', function () {
-        const selectedMembers = [];
-        
-        document.querySelectorAll('#addMembersModal .form-check-input:checked').forEach(checkbox => {
-            selectedMembers.push(checkbox.value);
-        });
-
-        console.log("Các thành viên được thêm:", selectedMembers);
-
-        // Đóng modal
-        addMembersModal.hide();
-    });
-});
-
+   
 </script>
 @include('layouts.partials.footer')
