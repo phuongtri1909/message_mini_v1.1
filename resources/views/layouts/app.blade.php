@@ -469,20 +469,38 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="friendName" class="form-label">Nhập Email:</label>
-                        <input type="text" class="form-control" id="friendName" placeholder="Nhập Email">
+                <div class="mb-3">
+                    <label for="friendEmail" class="form-label">Nhập Email:</label>
+                    <input type="text" class="form-control" id="friendEmail" placeholder="Nhập Email">
+                </div>
+                <button type="button" class="btn btn-primary" id="searchButton">Tìm kiếm</button>
+
+                <!-- Kết quả tìm kiếm -->
+                <div class="search-result mt-3" id="searchResult" style="display: none;">
+                    <div class="user-info">
+                        <div class="avatar" style="float: left; margin-right: 10px;">
+                            <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Avatar" class="rounded-circle" id="resultUserAvatar" style="height: 50px; width:50px;">
+                        </div>
+                        <div>
+                            <p><strong id="resultUserName"></strong></p>
+                            <p id="resultUserEmail" style="color: gray;"></p>
+                            <p id="resultUserGender" style="color: gray;"></p> <!-- Thêm giới tính -->
+                        </div>
                     </div>
-                </form>
+                    <button type="button" class="btn btn-success" id="sendRequestButton" style="display: none;">Gửi yêu cầu kết bạn</button>
+                    <button type="button" class="btn btn-danger" id="cancelRequestButton" style="display: none;">Thu hồi yêu cầu</button>
+                </div>
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="submit" class="btn btn-primary">Thêm bạn</button>
             </div>
         </div>
     </div>
 </div>
+
+
+
 <!--modal cài đặt ngôn ngữ -->
 
 <div class="modal fade" id="languageSettingsModal" tabindex="-1" aria-labelledby="languageSettingsLabel"
@@ -620,6 +638,150 @@
 </div>
 
 <script>
-   
+document.getElementById('searchButton').addEventListener('click', function() {
+    const email = document.getElementById('friendEmail').value.trim();
+
+    if (email === "") {
+        alert("Vui lòng nhập email!");
+        return;
+    }
+
+    fetch('/search-friend', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ email: email })
+    })
+    .then(response => response.json())
+    .then(data => {
+        const searchResult = document.getElementById('searchResult');
+        const resultUserName = document.getElementById('resultUserName');
+        const sendRequestButton = document.getElementById('sendRequestButton');
+        const cancelRequestButton = document.getElementById('cancelRequestButton');
+
+        // Xóa nội dung cũ nếu có
+        resultUserName.textContent = '';
+        searchResult.style.display = "none"; // Ẩn kết quả tìm kiếm
+
+        if (data.status === "success") {
+            const userAvatar = data.user.avatar || "{{ asset('assets/images/logo/uocmo.jpg') }}"; // Dùng avatar từ data hoặc ảnh minh họa
+    const userGender = data.user.gender || "Giới tính không xác định"; // Giới tính
+
+    document.getElementById('resultUserAvatar').src = userAvatar;
+    document.getElementById('resultUserName').textContent = data.user.name || "Không có tên";
+    document.getElementById('resultUserEmail').textContent = data.user.email || "Không có email";
+    document.getElementById('resultUserGender').textContent = data.user.gender; // Hiển thị giới tính
+
+    searchResult.style.display = "block"; // Hiện kết quả tìm kiếm
+
+            // Kiểm tra trạng thái yêu cầu kết bạn
+            checkFriendRequestStatus(data.user.id, sendRequestButton, cancelRequestButton);
+        } else {
+            alert(data.message); // Hiển thị thông báo lỗi
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi:', error);
+    });
+});
+
+
+// Hàm kiểm tra trạng thái yêu cầu kết bạn
+function checkFriendRequestStatus(userId, sendRequestButton, cancelRequestButton) {
+    fetch('/check-friend-request-status', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ friend_id: userId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "pending") {
+            sendRequestButton.style.display = 'none'; // Ẩn nút gửi yêu cầu
+            cancelRequestButton.style.display = 'block'; // Hiện nút thu hồi yêu cầu
+        } else {
+            sendRequestButton.style.display = 'block'; // Hiện nút gửi yêu cầu
+            cancelRequestButton.style.display = 'none'; // Ẩn nút thu hồi yêu cầu
+        }
+
+        // Xử lý gửi yêu cầu kết bạn
+        sendRequestButton.onclick = function() {
+            sendFriendRequest(userId);
+        };
+
+        // Xử lý thu hồi yêu cầu
+        cancelRequestButton.onclick = function() {
+            cancelFriendRequest(userId);
+        };
+    })
+    .catch(error => {
+        console.error('Lỗi:', error);
+    });
+}
+
+// Hàm gửi yêu cầu kết bạn
+function sendFriendRequest(userId) {
+    fetch('/send-friend-request', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ friend_id: userId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            alert("Yêu cầu kết bạn đã được gửi thành công!");
+
+            // Cập nhật giao diện
+            document.getElementById('sendRequestButton').style.display = 'none'; // Ẩn nút gửi yêu cầu
+            document.getElementById('cancelRequestButton').style.display = 'block'; // Hiện nút thu hồi yêu cầu
+
+            // Đóng modal hoặc reset lại trường tìm kiếm nếu cần
+            $('#addFriendModal').modal('hide');
+        } else {
+            alert("Đã có lỗi xảy ra khi gửi yêu cầu kết bạn.");
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi:', error);
+    });
+}
+
+// Hàm thu hồi yêu cầu kết bạn
+function cancelFriendRequest(userId) {
+    fetch('/cancel-friend-request', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ friend_id: userId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            alert(data.message);
+            // Cập nhật lại giao diện
+            document.getElementById('sendRequestButton').style.display = 'block'; // Hiện nút gửi yêu cầu
+            document.getElementById('cancelRequestButton').style.display = 'none'; // Ẩn nút thu hồi yêu cầu
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi:', error);
+    });
+}
+
+
+
+
+
 </script>
 @include('layouts.partials.footer')

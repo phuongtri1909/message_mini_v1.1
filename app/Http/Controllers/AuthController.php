@@ -118,10 +118,10 @@ class AuthController extends Controller
                     ], 422);
                 }
 
-                if (!$user->updated_at->lt(Carbon::now()->subMinutes(3))) {
+                if (!$user->updated_at->lt(Carbon::now()->subMinutes(1))) {
                     return response()->json([
                         'status' => 'error',
-                        'message' => ['email' => ['Bạn chỉ có thể gửi lại sau 3 phút']],
+                        'message' => ['email' => ['Bạn chỉ có thể gửi lại sau 1 phút']],
                     ], 422);
                 }
             } else {
