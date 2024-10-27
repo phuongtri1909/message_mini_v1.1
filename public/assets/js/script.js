@@ -360,3 +360,144 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 });
+
+
+
+    // hàm tìm kiếm
+    document.getElementById('searchButton').addEventListener('click', function() {
+        const email = document.getElementById('friendEmail').value.trim();
+    
+        if (email === "") {
+            alert("Vui lòng nhập email!");
+            return;
+        }
+    
+        fetch('/search-friend', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ email: email })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const searchResult = document.getElementById('searchResult');
+            const resultUserName = document.getElementById('resultUserName');
+            const sendRequestButton = document.getElementById('sendRequestButton');
+            const cancelRequestButton = document.getElementById('cancelRequestButton');
+    
+            resultUserName.textContent = '';
+            searchResult.style.display = "none"; 
+    
+            if (data.status === "success") {
+                const userAvatar = data.user.avatar || "assets/images/logo/uocmo.jpg"; 
+        
+        document.getElementById('resultUserAvatar').src = userAvatar;
+        document.getElementById('resultUserName').textContent = data.user.name || "Không có tên";
+        document.getElementById('resultUserEmail').textContent = data.user.email || "Không có email";
+        document.getElementById('resultUserGender').textContent = data.user.gender;
+    
+        searchResult.style.display = "block";
+    
+    
+                checkFriendRequestStatus(data.user.id, sendRequestButton, cancelRequestButton);
+            } else {
+                alert(data.message); // Hiển thị thông báo lỗi
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+        });
+    });
+    
+    
+    // Hàm kiểm tra trạng thái yêu cầu kết bạn
+    function checkFriendRequestStatus(userId, sendRequestButton, cancelRequestButton) {
+        fetch('/check-friend-request-status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ friend_id: userId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "pending") {
+                sendRequestButton.style.display = 'none'; 
+                cancelRequestButton.style.display = 'block'; 
+            } else {
+                sendRequestButton.style.display = 'block'; 
+                cancelRequestButton.style.display = 'none'; 
+            }
+    
+          
+            sendRequestButton.onclick = function() {
+                sendFriendRequest(userId);
+            };
+    
+    
+            cancelRequestButton.onclick = function() {
+                cancelFriendRequest(userId);
+            };
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+        });
+    }
+    
+    // Hàm gửi yêu cầu kết bạn
+    function sendFriendRequest(userId) {
+        fetch('/send-friend-request', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ friend_id: userId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                alert("Yêu cầu kết bạn đã được gửi thành công!");
+    
+                document.getElementById('sendRequestButton').style.display = 'none'; 
+                document.getElementById('cancelRequestButton').style.display = 'block'; 
+    
+                // Đóng modal hoặc reset lại trường tìm kiếm nếu cần
+               // $('#addFriendModal').modal('hide');
+            } else {
+                alert("Đã có lỗi xảy ra khi gửi yêu cầu kết bạn.");
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+        });
+    }
+    
+    // Hàm thu hồi yêu cầu kết bạn
+    function cancelFriendRequest(userId) {
+        fetch('/cancel-friend-request', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ friend_id: userId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                alert(data.message);
+                
+                document.getElementById('sendRequestButton').style.display = 'block'; 
+                document.getElementById('cancelRequestButton').style.display = 'none'; 
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+        });
+    }
