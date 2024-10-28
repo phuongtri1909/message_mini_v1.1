@@ -6,6 +6,7 @@ use App\Http\Controllers\BankController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SocialsController;
+use App\Http\Controllers\FriendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,10 +22,17 @@ use App\Http\Controllers\SocialsController;
 Route::get('/', [HomeController::class , 'index'])->name('home');
 Route::get('/listfriend', [HomeController::class, 'listfriend']) -> name ('listfriend');
 
+Route::post('/search-friend', [FriendController::class, 'searchFriend']); // tìm kiếm người dùng
+Route::post('/send-friend-request', [FriendController::class, 'sendFriendRequest']); // gửi lời mời kết bạn
+Route::post('/check-friend-request-status', [FriendController::class, 'checkFriendRequestStatus'])->name('check.friend.request.status'); // kiểm tra trạng thái lời mời kết bạn
+Route::post('/cancel-friend-request', [FriendController::class, 'cancelFriendRequest'])->name('cancel.friend.request'); // thu hồi lời mời kết bạn
+Route::get('/get-friend-requests', [FriendController::class, 'getFriendRequests']); // lấy danh sách lời mời kết bạn
+Route::post('/accept-friend-request', [FriendController::class, 'acceptFriendRequest']); // chấp nhận lời mời kết bạn
+Route::post('/decline-friend-request', [FriendController::class, 'declineFriendRequest']); // từ chối lời mời kết bạn
+Route::get('/friends-list-modal', [FriendController::class, 'getFriendsList'])->name('friends.list.modal'); // danh sách bạn bè
+Route::get('/friends-list', [FriendController::class, 'showFriendsList'])->name('friends.list');// danh sách bạn bè trang listfriend
+Route::post('/unfriend', [FriendController::class, 'unfriend'])->name('unfriend'); // Hủy kết bạn
 Route::group(['middleware' => 'auth'], function () {
-    
-
-   
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
@@ -44,9 +52,7 @@ Route::group(['middleware' => 'guest'], function () {
     })->name('forgot-password');
     Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot.password');
 
-    Route::group(['prefix' => 'admin'], function () {
-        Route::get('/login', function () {
-            return view('admin.pages.auth.login');
-        })->name('admin.login');
-    });
+    Route::get('auth/google', [AuthController::class, 'redirectToGoogle']);
+    Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 });
+

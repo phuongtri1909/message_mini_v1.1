@@ -288,6 +288,7 @@ footer .icon-footer {
     height: 50px;
     border-radius: 50%;
     margin-bottom: 20px;
+    object-fit:cover;
 }
 
 .menu-item {
@@ -342,7 +343,7 @@ footer .icon-footer {
 }
 
 .chat-list-container {
-    max-height: 600px;
+    max-height: 620px;
     overflow-y: auto;
 }
 
@@ -354,6 +355,7 @@ footer .icon-footer {
     border-radius: 10px;
     margin: 10px;
     cursor: pointer;
+    
 }
 
 .chat-item:hover {
@@ -364,6 +366,7 @@ footer .icon-footer {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    object-fit:cover;
 }
 
 .chat-info h5 {
@@ -396,7 +399,7 @@ footer .icon-footer {
     overflow-y: auto;
     background-color: #f0f0f0;
     flex-grow: 1;
-    height: 600px;
+    height: 620px;
 }
 
 .message {
@@ -532,6 +535,7 @@ footer .icon-footer {
     position: absolute; /* Đặt vị trí ảnh tuyệt đối trong hình tròn */
     top: 0; /* Đặt vị trí trên cùng */
     left: 0; /* Đặt vị trí bên trái */
+    object-fit:cover;
 }
 
 .group-image-circle i {
@@ -563,6 +567,7 @@ footer .icon-footer {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    object-fit:cover;
   }
   
   /* Thanh tìm kiếm chính */
@@ -645,6 +650,7 @@ footer .icon-footer {
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
+    object-fit:cover;
   }
   
   .friend-name {
@@ -687,3 +693,19 @@ footer .icon-footer {
   .dropdown-menu-custom a:hover {
     background: #f0f0f0;
   }
+/* css thêm thành viên */
+.form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.form-check-input {
+    margin-right: 8px; /* Khoảng cách giữa checkbox và label */
+    top: 0px;
+}
+
+.form-check-label {
+    margin-left: 0; /* Đảm bảo không có khoảng cách thừa */
+}
+

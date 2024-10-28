@@ -2,33 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\OTPForgotPWMail;
 use Exception;
 use App\Models\User;
 use App\Mail\OTPMail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\OTPForgotPWMail;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
 
-        if($request->has('email') && $request->has('otp') && $request->has('password')){
+        if($request->has('email') && $request->has('otp') && $request->has('password') && $request->has('name') && $request->has('phone') && $request->has('dob') && $request->has('gender')){
             try {
                 $request->validate([
                     'email' => 'required|email',
                     'otp' => 'required',
                     'password' => 'required|min:6',
+                    'name' => 'required|max:255',
+                    'phone' => 'required|regex:/^0[0-9]{9}$/',
+                    'dob' => 'required|date',
+                    'gender' => 'required|in:male,female,other',
                 ], [
                     'email.required' => 'Hãy nhập email của bạn vào đi',
                     'email.email' => 'Email bạn nhập không hợp lệ rồi',
                     'otp.required' => 'Hãy nhập mã OTP của bạn vào đi',
                     'password.required' => 'Hãy nhập mật khẩu của bạn vào đi',
                     'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
+                    'name.required' => 'Hãy nhập họ và tên của bạn vào đi',
+                    'phone.required' => 'Hãy nhập số điện thoại của bạn vào đi',
+                    'phone.regex' => 'Số điện thoại không hợp lệ',
+                    'dob.required' => 'Hãy nhập ngày sinh của bạn vào đi',
+                    'dob.date' => 'Ngày sinh không hợp lệ',
+                    'gender.required' => 'Hãy chọn giới tính của bạn',
+                    'gender.in' => 'Giới tính không hợp lệ',
                 ]);
             } catch (\Illuminate\Validation\ValidationException $e) {
                 return response()->json([
@@ -53,7 +68,10 @@ class AuthController extends Controller
                     ], 422);
                 }
                 $user->key_active = null;
-                $user->name = 'Nguoi dung ' . $user->id;
+                $user->name = $request->name;
+                $user->phone = $request->phone;
+                $user->dob = $request->dob;
+                $user->gender = $request->gender;
                 $user->password = bcrypt($request->password);
                 $user->active = 'active';
                 $user->save();
@@ -62,7 +80,7 @@ class AuthController extends Controller
 
                 return response()->json([
                     'status' => 'success',
-                    'message' => 'Đăng ký thành công, chào mừng bạn đến với HOÀN XU',
+                    'message' => 'Đăng ký thành công, chào mừng bạn đến với hệ thống',
                     'url' => route('home'),
                 ]);
 
@@ -92,6 +110,7 @@ class AuthController extends Controller
         try {
             $user = User::where('email', $request->email)->first();
             if ($user) {
+
                 if ($user->active == 'active') {
                     return response()->json([
                         'status' => 'error',
@@ -99,10 +118,10 @@ class AuthController extends Controller
                     ], 422);
                 }
 
-                if (!$user->updated_at->lt(Carbon::now()->subMinutes(3))) {
+                if (!$user->updated_at->lt(Carbon::now()->subMinutes(1))) {
                     return response()->json([
                         'status' => 'error',
-                        'message' => ['email' => ['Bạn chỉ có thể gửi lại sau 3 phút']],
+                        'message' => ['email' => ['Bạn chỉ có thể gửi lại sau 1 phút']],
                     ], 422);
                 }
             } else {
@@ -157,6 +176,12 @@ class AuthController extends Controller
                 ]);
             }
 
+            if (!password_verify($request->password, $user->password) && $request->google_id != null) {
+                return redirect()->back()->withInput()->withErrors([
+                    'email' => 'Thông tin xác thực không chính xác, hãy lấy lại mật khẩu nếu bạn đã đăng nhập bằng google trước đó.',
+                ]);
+            }
+
             if (!password_verify($request->password, $user->password)) {
                 return redirect()->back()->withInput()->withErrors([
                     'email' => 'Thông tin xác thực không chính xác',
@@ -165,10 +190,6 @@ class AuthController extends Controller
 
             Auth::login($user);
 
-            if($user->role == 'admin'){
-                return redirect()->route('admin.dashboard');
-            }
-
             return redirect()->route('home');
 
         } catch (Exception $e) {
@@ -176,9 +197,46 @@ class AuthController extends Controller
         }
     }
 
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        $googleUser = Socialite::driver('google')->stateless()->user();
+        $imageContents = Http::get($googleUser->avatar)->body();
+        $imageName = Str::random(40) . '.jpg';
+        $imagePath = public_path('uploads/images/avatars/' . $imageName);
+        
+        if (!File::exists(public_path('uploads/images/avatars'))) {
+            File::makeDirectory(public_path('uploads/images//avatars'), 0755, true);
+        }
+
+        File::put($imagePath, $imageContents);
+
+        $user = User::where('email', $googleUser->email)->first();
+        if (!$user) {
+            $user = new User();
+            $user->email = $googleUser->email;
+            $user->name = $googleUser->name;
+            $user->avatar = 'uploads/images//avatars/' . $imageName;
+            $user->active = 'active';
+            $user->password = bcrypt(Str::random(10));
+        } 
+        $user->google_id = $googleUser->id;
+        $user->save();
+
+        Auth::login($user);
+
+        return redirect()->route('home');
+        
+    }
+
+
     public function logout(){
         Auth::logout(); 
-        return redirect()->route(('home')); 
+        return redirect()->route(('login')); 
     }
 
     public function forgotPassword(Request $request){
@@ -276,8 +334,8 @@ class AuthController extends Controller
                     ],200);
                 }
                 
-                if ($user->reset_password_at != null) {
-                    $resetPasswordAt = Carbon::parse($user->reset_password_at);
+                if ($user->key_reset_password_at != null) {
+                    $resetPasswordAt = Carbon::parse($user->key_reset_password_at);
                     if (!$resetPasswordAt->lt(Carbon::now()->subMinutes(3))) {
                         return response()->json([
                             'status' => 'error',
@@ -288,7 +346,7 @@ class AuthController extends Controller
 
                 $randomOTPForgotPW = $this->generateRandomOTP();
                 $user->key_reset_password = bcrypt($randomOTPForgotPW);
-                $user->reset_password_at = Carbon::now();
+                $user->key_reset_password_at = Carbon::now();
                 $user->save();
 
                 Mail::to($user->email)->send(new OTPForgotPWMail($randomOTPForgotPW));
@@ -304,9 +362,5 @@ class AuthController extends Controller
                 ], 500);
             }
         }
-    }
-
-    public function changePassword(){
-
     }
 }
