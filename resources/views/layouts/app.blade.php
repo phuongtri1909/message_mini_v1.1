@@ -373,14 +373,14 @@
               </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="member1">
-                <label class="form-check-label" for="member1">
+                <input class="form-check-input" type="checkbox" value="1" id="member2">
+                <label class="form-check-label" for="member2">
                   <img src="{{ asset('assets/images/svg/lenovo.jpg') }}" alt="avatar" width="60" height="60" style="border-radius: 50%"> Tiểu Cường Đây
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="member1">
-                <label class="form-check-label" for="member1">
+                <input class="form-check-input" type="checkbox" value="1" id="member3">
+                <label class="form-check-label" for="member3">
                   <img src="{{ asset('assets/images/svg/lenovo.jpg') }}" alt="avatar" width="60" height="60" style="border-radius: 50%"> Tiểu Cường Kia
                 </label>
               </div>
