@@ -22,11 +22,14 @@ use App\Http\Controllers\FriendController;
 Route::get('/', [HomeController::class , 'index'])->name('home');
 Route::get('/listfriend', [HomeController::class, 'listfriend']) -> name ('listfriend');
 
-Route::post('/search-friend', [FriendController::class, 'searchFriend']);
-Route::post('/send-friend-request', [FriendController::class, 'sendFriendRequest']);
-Route::post('/check-friend-request-status', [FriendController::class, 'checkFriendRequestStatus'])->name('check.friend.request.status');
-Route::post('/cancel-friend-request', [FriendController::class, 'cancelFriendRequest'])->name('cancel.friend.request');
-
+Route::post('/search-friend', [FriendController::class, 'searchFriend']); // tìm kiếm người dùng
+Route::post('/send-friend-request', [FriendController::class, 'sendFriendRequest']); // gửi lời mời kết bạn
+Route::post('/check-friend-request-status', [FriendController::class, 'checkFriendRequestStatus'])->name('check.friend.request.status'); // kiểm tra trạng thái lời mời kết bạn
+Route::post('/cancel-friend-request', [FriendController::class, 'cancelFriendRequest'])->name('cancel.friend.request'); // thu hồi lời mời kết bạn
+Route::get('/get-friend-requests', [FriendController::class, 'getFriendRequests']); // lấy danh sách lời mời kết bạn
+Route::post('/accept-friend-request', [FriendController::class, 'acceptFriendRequest']); // chấp nhận lời mời kết bạn
+Route::post('/decline-friend-request', [FriendController::class, 'declineFriendRequest']); // từ chối lời mời kết bạn
+Route::get('/friends-list', [FriendController::class, 'getFriendsList'])->name('friends.list'); // danh sách bạn bè
 
 Route::group(['middleware' => 'auth'], function () {
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
