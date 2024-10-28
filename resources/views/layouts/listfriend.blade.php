@@ -24,7 +24,7 @@
                         <i class="fa-solid fa-cog text-white" style="font-size: 24px;"></i>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
-                        <li><a class="dropdown-item" href="#" id="logoutOption">Đăng xuất</a></li>
+                        <li><a class="dropdown-item" href="{{route('logout')}}" id="logoutOption">Đăng xuất</a></li>
                         <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#languageSettingsModal">Cài đặt ngôn ngữ</a></li>
                     </ul>
                 </div>
@@ -60,46 +60,48 @@
             </div>
             <!-- Main List Window -->
             <div class="col-11 col-md-8">
-                <div class="listfr-header bg-white p-3 border-bottom">
+                <div class="listfr-header bg-white p-3 border-bottom d-flex align-items-center">
                     <i class="fa-solid fa-user-group me-2"></i>
-                    <h3 class="mb-0">Danh Sách Bạn bè</h3>
+                    <h3 class="mb-0">Danh Sách Bạn bè ({{ $friends->total() }})</h3>
                 </div>
-                <div class="search-bar-main">
-                    <input type="text" class="form-control" placeholder="Tìm kiếm bạn bè">
+                
+                <div class="search-bar-main d-flex p-3 bg-light">
+                    <input type="text" class="form-control me-2" placeholder="Tìm kiếm bạn bè">
                     <button type="button" class="btn btn-primary"><i class="fa-solid fa-search"></i></button>
                 </div>
-                <div class="listfr-body bg-white p-3 border-bottom">
-                    {{-- <p class="text-muted mb-0">Bạn bè ({{ count($friends) }})</p> --}}
-
+                
+                <div class="listfr-body bg-white p-3">
                     @foreach ($friends as $friend)
-                        <div class="friend-item d-flex align-items-center p-2">
-                            <img src="{{ $friend->avatar }}" alt="{{ $friend->name }}" class="friend-img rounded-circle me-3" width="40" height="40">
+                        <div class="friend-item d-flex align-items-center p-2 border-bottom" style="position: relative;">
+                            <img src="{{ $friend->avatar }}" alt="{{ $friend->name }}" class="friend-img rounded-circle me-3" style="width: 40px; height: 40px;">
                             <span class="friend-name">{{ $friend->name }}</span>
-                            <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-{{ $friend->id }}" tabindex="0">
+                            <a href="#" class="ms-auto toggle-menu" data-dropdown-id="dropdown-menu-{{ $friend->id }}" tabindex="0" style="color: #333;">
                                 <i class="fa-solid fa-ellipsis-v"></i>
                             </a>
+                            
+                            <div id="dropdown-menu-{{ $friend->id }}" class="dropdown-menu-custom" style="display: none; position: absolute; top: 100%; right: 0; background: #fff; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); z-index: 10;">
+                                <a href="#" class="dropdown-item" style="padding: 8px 15px; color: #333; text-decoration: none; display: block;">Xem thông tin</a>
+                                <a href="#" class="dropdown-item" style="padding: 8px 15px; color: #333; text-decoration: none; display: block;">Gửi tin nhắn</a>
+                                <form action="{{ route('unfriend') }}" method="POST" style="margin: 0;">
+                                    @csrf
+                                    <input type="hidden" name="friend_id" value="{{ $friend->id }}">
+                                    <button type="submit" class="dropdown-item" style="padding: 8px 15px; color: #333; text-decoration: none; background: none; border: none; cursor: pointer;">Xóa bạn</button>
+                                </form>
+                            </div>
                         </div>
-                        <div id="global-dropdown-menu" class="dropdown-menu-custom">
-                            <a href="#" class="dropdown-item">Xem thông tin</a>
-                            <a href="#" class="dropdown-item">Gửi tin nhắn</a>
-                            <form action="{{ route('unfriend') }}" method="POST" style="display: inline;">
-                                @csrf
-                                <input type="hidden" name="friend_id" value="{{ $friend->id }}">
-                                <button type="submit" class="dropdown-item btn btn-link p-0 m-0 align-baseline">Xóa bạn</button>
-                            </form>
-                        </div>
+                    @endforeach
+        
+                    @if (session('success'))
+                        <div class="alert alert-success mt-3">{{ session('success') }}</div>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-danger mt-3">{{ session('error') }}</div>
+                    @endif
+        
+                    <div class="d-flex justify-content-center mt-3">
+                        {{ $friends->links('pagination::bootstrap-5') }}
+                    </div>
                 </div>
-                @endforeach
-                @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-            @if (session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
-            @endif
             </div>
         </div>
     </div>

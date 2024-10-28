@@ -278,27 +278,28 @@ public function getFriendsList()
     ]);
 }
 
+
 public function showFriendsList()
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
 
-        // Lấy danh sách bạn bè bao gồm cả hai chiều
-        $friends = DB::table('friends')
-            ->join('users', function ($join) use ($user) {
-                $join->on('friends.friend_id', '=', 'users.id')
-                    ->orOn('friends.user_id', '=', 'users.id');
-            })
-            ->where(function ($query) use ($user) {
-                $query->where('friends.user_id', $user->id)
-                    ->orWhere('friends.friend_id', $user->id);
-            })
-            ->where('users.id', '!=', $user->id) // Loại bỏ người dùng hiện tại khỏi danh sách bạn bè
-            ->select('users.id', 'users.name', 'users.email', 'users.avatar', 'users.gender')
-            ->distinct()
-            ->get();
+    // Lấy danh sách bạn bè bao gồm cả hai chiều và phân trang
+    $friends = DB::table('friends')
+        ->join('users', function ($join) use ($user) {
+            $join->on('friends.friend_id', '=', 'users.id')
+                ->orOn('friends.user_id', '=', 'users.id');
+        })
+        ->where(function ($query) use ($user) {
+            $query->where('friends.user_id', $user->id)
+                ->orWhere('friends.friend_id', $user->id);
+        })
+        ->where('users.id', '!=', $user->id) // Loại bỏ người dùng hiện tại khỏi danh sách bạn bè
+        ->select('users.id', 'users.name', 'users.email', 'users.avatar', 'users.gender')
+        ->distinct()
+        ->paginate(5); // Số lượng bạn bè hiển thị trên mỗi trang
 
-        return view('layouts.listfriend', ['friends' => $friends]);
-    }
+    return view('layouts.listfriend', ['friends' => $friends]);
+}
 
     //hủy kết bạn
    
