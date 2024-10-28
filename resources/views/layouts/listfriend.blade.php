@@ -17,7 +17,7 @@
                     <a href="#"><i class="fa-solid fa-cloud text-white" style="font-size: 24px;"></i></a>
                 </div>
                 <div class="menu-item mb-5">
-                    <a href="{{ route('listfriend')}}"><i class="fa-solid fa-user text-white" style="font-size: 24px;"></i></a>
+                    <a href="{{ route('friends.list')}}"><i class="fa-solid fa-user text-white" style="font-size: 24px;"></i></a>
                 </div>
                 <div class="menu-item setting dropdown">
                     <a href="#" class="dropdown-toggle" id="settingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -38,7 +38,7 @@
                         <i class="fa-solid fa-user-plus me-2"></i>
                     </button>
                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#createGroupModal">
-                        <a href="{{route('listfriend')}}"><i class="fa-solid fa-people-group"></i></a>
+                        <a href="{{route('friends.list')}}"><i class="fa-solid fa-people-group"></i></a>
                     </button>
                 </div>
                 <div class="listfr-item rounded">
@@ -58,9 +58,6 @@
                     </div>
                 </div>
             </div>
-<!--modal add friend-->
-
-
             <!-- Main List Window -->
             <div class="col-11 col-md-8">
                 <div class="listfr-header bg-white p-3 border-bottom">
@@ -72,158 +69,40 @@
                     <button type="button" class="btn btn-primary"><i class="fa-solid fa-search"></i></button>
                 </div>
                 <div class="listfr-body bg-white p-3 border-bottom">
-                    <p class="text-muted mb-0">Bạn bè (3)</p>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 1" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" tabindex="0"><i class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 2" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 2" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 2" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 2" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 2" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 2" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 2" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 2" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 2" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 2" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 2" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 2" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 2" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 2" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 2" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 2" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 2" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 3" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
-                    <div class="friend-item d-flex align-items-center p-2">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Friend 4" class="friend-img rounded-circle me-3" width="40"
-                            height="40">
-                        <span class="friend-name">Lê Minh C</span>
-                        <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-1" tabindex="0"><i
-                                class="fa-solid fa-ellipsis-v"></i></a>
-                    </div>
+                    {{-- <p class="text-muted mb-0">Bạn bè ({{ count($friends) }})</p> --}}
 
-                    <div id="global-dropdown-menu" class="dropdown-menu-custom">
-                        <a href="#">Xem thông tin</a>
-                        <a href="#">Gửi tin nhắn</a>
-                        <a href="#">Xóa bạn</a>
-                    </div>
-
+                    @foreach ($friends as $friend)
+                        <div class="friend-item d-flex align-items-center p-2">
+                            <img src="{{ $friend->avatar }}" alt="{{ $friend->name }}" class="friend-img rounded-circle me-3" width="40" height="40">
+                            <span class="friend-name">{{ $friend->name }}</span>
+                            <a href="#" class="ml-auto toggle-menu" data-dropdown-id="dropdown-menu-{{ $friend->id }}" tabindex="0">
+                                <i class="fa-solid fa-ellipsis-v"></i>
+                            </a>
+                        </div>
+                        <div id="global-dropdown-menu" class="dropdown-menu-custom">
+                            <a href="#" class="dropdown-item">Xem thông tin</a>
+                            <a href="#" class="dropdown-item">Gửi tin nhắn</a>
+                            <form action="{{ route('unfriend') }}" method="POST" style="display: inline;">
+                                @csrf
+                                <input type="hidden" name="friend_id" value="{{ $friend->id }}">
+                                <button type="submit" class="dropdown-item btn btn-link p-0 m-0 align-baseline">Xóa bạn</button>
+                            </form>
+                        </div>
                 </div>
+                @endforeach
+                @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
             </div>
         </div>
     </div>
-
 </div>
 
 @include('layouts.partials.footer')

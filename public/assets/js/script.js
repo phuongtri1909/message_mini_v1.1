@@ -626,7 +626,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Hàm tải danh sách bạn bè
     function loadFriendsList() {
-        fetch('/friends-list', {
+        fetch('/friends-list-modal', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
