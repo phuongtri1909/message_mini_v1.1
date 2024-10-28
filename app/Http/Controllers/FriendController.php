@@ -338,4 +338,29 @@ public function showFriendsList()
             return redirect()->back()->with('error', 'Mối quan hệ bạn bè không tồn tại nữa.');
         }
     }
+
+    // Tìm kiếm bạn bè theo tên
+    public function searchFriends(Request $request)
+    {
+        $user = Auth::user();
+        $query = $request->input('query');
+
+        // Tìm kiếm bạn bè theo tên
+        $friends = DB::table('friends')
+            ->join('users', function ($join) use ($user) {
+                $join->on('friends.friend_id', '=', 'users.id')
+                    ->orOn('friends.user_id', '=', 'users.id');
+            })
+            ->where(function ($query) use ($user) {
+                $query->where('friends.user_id', $user->id)
+                    ->orWhere('friends.friend_id', $user->id);
+            })
+            ->where('users.id', '!=', $user->id) 
+            ->where('users.name', 'LIKE', "%{$query}%") // Tìm kiếm theo tên đúng hoặc gần đúng
+            ->select('users.id', 'users.name', 'users.email', 'users.avatar', 'users.gender')
+            ->distinct()
+            ->paginate(3); // Số lượng bạn bè hiển thị trên mỗi trang
+
+        return view('layouts.listfriend', ['friends' => $friends, 'query' => $query]);
+    }
 }

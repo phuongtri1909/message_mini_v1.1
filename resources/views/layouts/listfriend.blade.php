@@ -66,14 +66,16 @@
                 </div>
                 
                 <div class="search-bar-main d-flex p-3 bg-light">
-                    <input type="text" class="form-control me-2" placeholder="Tìm kiếm bạn bè">
-                    <button type="button" class="btn btn-primary"><i class="fa-solid fa-search"></i></button>
+                    <form action="{{ route('friends.search') }}" method="GET" class="d-flex w-100">
+                        <input type="text" name="query" class="form-control me-2" placeholder="Tìm kiếm bạn bè" value="{{ request('query') }}">
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-search"></i></button>
+                    </form>
                 </div>
                 
                 <div class="listfr-body bg-white p-3">
                     @foreach ($friends as $friend)
                         <div class="friend-item d-flex align-items-center p-2 border-bottom" style="position: relative;">
-                            <img src="{{ $friend->avatar }}" alt="{{ $friend->name }}" class="friend-img rounded-circle me-3" style="width: 40px; height: 40px;">
+                            <img src="{{ asset($friend->avatar) }}" alt="{{ $friend->name }}" class="friend-img rounded-circle me-3" style="width: 40px; height: 40px;">
                             <span class="friend-name">{{ $friend->name }}</span>
                             <a href="#" class="ms-auto toggle-menu" data-dropdown-id="dropdown-menu-{{ $friend->id }}" tabindex="0" style="color: #333;">
                                 <i class="fa-solid fa-ellipsis-v"></i>

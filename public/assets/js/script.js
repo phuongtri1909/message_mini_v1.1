@@ -626,12 +626,12 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 if (data.status === "success") {
                     friendsList.innerHTML = ''; // Xóa nội dung hiện tại
-
+                    
                     // Duyệt qua danh sách bạn bè và tạo HTML
                     data.friends.forEach(friend => {
                         friendsList.innerHTML += `
                             <div class="friend-item">
-                                <img src="${friend.avatar}" alt="${friend.name}" class="avatar">
+                                <img src="${friend.avatar}" alt="${friend.name}" class="avatar" style="height:96px; width:96px;">
                                 <p>${friend.name}</p>
                             </div>
                         `;
