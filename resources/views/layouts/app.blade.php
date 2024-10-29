@@ -7,56 +7,62 @@
             <!-- Left Sidebar -->
             <section class="col-1 sidebar">
                 @include('pages.modal.profile')
-                <div class="d-flex">
+                <div class="d-flex justify-content-center align-items-center">
                     <div>
-                        <div class="profile mb-4">
-                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Profile Picture"
-                                    class="rounded-circle" width="50" height="50" data-bs-toggle="modal"
-                                    data-bs-target="#profileModal" style="cursor: pointer;"></a>
+                        <div class="profile mb-4 mt-1 text-center">
+                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}"
+                                    alt="Profile Picture" class="rounded-circle" width="50" height="50"
+                                    data-bs-toggle="modal" data-bs-target="#profileModal" style="cursor: pointer;"></a>
                         </div>
-        
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a href="{{ route('home') }}"><i class="fa-solid fa-message text-white" style="font-size: 24px;"></i></a>
+                        <ul class="nav flex-column align-items-center">
+                            <li class="nav-item mb-3">
+                                <a href="{{ route('home') }}" class="nav-link p-0"><i
+                                        class="fa-solid fa-message text-white" style="font-size: 24px;"></i></a>
                             </li>
-                            <li class="nav-item">
-                                <a href="#"><i class="fa-solid fa-cloud text-white" style="font-size: 24px;"></i></a>
+                            <li class="nav-item mb-3">
+                                <a href="#" class="nav-link p-0"><i class="fa-solid fa-cloud text-white"
+                                        style="font-size: 24px;"></i></a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{ route('friends.list') }}"><i class="fa-solid fa-user text-white" style="font-size: 24px;"></i></a>
+                            <li class="nav-item mb-3">
+                                <a href="{{ route('friends.list') }}" class="nav-link p-0"><i
+                                        class="fa-solid fa-user text-white" style="font-size: 24px;"></i></a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item mb-3">
                                 <!-- Nút mở modal danh sách bạn bè -->
-                                <button type="button" style="font-size: 24px;" data-bs-toggle="modal" data-bs-target="#friendsListModal">
-                                    <i class="fa-regular fa-address-book"></i>
+                                <button type="button" class="btn p-0" style="font-size: 24px;" data-bs-toggle="modal"
+                                    data-bs-target="#friendsListModal">
+                                    <i class="fa-regular fa-address-book text-white"></i>
                                 </button>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item mb-3">
                                 <!-- Nút mở modal lời mời kết bạn -->
-                                <button type="button" id="showFriendRequestsModal" style="font-size: 24px;" data-bs-toggle="modal" data-bs-target="#friendRequestsModal">
-                                    <i class="fa-solid fa-handshake bg-drak"></i>
+                                <button type="button" id="showFriendRequestsModal" class="btn p-0"
+                                    style="font-size: 24px;" data-bs-toggle="modal"
+                                    data-bs-target="#friendRequestsModal">
+                                    <i class="fa-solid fa-handshake text-white"></i>
                                 </button>
                             </li>
-                        </ul>
-                    </div>
-                    
-    
-                    <div class="menu-item setting dropdown">
-                        <a href="#" class="dropdown-toggle" id="settingsDropdown" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fa-solid fa-cog text-white" style="font-size: 24px;"></i>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
-                            <li><a class="dropdown-item" href="{{ route('logout') }}" id="logoutOption">Đăng xuất</a></li>
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                    data-bs-target="#languageSettingsModal">Cài đặt ngôn ngữ</a></li>
+                            <li class="nav-item mb-3">
+                                <div class="menu-item setting dropdown">
+                                    <a href="#" class="dropdown-toggle" id="settingsDropdown" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <i class="fa-solid fa-cog text-white" style="font-size: 24px;"></i>
+                                    </a>
+                                    <ul class="dropdown-menu bg-drak" aria-labelledby="settingsDropdown">
+                                        <li><a class="dropdown-item" href="{{ route('logout') }}" id="logoutOption">Đăng
+                                                xuất</a></li>
+                                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                                data-bs-target="#languageSettingsModal">Cài đặt ngôn ngữ</a></li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </section>
 
             <!-- Chat List -->
-            <section class="col-0 col-md-3 bg-white p-3">
+            <section class="col-0 col-md-3 bg-white p-3" style="border-right: 0.5px solid rgba(224, 226, 225, 0.874);">
                 @yield('content-1')
             </section>
 
@@ -110,8 +116,8 @@
                 <div class="mb-3">
                     <label for="friendEmail" class="form-label">Nhập Email:</label>
                     <input type="email" class="form-control" id="friendEmail" placeholder="Nhập Email" required
-                        pattern="^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$"
-                        title="Vui lòng nhập định dạng email hợp lệ." maxlength="100">
+                        pattern="^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$" title="Vui lòng nhập định dạng email hợp lệ."
+                        maxlength="100">
                 </div>
                 <button type="button" class="btn btn-primary" id="searchButton" disabled>Tìm kiếm</button>
 
@@ -119,8 +125,8 @@
                 <div class="search-result mt-3" id="searchResult" style="display: none;">
                     <div class="user-info">
                         <div class="avatar" style="float: left; margin-right: 10px;">
-                            <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Avatar"
-                                class="rounded-circle" id="resultUserAvatar" style="height: 50px; width:50px;">
+                            <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Avatar" class="rounded-circle"
+                                id="resultUserAvatar" style="height: 50px; width:50px;">
                         </div>
                         <div>
                             <p><strong id="resultUserName"></strong></p>
@@ -131,8 +137,7 @@
                     <button type="button" class="btn btn-success" id="sendRequestButton" style="display: none;">Gửi
                         yêu
                         cầu kết bạn</button>
-                    <button type="button" class="btn btn-danger" id="cancelRequestButton"
-                        style="display: none;">Thu hồi
+                    <button type="button" class="btn btn-danger" id="cancelRequestButton" style="display: none;">Thu hồi
                         yêu cầu</button>
                     <button type="button" class="btn btn-info" id="messageButtonn" style="display: none;">Nhắn
                         tin</button> <!-- Nút nhắn tin -->
@@ -173,8 +178,7 @@
 </div>
 
 <!-- Modal hiển thị danh sách bạn bè -->
-<div class="modal fade" id="friendsListModal" tabindex="-1" aria-labelledby="friendsListModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="friendsListModal" tabindex="-1" aria-labelledby="friendsListModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -231,8 +235,7 @@
 </div>
 
 <!--Modal tìm kiếm kết bạn-->
-<div class="modal fade" id="friendSearchModal" tabindex="-1" aria-labelledby="friendSearchLabel"
-    aria-hidden="true">
+<div class="modal fade" id="friendSearchModal" tabindex="-1" aria-labelledby="friendSearchLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -265,8 +268,7 @@
 </div>
 
 <!-- Modal tạo nhóm-->
-<div class="modal fade" id="createGroupModal" tabindex="-1" aria-labelledby="createGroupModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="createGroupModal" tabindex="-1" aria-labelledby="createGroupModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -295,8 +297,7 @@
                     </div>
                     <div class="form-group">
                         <label for="groupMembers">Thành viên</label>
-                        <input type="text" class="form-control" id="groupMembers"
-                            placeholder="Nhập tên thành viên">
+                        <input type="text" class="form-control" id="groupMembers" placeholder="Nhập tên thành viên">
                     </div>
                     <!-- Danh sách thành viên -->
                     <div class="list-group" id="membersList">

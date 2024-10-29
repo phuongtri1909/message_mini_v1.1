@@ -35,7 +35,7 @@
         <div class="d-flex align-items-center">
             <i class="fa-solid fa-user-plus me-2" id="showFriendRequestsModal" style="cursor: pointer;"></i>
             <div class="listfr-info">
-                <a href="{{ route('loimoi') }}" class="mb-0">Lời Mời Kết Bạn</a>
+                <a href="{{ route('friend.requests') }}" class="mb-0">Lời Mời Kết Bạn</a>
             </div>
         </div>
     </div>
