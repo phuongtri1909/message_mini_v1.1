@@ -487,7 +487,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="height:96px; width:96px;">Đóng</button>
             </div>
         </div>
     </div>

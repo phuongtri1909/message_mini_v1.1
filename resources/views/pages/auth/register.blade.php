@@ -24,7 +24,7 @@
                                                     <div class="text-center mb-4">
                                                         <a href="{{ route('home') }}">
                                                             <img class="logohoanxu"
-                                                                src="{{ asset('assets/images/logo/logohoanxu.png') }}"
+                                                                src="{{ asset('assets/images/logo/logochat.png') }}"
                                                                 alt="logohoanxu">
                                                         </a>
                                                     </div>

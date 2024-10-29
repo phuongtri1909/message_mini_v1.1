@@ -709,3 +709,10 @@ footer .icon-footer {
     margin-left: 0; /* Đảm bảo không có khoảng cách thừa */
 }
 
+.pagination {
+    font-size: 0.875rem; /* Điều chỉnh kích thước font chữ */
+}
+
+.pagination .page-item .page-link {
+    padding: 0.5rem 0.75rem; /* Điều chỉnh khoảng cách padding */
+}

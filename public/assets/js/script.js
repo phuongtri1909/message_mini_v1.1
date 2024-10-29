@@ -201,54 +201,43 @@ function previewImage(event) {
 }
 
 //Hàm chỉnh cài đặt danh sách bạn bè 3 chấm
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll('.toggle-menu').forEach(function (toggleButton) {
-        toggleButton.addEventListener('click', function (event) {
-            const dropdownMenu = document.getElementById('global-dropdown-menu');
+document.addEventListener('DOMContentLoaded', function () {
+    const toggleMenus = document.querySelectorAll('.toggle-menu');
 
-            if (dropdownMenu) {
-                // Ẩn tất cả các dropdown trước khi hiển thị dropdown mới
-                document.querySelectorAll('.dropdown-menu-custom').forEach(function (menu) {
+    toggleMenus.forEach(toggleMenu => {
+        toggleMenu.addEventListener('click', function (event) {
+            event.preventDefault();
+            const dropdownId = this.getAttribute('data-dropdown-id');
+            const dropdownMenu = document.getElementById(dropdownId);
+
+            // Ẩn tất cả các menu dropdown khác
+            document.querySelectorAll('.dropdown-menu-custom').forEach(menu => {
+                if (menu !== dropdownMenu) {
                     menu.style.display = 'none';
-                });
+                }
+            });
 
-                // Tính toán vị trí của phần tử
-                const rect = toggleButton.getBoundingClientRect();
-                const dropdownWidth = dropdownMenu.offsetWidth;
-                const dropdownHeight = dropdownMenu.offsetHeight;
-                const screenWidth = window.innerWidth;
-                const screenHeight = window.innerHeight;
-
-                // Xử lý vị trí dọc
-                const topPosition = rect.top + window.scrollY;
-
-                // Xử lý vị trí ngang - hiển thị dropdown bên trái icon 3 chấm
-                const leftPosition = rect.left - dropdownWidth;
-
-                // Kiểm tra nếu tràn khỏi màn hình bên trái thì hiển thị bên phải icon 3 chấm
-                const finalLeftPosition = leftPosition < 0 ? rect.right : leftPosition;
-
-                // Gán vị trí cho dropdown menu
-                dropdownMenu.style.top = `${topPosition}px`;
-                dropdownMenu.style.left = `${finalLeftPosition}px`;
+            // Hiển thị hoặc ẩn menu dropdown hiện tại
+            if (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') {
                 dropdownMenu.style.display = 'block';
-
-                // Ngăn không cho trang tự cuộn lên đầu
-                event.preventDefault();
             } else {
-                console.error("Không tìm thấy phần tử 'global-dropdown-menu'.");
+                dropdownMenu.style.display = 'none';
             }
         });
     });
 
-    // Ẩn menu khi click bên ngoài
-    window.addEventListener('click', function (e) {
-        const dropdownMenu = document.getElementById('global-dropdown-menu');
-        if (dropdownMenu && !e.target.matches('.toggle-menu, .toggle-menu *')) {
-            dropdownMenu.style.display = 'none';
+    // Ẩn menu dropdown khi nhấp ra ngoài
+    document.addEventListener('click', function (event) {
+        if (!event.target.closest('.friend-item')) {
+            document.querySelectorAll('.dropdown-menu-custom').forEach(menu => {
+                menu.style.display = 'none';
+            });
         }
     });
 });
+
+
+
 
 // modal thêm thành viên
 document.addEventListener('DOMContentLoaded', function () {
@@ -637,12 +626,12 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 if (data.status === "success") {
                     friendsList.innerHTML = ''; // Xóa nội dung hiện tại
-
+                    
                     // Duyệt qua danh sách bạn bè và tạo HTML
                     data.friends.forEach(friend => {
                         friendsList.innerHTML += `
                             <div class="friend-item">
-                                <img src="${friend.avatar}" alt="${friend.name}" class="avatar">
+                                <img src="${friend.avatar}" alt="${friend.name}" class="avatar" style="height:96px; width:96px;">
                                 <p>${friend.name}</p>
                             </div>
                         `;
