@@ -21,7 +21,7 @@
                     <a href="#"><i class="fa-solid fa-cloud text-white" style="font-size: 24px;"></i></a>
                 </div>
                 <div class="menu-item mb-5">
-                    <a href="{{ route('listfriend')}}"><i class="fa-solid fa-user text-white"
+                    <a href="{{ route('friends.list')}}"><i class="fa-solid fa-user text-white"
                             style="font-size: 24px;"></i></a>
                 </div>
                 <!-- Nút mở modal danh sách bạn bè -->
@@ -62,10 +62,6 @@
                         <a href="#"><i class="fa-solid fa-people-group"></i></a>
                     </button>
 
-
-
-
-
                 </div>
 
                 <!-- Thêm div bọc các cuộc hội thoại -->
@@ -80,93 +76,8 @@
                             </div>
                         </div>
                         <span class="chat-time text-muted small">5 phút trước</span>
-                    </div>
-                    <div class="chat-item rounded">
-                        <div class="d-flex align-items-center">
-                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3" style="object-fit: cover" width="40" height="40"></a>
-                            <div class="chat-info">
-                                <h5 class="mb-0">Tên người dùng</h5>
-                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhất</p>
-                            </div>
-                        </div>
-                        <span class="chat-time text-muted small">5 phút trước</span>
-                    </div>
-                    <div class="chat-item rounded">
-                        <div class="d-flex align-items-center">
-                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3" style="object-fit: cover" width="40" height="40"></a>
-                            <div class="chat-info">
-                                <h5 class="mb-0">Tên người dùng </h5>
-                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
-                                </p>
-                            </div>
-                        </div>
-                        <span class="chat-time text-muted small">5 phút trước</span>
-                    </div>
-                    <div class="chat-item rounded">
-                        <div class="d-flex align-items-center">
-                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3" style="object-fit: cover" width="40" height="40"></a>
-                            <div class="chat-info">
-                                <h5 class="mb-0">Tên người dùng </h5>
-                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấfffffffffffffffffffffffĐoạn tin nhắn gần
-                                    nhấffffffffffffffffffffffffffffffffffffftĐoạn tin nhắn gần
-                                    nhấffffffffffffffffffffffffffffffffffffftĐoạn tin nhắn gần
-                                    nhấffffffffffffffffffffffffffffffffffffftĐoạn tin nhắn gần
-                                    nhấffffffffffffffffffffffffffffffffffffftfffffffffffffft</p>
-                            </div>
-                        </div>
-                        <span class="chat-time text-muted small">5 phút trước</span>
-                    </div>
-                    <div class="chat-item rounded">
-                        <div class="d-flex align-items-center">
-                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3" style="object-fit: cover" width="40" height="40"></a>
-                            <div class="chat-info">
-                                <h5 class="mb-0">Tên người dùng </h5>
-                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
-                                </p>
-                            </div>
-                        </div>
-                        <span class="chat-time text-muted small">5 phút trước</span>
-                    </div>
-                    <div class="chat-item rounded">
-                        <div class="d-flex align-items-center">
-                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3" style="object-fit: cover" width="40" height="40"></a>
-                            <div class="chat-info">
-                                <h5 class="mb-0">Tên người dùng </h5>
-                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
-                                </p>
-                            </div>
-                        </div>
-                        <span class="chat-time text-muted small">5 phút trước</span>
-                    </div>
-                    <div class="chat-item rounded">
-                        <div class="d-flex align-items-center">
-                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3" style="object-fit: cover" width="40" height="40"></a>
-                            <div class="chat-info">
-                                <h5 class="mb-0">Tên người dùng </h5>
-                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
-                                </p>
-                            </div>
-                        </div>
-                        <span class="chat-time text-muted small">5 phút trước</span>
-                    </div>
-                    <div class="chat-item rounded">
-                        <div class="d-flex align-items-center">
-                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3" style="object-fit: cover" width="40" height="40"></a>
-                            <div class="chat-info">
-                                <h5 class="mb-0">Tên người dùng </h5>
-                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
-                                </p>
-                            </div>
-                        </div>
-                        <span class="chat-time text-muted small">5 phút trước</span>
-                    </div>
+                    </div>                  
+                    
                     <div class="chat-item rounded">
                         <div class="d-flex align-items-center">
                             <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
@@ -181,7 +92,6 @@
                     </div>
 
                     <!-- Thêm các cuộc hội thoại khác tại đây -->
-
                 </div>
             </div>
 

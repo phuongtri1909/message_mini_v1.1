@@ -278,5 +278,63 @@ public function getFriendsList()
     ]);
 }
 
+public function showFriendsList()
+    {
+        $user = Auth::user();
 
+        // Lấy danh sách bạn bè bao gồm cả hai chiều
+        $friends = DB::table('friends')
+            ->join('users', function ($join) use ($user) {
+                $join->on('friends.friend_id', '=', 'users.id')
+                    ->orOn('friends.user_id', '=', 'users.id');
+            })
+            ->where(function ($query) use ($user) {
+                $query->where('friends.user_id', $user->id)
+                    ->orWhere('friends.friend_id', $user->id);
+            })
+            ->where('users.id', '!=', $user->id) // Loại bỏ người dùng hiện tại khỏi danh sách bạn bè
+            ->select('users.id', 'users.name', 'users.email', 'users.avatar', 'users.gender')
+            ->distinct()
+            ->get();
+
+        return view('layouts.listfriend', ['friends' => $friends]);
+    }
+
+    //hủy kết bạn
+   
+    public function unfriend(Request $request)
+    {
+        $friendId = $request->input('friend_id');
+        $user = Auth::user();
+    
+        // Kiểm tra xem mối quan hệ bạn bè có tồn tại hay không
+        $friendship = DB::table('friends')
+            ->where(function ($query) use ($user, $friendId) {
+                $query->where('user_id', $user->id)
+                    ->where('friend_id', $friendId);
+            })
+            ->orWhere(function ($query) use ($user, $friendId) {
+                $query->where('user_id', $friendId)
+                    ->where('friend_id', $user->id);
+            })
+            ->first();
+    
+        if ($friendship) {
+            // Xóa mối quan hệ bạn bè
+            DB::table('friends')
+                ->where(function ($query) use ($user, $friendId) {
+                    $query->where('user_id', $user->id)
+                        ->where('friend_id', $friendId);
+                })
+                ->orWhere(function ($query) use ($user, $friendId) {
+                    $query->where('user_id', $friendId)
+                        ->where('friend_id', $user->id);
+                })
+                ->delete();
+    
+            return redirect()->back()->with('success', 'Đã hủy kết bạn thành công.');
+        } else {
+            return redirect()->back()->with('error', 'Mối quan hệ bạn bè không tồn tại nữa.');
+        }
+    }
 }

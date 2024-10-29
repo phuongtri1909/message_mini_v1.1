@@ -29,8 +29,9 @@ Route::post('/cancel-friend-request', [FriendController::class, 'cancelFriendReq
 Route::get('/get-friend-requests', [FriendController::class, 'getFriendRequests']); // lấy danh sách lời mời kết bạn
 Route::post('/accept-friend-request', [FriendController::class, 'acceptFriendRequest']); // chấp nhận lời mời kết bạn
 Route::post('/decline-friend-request', [FriendController::class, 'declineFriendRequest']); // từ chối lời mời kết bạn
-Route::get('/friends-list', [FriendController::class, 'getFriendsList'])->name('friends.list'); // danh sách bạn bè
-
+Route::get('/friends-list-modal', [FriendController::class, 'getFriendsList'])->name('friends.list.modal'); // danh sách bạn bè
+Route::get('/friends-list', [FriendController::class, 'showFriendsList'])->name('friends.list');// danh sách bạn bè trang listfriend
+Route::post('/unfriend', [FriendController::class, 'unfriend'])->name('unfriend'); // Hủy kết bạn
 Route::group(['middleware' => 'auth'], function () {
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
