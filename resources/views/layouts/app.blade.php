@@ -21,16 +21,27 @@
                     <a href="#"><i class="fa-solid fa-cloud text-white" style="font-size: 24px;"></i></a>
                 </div>
                 <div class="menu-item mb-5">
-                    <a href="{{ route('listfriend')}}"><i class="fa-solid fa-user text-white"
+                    <a href="{{ route('friends.list')}}"><i class="fa-solid fa-user text-white"
                             style="font-size: 24px;"></i></a>
                 </div>
+                <!-- Nút mở modal danh sách bạn bè -->
+                <button type="button" style=" font-size: 24px;" data-bs-toggle="modal"
+                    data-bs-target="#friendsListModal">
+                    <i class="fa-regular fa-address-book"></i>
+                </button>
+                <!-- Nút mở modal lời mời kết bạn -->
+                <button type="button" id="showFriendRequestsModal" style="font-size: 24px;" data-bs-toggle="modal"
+                    data-bs-target="#friendRequestsModal">
+                    <i class="fa-solid fa-handshake bg-drak"></i>
+                </button>
+
                 <div class="menu-item setting dropdown">
                     <a href="#" class="dropdown-toggle" id="settingsDropdown" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         <i class="fa-solid fa-cog text-white" style="font-size: 24px;"></i>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
-                        <li><a class="dropdown-item" href="#" id="logoutOption">Đăng xuất</a></li>
+                        <li><a class="dropdown-item" href="{{route('logout')}}" id="logoutOption">Đăng xuất</a></li>
                         <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
                                 data-bs-target="#languageSettingsModal">Cài đặt ngôn ngữ</a></li>
                     </ul>
@@ -41,11 +52,13 @@
             <div class="col-md-3 chat-list p-3">
                 <div class="search-bar mb-4 d-flex align-items-center">
                     <input type="text" class="form-control me-2" placeholder="Tìm kiếm">
-                    <button class="btn" style="border: none; background: none;" data-bs-toggle="modal"
-                        data-bs-target="#addFriendModal">
-                        <i class="fa-solid fa-user-plus me-2"></i>
+                    <button class="btn" style="border: none; background: none; padding-left: 2px;"
+                        data-bs-toggle="modal" data-bs-target="#addFriendModal">
+                        <i class="fa-solid fa-user-plus "></i>
                     </button>
-                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#createGroupModal">
+
+                    <button type="button" style="border: none; background: none; padding-left: 2px;"
+                        data-bs-toggle="modal" data-bs-target="#createGroupModal">
                         <a href="#"><i class="fa-solid fa-people-group"></i></a>
                     </button>
 
@@ -56,104 +69,19 @@
                     <div class="chat-item rounded">
                         <div class="d-flex align-items-center">
                             <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
+                                    class="rounded-circle me-3" style="object-fit: cover" width="40" height="40"></a>
                             <div class="chat-info">
                                 <h5 class="mb-0">Tên người dùng</h5>
                                 <p class="text-muted mb-0">Đoạn tin nhắn gần nhất</p>
                             </div>
                         </div>
                         <span class="chat-time text-muted small">5 phút trước</span>
-                    </div>
+                    </div>                  
+                    
                     <div class="chat-item rounded">
                         <div class="d-flex align-items-center">
                             <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
-                            <div class="chat-info">
-                                <h5 class="mb-0">Tên người dùng</h5>
-                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhất</p>
-                            </div>
-                        </div>
-                        <span class="chat-time text-muted small">5 phút trước</span>
-                    </div>
-                    <div class="chat-item rounded">
-                        <div class="d-flex align-items-center">
-                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
-                            <div class="chat-info">
-                                <h5 class="mb-0">Tên người dùng </h5>
-                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
-                                </p>
-                            </div>
-                        </div>
-                        <span class="chat-time text-muted small">5 phút trước</span>
-                    </div>
-                    <div class="chat-item rounded">
-                        <div class="d-flex align-items-center">
-                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
-                            <div class="chat-info">
-                                <h5 class="mb-0">Tên người dùng </h5>
-                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấfffffffffffffffffffffffĐoạn tin nhắn gần
-                                    nhấffffffffffffffffffffffffffffffffffffftĐoạn tin nhắn gần
-                                    nhấffffffffffffffffffffffffffffffffffffftĐoạn tin nhắn gần
-                                    nhấffffffffffffffffffffffffffffffffffffftĐoạn tin nhắn gần
-                                    nhấffffffffffffffffffffffffffffffffffffftfffffffffffffft</p>
-                            </div>
-                        </div>
-                        <span class="chat-time text-muted small">5 phút trước</span>
-                    </div>
-                    <div class="chat-item rounded">
-                        <div class="d-flex align-items-center">
-                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
-                            <div class="chat-info">
-                                <h5 class="mb-0">Tên người dùng </h5>
-                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
-                                </p>
-                            </div>
-                        </div>
-                        <span class="chat-time text-muted small">5 phút trước</span>
-                    </div>
-                    <div class="chat-item rounded">
-                        <div class="d-flex align-items-center">
-                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
-                            <div class="chat-info">
-                                <h5 class="mb-0">Tên người dùng </h5>
-                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
-                                </p>
-                            </div>
-                        </div>
-                        <span class="chat-time text-muted small">5 phút trước</span>
-                    </div>
-                    <div class="chat-item rounded">
-                        <div class="d-flex align-items-center">
-                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
-                            <div class="chat-info">
-                                <h5 class="mb-0">Tên người dùng </h5>
-                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
-                                </p>
-                            </div>
-                        </div>
-                        <span class="chat-time text-muted small">5 phút trước</span>
-                    </div>
-                    <div class="chat-item rounded">
-                        <div class="d-flex align-items-center">
-                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
-                            <div class="chat-info">
-                                <h5 class="mb-0">Tên người dùng </h5>
-                                <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
-                                </p>
-                            </div>
-                        </div>
-                        <span class="chat-time text-muted small">5 phút trước</span>
-                    </div>
-                    <div class="chat-item rounded">
-                        <div class="d-flex align-items-center">
-                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                                    class="rounded-circle me-3"style="object-fit: cover" width="40" height="40"></a>
+                                    class="rounded-circle me-3" style="object-fit: cover" width="40" height="40"></a>
                             <div class="chat-info">
                                 <h5 class="mb-0">Tên người dùng </h5>
                                 <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
@@ -164,7 +92,6 @@
                     </div>
 
                     <!-- Thêm các cuộc hội thoại khác tại đây -->
-
                 </div>
             </div>
 
@@ -178,8 +105,8 @@
                     </div>
                     <!-- Nút mở offcanvas để hiển thị thành viên và chọn thêm -->
                     <button class="btn btn-primary mb-2" id="openAddMembersModal" style="margin-right: 650px"><i
-                            class="fa-solid fa-user-group" ></i></button>
-                            <!-- Button các chức năng của nhóm -->
+                            class="fa-solid fa-user-group"></i></button>
+                    <!-- Button các chức năng của nhóm -->
                     <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                         <i class="fa-solid fa-layer-group"></i>
@@ -280,49 +207,59 @@
                                 <li class="d-flex align-items-center justify-content-between mb-3">
                                     <div class="d-flex align-items-center">
                                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 1"
-                                            class="rounded-circle me-2" style="object-fit:cover; width: 40px; height: 40px;">
+                                            class="rounded-circle me-2"
+                                            style="object-fit:cover; width: 40px; height: 40px;">
                                         <span>Thành viên 1</span>
                                     </div>
-                                    <button class="btn btn-danger btn-sm ms-2"><i class="fa-solid fa-user-xmark"></i></button>
+                                    <button class="btn btn-danger btn-sm ms-2"><i
+                                            class="fa-solid fa-user-xmark"></i></button>
                                 </li>
                                 <li class="d-flex align-items-center justify-content-between mb-3">
                                     <div class="d-flex align-items-center">
                                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 2"
-                                            class="rounded-circle me-2" style="object-fit:cover; width: 40px; height: 40px;">
+                                            class="rounded-circle me-2"
+                                            style="object-fit:cover; width: 40px; height: 40px;">
                                         <span>Thành viên 2</span>
                                     </div>
-                                    <button class="btn btn-danger btn-sm ms-2"><i class="fa-solid fa-user-xmark"></i></button>
+                                    <button class="btn btn-danger btn-sm ms-2"><i
+                                            class="fa-solid fa-user-xmark"></i></button>
                                 </li>
                                 <li class="d-flex align-items-center justify-content-between mb-3">
                                     <div class="d-flex align-items-center">
                                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 3"
-                                            class="rounded-circle me-2" style="object-fit:cover; width: 40px; height: 40px;">
+                                            class="rounded-circle me-2"
+                                            style="object-fit:cover; width: 40px; height: 40px;">
                                         <span>Thành viên 3</span>
                                     </div>
-                                    <button class="btn btn-danger btn-sm ms-2"><i class="fa-solid fa-user-xmark"></i></button>
+                                    <button class="btn btn-danger btn-sm ms-2"><i
+                                            class="fa-solid fa-user-xmark"></i></button>
                                 </li>
                                 <li class="d-flex align-items-center justify-content-between mb-3">
                                     <div class="d-flex align-items-center">
                                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 4"
-                                            class="rounded-circle me-2" style="object-fit:cover; width: 40px; height: 40px;">
+                                            class="rounded-circle me-2"
+                                            style="object-fit:cover; width: 40px; height: 40px;">
                                         <span>Thành viên 4</span>
                                     </div>
-                                    <button class="btn btn-danger btn-sm ms-2"><i class="fa-solid fa-user-xmark"></i></button>
+                                    <button class="btn btn-danger btn-sm ms-2"><i
+                                            class="fa-solid fa-user-xmark"></i></button>
                                 </li>
                                 <li class="d-flex align-items-center justify-content-between mb-3">
                                     <div class="d-flex align-items-center">
                                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 5"
-                                            class="rounded-circle me-2" style="object-fit:cover; width: 40px; height: 40px;">
+                                            class="rounded-circle me-2"
+                                            style="object-fit:cover; width: 40px; height: 40px;">
                                         <span>Thành viên 5</span>
                                     </div>
-                                    <button class="btn btn-danger btn-sm ms-2"><i class="fa-solid fa-user-xmark"></i></button>
+                                    <button class="btn btn-danger btn-sm ms-2"><i
+                                            class="fa-solid fa-user-xmark"></i></button>
                                 </li>
                             </ul>
                         </div>
                     </div>
 
                 </div>
-               
+
 
 
                 <div class="chat-messages flex-grow-1 p-3 bg-light overflow-auto">
@@ -337,7 +274,7 @@
                     </div>
                     <div class="message d-flex mb-3">
                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                            class="rounded-circle me-3"style="object-fit: cover" width="40" height="40">
+                            class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
                         <div class="message-content bg-white p-2 rounded">
                             <p class="mb-0">@All tôi cf
                                 aeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
@@ -346,7 +283,7 @@
                     </div>
                     <div class="message d-flex mb-3">
                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                            class="rounded-circle me-3"style="object-fit: cover" width="40" height="40">
+                            class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
                         <div class="message-content bg-white p-2 rounded">
                             <p class="mb-0">@All tôi cf
                                 aeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
@@ -355,7 +292,7 @@
                     </div>
                     <div class="message d-flex mb-3">
                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                            class="rounded-circle me-3"style="object-fit: cover" width="40" height="40">
+                            class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
                         <div class="message-content bg-white p-2 rounded">
                             <p class="mb-0"> @All tôi cf
                                 aeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
@@ -370,7 +307,7 @@
                             <span class="message-time text-light small">15:02</span>
                         </div>
                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                            class="rounded-circle ms-3"style="object-fit: cover" width="40" height="40">
+                            class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">
                     </div>
                     <div class="message justify-content-end">
                         <div class="message-content bg-primary text-white">
@@ -380,7 +317,7 @@
                         </div>
 
                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                            class="rounded-circle ms-3"style="object-fit: cover" width="40" height="40">
+                            class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">
                     </div>
                     <div class="message justify-content-end">
                         <div class="message-content bg-primary text-white">
@@ -390,7 +327,7 @@
                         </div>
 
                         <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                            class="rounded-circle ms-3"style="object-fit: cover" width="40" height="40">
+                            class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">
                     </div>
                 </div>
                 <!-- Thêm input để gửi tin nhắn -->
@@ -400,29 +337,34 @@
                         <a href="#" id="imageIcon"><i class="fa-solid fa-image"></i></a>
                         <a href="#" id="fileIcon"><i class="fa-solid fa-paperclip"></i></a>
                     </div>
-                    <textarea class="form-control rounded-pill" id="messageInput" placeholder="Nhập @, tin nhắn tới ..." rows="1" oninput="toggleSendIcon()" style="resize: none; overflow: hidden; width:700px"></textarea>
+                    <textarea class="form-control rounded-pill" id="messageInput" placeholder="Nhập @, tin nhắn tới ..."
+                        rows="1" oninput="toggleSendIcon()"
+                        style="resize: none; overflow: hidden; width:700px"></textarea>
                     <a href="#" id="sendIcon" style="display: none;">
                         <i class="fa-solid fa-paper-plane" style="font-size: 25px;"></i>
                     </a>
                 </div>
-                
+
                 <!-- Các phần tử input file ẩn -->
                 <input type="file" id="folderInput" style="display: none;" webkitdirectory>
                 <input type="file" id="imageInput" style="display: none;" accept="image/*">
                 <input type="file" id="fileInput" style="display: none;">
-                
+
                 <!-- Hiển thị ảnh hoặc tệp đã chọn ngay cạnh nút gửi -->
-                <div id="previewContainer" style="display: none; position: absolute; bottom: 80px; right: 60px; background: white; border: 1px solid #ccc; padding: 5px; border-radius: 5px;">
+                <div id="previewContainer"
+                    style="display: none; position: absolute; bottom: 80px; right: 60px; background: white; border: 1px solid #ccc; padding: 5px; border-radius: 5px;">
                     <div id="previewContent"></div>
                 </div>
-                
+
             </div>
         </div>
     </div>
-    
+
 </div>
- <!-- Modal Thêm Thành Viên -->
- <div class="modal fade" id="addMembersModal" tabindex="-1" aria-labelledby="addMembersModalLabel" aria-hidden="true">
+
+
+<!-- Modal Thêm Thành Viên -->
+<div class="modal fade" id="addMembersModal" tabindex="-1" aria-labelledby="addMembersModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -443,14 +385,13 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="addSelectedMembers">Thêm</button>
-                
+
             </div>
         </div>
     </div>
 </div>
 <!-- Modal để hiển thị ảnh lớn -->
-<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
@@ -469,20 +410,89 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="friendName" class="form-label">Nhập Email:</label>
-                        <input type="text" class="form-control" id="friendName" placeholder="Nhập Email">
+                <div class="mb-3">
+                    <label for="friendEmail" class="form-label">Nhập Email:</label>
+                    <input type="email" class="form-control" id="friendEmail" placeholder="Nhập Email" required
+                        pattern="^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$" title="Vui lòng nhập định dạng email hợp lệ."
+                        maxlength="100">
+                </div>
+                <button type="button" class="btn btn-primary" id="searchButton" disabled>Tìm kiếm</button>
+
+                <!-- Kết quả tìm kiếm -->
+                <div class="search-result mt-3" id="searchResult" style="display: none;">
+                    <div class="user-info">
+                        <div class="avatar" style="float: left; margin-right: 10px;">
+                            <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Avatar" class="rounded-circle"
+                                id="resultUserAvatar" style="height: 50px; width:50px;">
+                        </div>
+                        <div>
+                            <p><strong id="resultUserName"></strong></p>
+                            <p id="resultUserEmail" style="color: gray;"></p>
+                            <p id="resultUserGender" style="color: gray;"></p> <!-- Thêm giới tính -->
+                        </div>
                     </div>
-                </form>
+                    <button type="button" class="btn btn-success" id="sendRequestButton" style="display: none;">Gửi yêu
+                        cầu kết bạn</button>
+                    <button type="button" class="btn btn-danger" id="cancelRequestButton" style="display: none;">Thu hồi
+                        yêu cầu</button>
+                    <button type="button" class="btn btn-info" id="messageButtonn" style="display: none;">Nhắn
+                        tin</button> <!-- Nút nhắn tin -->
+                </div>
+
+
+                <div id="errorMessage" class="mt-3 text-danger" style="display: none;"></div>
+                <!-- Thêm phần thông báo lỗi -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="submit" class="btn btn-primary">Thêm bạn</button>
             </div>
         </div>
     </div>
 </div>
+
+
+<!--modal các lời mời-->
+
+<div class="modal fade" id="friendRequestsModal" tabindex="-1" aria-labelledby="friendRequestsModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="friendRequestsModalLabel">Danh Sách Lời Mời Kết Bạn</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="friendRequestsList">
+                    <!-- Danh sách lời mời kết bạn sẽ được chèn ở đây -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal hiển thị danh sách bạn bè -->
+<div class="modal fade" id="friendsListModal" tabindex="-1" aria-labelledby="friendsListModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="friendsListModalLabel">Danh Sách Bạn Bè</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="friendsList">
+                    <!-- Danh sách bạn bè sẽ được chèn ở đây -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="height:96px; width:96px;">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--modal cài đặt ngôn ngữ -->
 
 <div class="modal fade" id="languageSettingsModal" tabindex="-1" aria-labelledby="languageSettingsLabel"
@@ -619,7 +629,5 @@
     </div>
 </div>
 
-<script>
-   
-</script>
+
 @include('layouts.partials.footer')

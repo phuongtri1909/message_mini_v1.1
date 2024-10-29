@@ -71,8 +71,8 @@ class User extends Authenticatable
     public function conversations()
     {
         return $this->belongsToMany(User::class, 'conversation_user')
-                ->withPivot('role', 'invited_by', 'nickname') // Thêm 'nickname' vào pivot
-                ->withTimestamps();
+            ->withPivot('role', 'invited_by', 'nickname') // Thêm 'nickname' vào pivot
+            ->withTimestamps();
     }
 
     public function messages()
@@ -84,5 +84,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Invitation::class, 'invited_user_id');
     }
+    public function sentFriendRequests()
+    {
+        return $this->hasMany(FriendRequest::class, 'sender_id');
+    }
 
+    public function receivedFriendRequests()
+    {
+        return $this->hasMany(FriendRequest::class, 'receiver_id');
+    }
 }

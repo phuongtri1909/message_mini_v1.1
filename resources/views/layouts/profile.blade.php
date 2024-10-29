@@ -12,7 +12,7 @@
                     <!-- Profile Image -->
                     <div class="form-group">
                         <label>Ảnh đại diện</label><br>
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" width="100" height="100" alt="Avatar">
+                        <img src="{{ asset('assets/images/logo/logochat.png') }}" width="100" height="100" alt="Avatar">
                         
                     </div>
                     

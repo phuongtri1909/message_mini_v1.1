@@ -18,10 +18,21 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'name' => $this->faker->name,
+            'phone' => $this->faker->phoneNumber,
+            'dob' => $this->faker->date,
+            'gender' => $this->faker->randomElement(['male', 'female', 'other']),
+            'google_id' => $this->faker->unique()->safeEmail,
+            'email' => $this->faker->unique()->safeEmail,
+            'avatar' => 'assets/images/logo/uocmo.jpg', 
+            'cover_image' => 'assets/images/logo/uocmo.jpg',
+            'description' => $this->faker->paragraph,
+            'active' => $this->faker->randomElement(['active', 'inactive']),
+            'key_active' => Str::random(10),
+            'password' => bcrypt('123456'), // Mật khẩu mặc định
+            'key_reset_password' => Str::random(10),
+            'key_reset_password_at' => $this->faker->dateTime,
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ];
     }
