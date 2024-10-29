@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -300,4 +302,51 @@ class UserController extends Controller
             ], 422);
         }
     }
+    // Hàm updateProfileUser
+    public function update(Request $request)
+{
+    // Xác thực dữ liệu đầu vào
+    $validator = Validator::make($request->all(), [
+        'avatar' => 'image|nullable|max:2048',
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
+        'gender' => 'required|string|in:male,female',
+    ]);
+
+    if ($validator->fails()) {
+         // Kiểm tra xem có lỗi nào liên quan đến avatar không
+        if ($validator->errors()->has('avatar')) {
+            // Thêm thông báo cụ thể về ảnh không hợp lệ
+            $validator->errors()->add('avatar', 'Ảnh không hợp lệ. Vui lòng chọn một file ảnh có định dạng hợp lệ (JPG, PNG, GIF).');
+        }
+        return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+    $user = Auth::user();
+
+    // Kiểm tra xem $user có phải là instance của User không
+    if (!$user instanceof User) {
+        return redirect()->back()->withErrors(['user' => 'User không hợp lệ.']);
+    }
+
+    // Xử lý tải lên avatar
+    if ($request->hasFile('avatar')) {
+        // Xóa avatar cũ nếu có
+        if ($user->avatar) {
+            Storage::delete($user->avatar);
+        }
+        // Lưu avatar mới
+        $path = $request->file('avatar')->store('avatars', 'public');
+        $user->avatar = $path;
+    }
+
+    // Cập nhật thông tin người dùng khác
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->gender = $request->gender;
+    $user->save(); // Kiểm tra phương thức save()
+
+    // Chuyển hướng với thông báo thành công
+    return redirect()->back()->with('success', 'Thông tin cá nhân đã được cập nhật thành công!');
+}
 }

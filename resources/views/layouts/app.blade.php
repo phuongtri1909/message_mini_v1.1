@@ -2,6 +2,24 @@
 
 <div class="main-coins ">
     @yield('content')
+    {{-- Hiện thông báo cập nhật user --}}
+    <div class="notification-container">
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+    
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+    </div>
     <div class="container-fluid hehe">
         <div class="row">
             <!-- Left Sidebar -->
@@ -9,9 +27,9 @@
                 <!-- Modal Profile -->
                 @include('layouts.profile')
                 <div class="profile mb-4">
-                    <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Profile Picture"
+                    <img src="{{ Storage::url(Auth()->user()->avatar)}}" alt="Profile Picture"
                             class="rounded-circle" width="50" height="50" data-bs-toggle="modal"
-                            data-bs-target="#profileModal" style="cursor: pointer;"></a>
+                            data-bs-target="#profileModal" style="cursor: pointer;">
                 </div>
 
                 <div class="menu-item mb-5">
