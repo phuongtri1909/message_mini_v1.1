@@ -12,14 +12,5 @@ class HomeController extends Controller
         
         return view('pages.home');
     }
-    public function listfriend()
-    {
-        return view('pages.friend.listfriend');
-    }
 
-    public function loimoi()
-    {
-        
-        return view('pages.friend.loimoi');
-    }
 }

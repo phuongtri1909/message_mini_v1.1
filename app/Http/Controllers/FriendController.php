@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Auth;
 
 class FriendController extends Controller
 {
+
+    public function loimoi()
+    {
+        
+        return view('pages.friend.loimoi');
+    }
     
     
 public function searchFriend(Request $request)
