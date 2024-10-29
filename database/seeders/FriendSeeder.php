@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -12,16 +13,20 @@ class FriendSeeder extends Seeder
      */
     public function run(): void
     {
-        // Tạo một user cụ thể với thông tin xác định trước
-        $user = User::factory()->create([
-            'name' => 'huhe',
-            'email' => 'huhe@gmail.com',
-            'password' => bcrypt('huhe123456'), // Mật khẩu mặc định
-        ]);
+        // Tạo 20 user ngẫu nhiên
+        $users = User::factory()->count(20)->create();
 
-        // Tạo 10 người bạn cho user này
-        Friend::factory()->count(10)->create([
-            'user_id' => $user->id,
-        ]);
+        // Tạo 10 người bạn cho mỗi user
+        foreach ($users as $user) {
+            // Lấy ngẫu nhiên 10 user khác để làm bạn
+            $friendIds = $users->where('id', '!=', $user->id)->random(10)->pluck('id');
+
+            foreach ($friendIds as $friendId) {
+                Friend::factory()->create([
+                    'user_id' => $user->id,
+                    'friend_id' => $friendId,
+                ]);
+            }
+        }
     }
 }
