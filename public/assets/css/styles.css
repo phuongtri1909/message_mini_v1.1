@@ -276,11 +276,6 @@ footer .icon-footer {
 
 .sidebar {
     background-color: #0084ff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
-    height: 100vh;
 }
 
 .profile img {
@@ -310,11 +305,6 @@ footer .icon-footer {
 
 .setting {
     margin-top: auto;
-}
-
-.chat-list {
-    background-color: #f7f7f7;
-    border-right: 1px solid #ccc;
 }
 
 .search-bar input {
@@ -387,19 +377,6 @@ footer .icon-footer {
 .chat-time {
     font-size: 10px;
     color: #888;
-}
-.chat-header {
-    padding: 20px;
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-}
-
-.chat-messages {
-    padding: 20px;
-    overflow-y: auto;
-    background-color: #f0f0f0;
-    flex-grow: 1;
-    height: 620px;
 }
 
 .message {
@@ -715,4 +692,37 @@ footer .icon-footer {
 
 .pagination .page-item .page-link {
     padding: 0.5rem 0.75rem; /* Điều chỉnh khoảng cách padding */
+}
+
+/* aaaa */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+.message_mini {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.container-fluid.hehe {
+    flex: 1;
+    overflow: hidden;
+}
+
+.row {
+    height: 100%;
+}
+
+.sidebar {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.chat-window {
+    height: 100%;
+    overflow-y: auto;
 }

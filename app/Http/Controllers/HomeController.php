@@ -14,7 +14,12 @@ class HomeController extends Controller
     }
     public function listfriend()
     {
+        return view('pages.friend.listfriend');
+    }
+
+    public function loimoi()
+    {
         
-        return view('layouts.listfriend');
+        return view('pages.friend.loimoi');
     }
 }
