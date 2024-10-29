@@ -49,15 +49,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="listfr-item rounded">
+                <div class="listfr-item rounded" id="friendRequests">
                     <div class="d-flex align-items-center">
-                        <i class="fa-solid fa-user-plus me-2"></i>
+                        <i class="fa-solid fa-user-plus me-2" id="showFriendRequestsModal" style="cursor: pointer;"></i>
                         <div class="listfr-info">
                             <h5 class="mb-0">Lời Mời Kết Bạn</h5>
                         </div>
                     </div>
                 </div>
             </div>
+<!--modal add friend-->
+
 
             <!-- Main List Window -->
             <div class="col-11 col-md-8">

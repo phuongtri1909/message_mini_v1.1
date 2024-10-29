@@ -361,45 +361,46 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-    // hàm tìm kiếm
-    document.getElementById('searchButton').addEventListener('click', function() {
-        const email = document.getElementById('friendEmail').value.trim();
-    
-        if (email === "") {
-            alert("Vui lòng nhập email!");
-            return;
-        }
-    
-        fetch('/search-friend', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({ email: email })
-        })
+
+// hàm xử lý tìm kiếm người dùng
+document.getElementById('searchButton').addEventListener('click', function () {
+    const email = document.getElementById('friendEmail').value.trim();
+
+    if (email === "") {
+        alert("Vui lòng nhập email!");
+        return;
+    }
+
+    fetch('/search-friend', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ email: email })
+    })
         .then(response => response.json())
         .then(data => {
             const searchResult = document.getElementById('searchResult');
             const resultUserName = document.getElementById('resultUserName');
             const sendRequestButton = document.getElementById('sendRequestButton');
             const cancelRequestButton = document.getElementById('cancelRequestButton');
-    
+            const messageButtonn = document.getElementById('messageButtonn');
+
             resultUserName.textContent = '';
-            searchResult.style.display = "none"; 
-    
+            searchResult.style.display = "none";
+
             if (data.status === "success") {
-                const userAvatar = data.user.avatar || "assets/images/logo/uocmo.jpg"; 
-        
-        document.getElementById('resultUserAvatar').src = userAvatar;
-        document.getElementById('resultUserName').textContent = data.user.name || "Không có tên";
-        document.getElementById('resultUserEmail').textContent = data.user.email || "Không có email";
-        document.getElementById('resultUserGender').textContent = data.user.gender;
-    
-        searchResult.style.display = "block";
-    
-    
-                checkFriendRequestStatus(data.user.id, sendRequestButton, cancelRequestButton);
+                const userAvatar = data.user.avatar || "assets/images/logo/uocmo.jpg";
+
+                document.getElementById('resultUserAvatar').src = userAvatar;
+                document.getElementById('resultUserName').textContent = data.user.name || "Không có tên";
+                document.getElementById('resultUserEmail').textContent = data.user.email || "Không có email";
+                document.getElementById('resultUserGender').textContent = data.user.gender;
+
+                searchResult.style.display = "block";
+
+                checkFriendRequestStatus(data.user.id, sendRequestButton, cancelRequestButton, messageButtonn);
             } else {
                 alert(data.message); // Hiển thị thông báo lỗi
             }
@@ -407,96 +408,251 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => {
             console.error('Lỗi:', error);
         });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const emailInput = document.getElementById('friendEmail');
+    const searchButton = document.getElementById('searchButton');
+
+    // Hàm kiểm tra tính hợp lệ của email
+    function validateEmail() {
+        return emailInput.checkValidity();
+    }
+
+    // Sự kiện khi người dùng nhập vào ô email
+    emailInput.addEventListener('input', function () {
+        if (validateEmail()) {
+            searchButton.disabled = false;
+        } else {
+            searchButton.disabled = true;
+        }
     });
-    
-    
-    // Hàm kiểm tra trạng thái yêu cầu kết bạn
-    function checkFriendRequestStatus(userId, sendRequestButton, cancelRequestButton) {
-        fetch('/check-friend-request-status', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({ friend_id: userId })
-        })
+});
+
+// Hàm kiểm tra trạng thái yêu cầu kết bạn
+function checkFriendRequestStatus(userId, sendRequestButton, cancelRequestButton) {
+    fetch('/check-friend-request-status', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ friend_id: userId })
+    })
         .then(response => response.json())
         .then(data => {
-            if (data.status === "pending") {
-                sendRequestButton.style.display = 'none'; 
-                cancelRequestButton.style.display = 'block'; 
+            if (data.status === "friends") {
+                messageButtonn.style.display = 'block';
+                sendRequestButton.style.display = 'none';
+                cancelRequestButton.style.display = 'none';
+                
+                alert("Hai người đã là bạn bè rồi.");
+            } else if (data.status === "sent") {
+                sendRequestButton.style.display = 'none';
+                cancelRequestButton.style.display = 'block';
+                messageButtonn.style.display = 'none';
+            } else if (data.status === "received") {
+                sendRequestButton.style.display = 'none';
+                cancelRequestButton.style.display = 'none';
+                messageButtonn.style.display = 'none';
+                alert("Người này đã gửi lời mời kết bạn cho bạn. Vui lòng kiểm tra trong mục lời mời kết bạn.");
             } else {
-                sendRequestButton.style.display = 'block'; 
-                cancelRequestButton.style.display = 'none'; 
+                sendRequestButton.style.display = 'block';
+                cancelRequestButton.style.display = 'none';
+                messageButtonn.style.display = 'none';
             }
-    
-          
-            sendRequestButton.onclick = function() {
+
+            sendRequestButton.onclick = function () {
                 sendFriendRequest(userId);
             };
-    
-    
-            cancelRequestButton.onclick = function() {
+
+            cancelRequestButton.onclick = function () {
                 cancelFriendRequest(userId);
             };
         })
         .catch(error => {
             console.error('Lỗi:', error);
         });
-    }
-    
-    // Hàm gửi yêu cầu kết bạn
-    function sendFriendRequest(userId) {
-        fetch('/send-friend-request', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({ friend_id: userId })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "success") {
-                alert("Yêu cầu kết bạn đã được gửi thành công!");
-    
-                document.getElementById('sendRequestButton').style.display = 'none'; 
-                document.getElementById('cancelRequestButton').style.display = 'block'; 
-    
-                // Đóng modal hoặc reset lại trường tìm kiếm nếu cần
-               // $('#addFriendModal').modal('hide');
-            } else {
-                alert("Đã có lỗi xảy ra khi gửi yêu cầu kết bạn.");
-            }
-        })
-        .catch(error => {
-            console.error('Lỗi:', error);
-        });
-    }
-    
-    // Hàm thu hồi yêu cầu kết bạn
-    function cancelFriendRequest(userId) {
-        fetch('/cancel-friend-request', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({ friend_id: userId })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "success") {
-                alert(data.message);
-                
-                document.getElementById('sendRequestButton').style.display = 'block'; 
-                document.getElementById('cancelRequestButton').style.display = 'none'; 
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Lỗi:', error);
-        });
-    }
+}
 
+// Hàm gửi yêu cầu kết bạn
+function sendFriendRequest(userId) {
+    fetch('/send-friend-request', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ friend_id: userId })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                alert(data.message);
+                checkFriendRequestStatus(userId, sendRequestButton, cancelRequestButton);
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+        });
+}
+
+// Hàm hủy yêu cầu kết bạn
+function cancelFriendRequest(userId) {
+    fetch('/cancel-friend-request', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ friend_id: userId })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                alert(data.message);
+                checkFriendRequestStatus(userId, sendRequestButton, cancelRequestButton);
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+        });
+}
+
+
+// hàm xử lý lời mời kết bạn
+function loadFriendRequests() {
+    fetch('/get-friend-requests', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                const friendRequestsList = document.getElementById('friendRequestsList');
+                friendRequestsList.innerHTML = ''; // Xóa nội dung hiện tại
+
+                // Duyệt qua danh sách lời mời và tạo HTML
+                data.requests.forEach(request => {
+                    const requestTime = new Date(request.created_at).toLocaleString(); // Chuyển đổi thời gian thành chuỗi dễ đọc
+                    friendRequestsList.innerHTML += `
+                        <div class="friend-request-item">
+                            <img src="${request.sender.avatar}" alt="${request.sender.name}" class="avatar">
+                            <p>${request.sender.name}</p>
+                            <p>Gửi lúc: ${requestTime}</p>
+                            <button class="btn btn-success" onclick="acceptRequest(${request.id})">Chấp nhận</button>
+                            <button class="btn btn-danger" onclick="declineRequest(${request.id})">Từ chối</button>
+                        </div>
+                    `;
+                });
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+        });
+}
+
+// Hàm đồng ý kết bạn
+function acceptRequest(requestId) {
+    fetch('/accept-friend-request', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ request_id: requestId })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                alert(data.message);
+                loadFriendRequests(); // Cập nhật lại danh sách lời mời
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+        });
+}
+
+// Hàm từ chối kết bạn
+function declineRequest(requestId) {
+    fetch('/decline-friend-request', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ request_id: requestId })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                alert(data.message);
+                loadFriendRequests(); // Cập nhật lại danh sách lời mời
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+        });
+}
+
+// Gọi hàm loadFriendRequests khi modal được mở
+document.getElementById('showFriendRequestsModal').addEventListener('click', function () {
+    loadFriendRequests();
+});
+
+// Danh sách bạn bè
+document.addEventListener('DOMContentLoaded', function () {
+    const friendsListModal = document.getElementById('friendsListModal');
+    const friendsList = document.getElementById('friendsList');
+
+    // Gọi hàm loadFriendsList khi modal được mở
+    friendsListModal.addEventListener('show.bs.modal', function () {
+        loadFriendsList();
+    });
+
+    // Hàm tải danh sách bạn bè
+    function loadFriendsList() {
+        fetch('/friends-list', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    friendsList.innerHTML = ''; // Xóa nội dung hiện tại
+
+                    // Duyệt qua danh sách bạn bè và tạo HTML
+                    data.friends.forEach(friend => {
+                        friendsList.innerHTML += `
+                            <div class="friend-item">
+                                <img src="${friend.avatar}" alt="${friend.name}" class="avatar">
+                                <p>${friend.name}</p>
+                            </div>
+                        `;
+                    });
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Lỗi:', error);
+            });
+    }
+});
