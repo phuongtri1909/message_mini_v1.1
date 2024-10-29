@@ -6,6 +6,7 @@ use App\Http\Controllers\BankController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SocialsController;
+use App\Http\Controllers\FriendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,10 +22,13 @@ use App\Http\Controllers\SocialsController;
 Route::get('/', [HomeController::class , 'index'])->name('home');
 Route::get('/listfriend', [HomeController::class, 'listfriend']) -> name ('listfriend');
 
-Route::group(['middleware' => 'auth'], function () {
-    
+Route::post('/search-friend', [FriendController::class, 'searchFriend']);
+Route::post('/send-friend-request', [FriendController::class, 'sendFriendRequest']);
+Route::post('/check-friend-request-status', [FriendController::class, 'checkFriendRequestStatus'])->name('check.friend.request.status');
+Route::post('/cancel-friend-request', [FriendController::class, 'cancelFriendRequest'])->name('cancel.friend.request');
 
-   
+
+Route::group(['middleware' => 'auth'], function () {
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
@@ -47,3 +51,4 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('auth/google', [AuthController::class, 'redirectToGoogle']);
     Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 });
+

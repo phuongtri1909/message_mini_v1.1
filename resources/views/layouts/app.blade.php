@@ -421,7 +421,7 @@
     </div>
     
 </div>
- <!-- Modal Thêm Thành Viên -->
+<!-- Modal Thêm Thành Viên -->
  <div class="modal fade" id="addMembersModal" tabindex="-1" aria-labelledby="addMembersModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -469,20 +469,38 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="friendName" class="form-label">Nhập Email:</label>
-                        <input type="text" class="form-control" id="friendName" placeholder="Nhập Email">
+                <div class="mb-3">
+                    <label for="friendEmail" class="form-label">Nhập Email:</label>
+                    <input type="text" class="form-control" id="friendEmail" placeholder="Nhập Email">
+                </div>
+                <button type="button" class="btn btn-primary" id="searchButton">Tìm kiếm</button>
+
+                <!-- Kết quả tìm kiếm -->
+                <div class="search-result mt-3" id="searchResult" style="display: none;">
+                    <div class="user-info">
+                        <div class="avatar" style="float: left; margin-right: 10px;">
+                            <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Avatar" class="rounded-circle" id="resultUserAvatar" style="height: 50px; width:50px;">
+                        </div>
+                        <div>
+                            <p><strong id="resultUserName"></strong></p>
+                            <p id="resultUserEmail" style="color: gray;"></p>
+                            <p id="resultUserGender" style="color: gray;"></p> <!-- Thêm giới tính -->
+                        </div>
                     </div>
-                </form>
+                    <button type="button" class="btn btn-success" id="sendRequestButton" style="display: none;">Gửi yêu cầu kết bạn</button>
+                    <button type="button" class="btn btn-danger" id="cancelRequestButton" style="display: none;">Thu hồi yêu cầu</button>
+                </div>
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="submit" class="btn btn-primary">Thêm bạn</button>
             </div>
         </div>
     </div>
 </div>
+
+
+
 <!--modal cài đặt ngôn ngữ -->
 
 <div class="modal fade" id="languageSettingsModal" tabindex="-1" aria-labelledby="languageSettingsLabel"
@@ -620,6 +638,11 @@
 </div>
 
 <script>
-   
+
+
+
+
+
+
 </script>
 @include('layouts.partials.footer')
