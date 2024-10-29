@@ -361,8 +361,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-
-
     // hàm tìm kiếm
     document.getElementById('searchButton').addEventListener('click', function() {
         const email = document.getElementById('friendEmail').value.trim();
@@ -501,3 +499,4 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Lỗi:', error);
         });
     }
+
