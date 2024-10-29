@@ -29,7 +29,7 @@ class UserFactory extends Factory
             'description' => $this->faker->paragraph,
             'active' => $this->faker->randomElement(['active', 'inactive']),
             'key_active' => Str::random(10),
-            'password' => bcrypt('password'), // Mật khẩu mặc định
+            'password' => bcrypt('123456'), // Mật khẩu mặc định
             'key_reset_password' => Str::random(10),
             'key_reset_password_at' => $this->faker->dateTime,
             'email_verified_at' => now(),

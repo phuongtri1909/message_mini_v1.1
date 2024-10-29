@@ -298,7 +298,7 @@ public function showFriendsList()
         ->distinct()
         ->paginate(5); // Số lượng bạn bè hiển thị trên mỗi trang
 
-    return view('layouts.listfriend', ['friends' => $friends]);
+    return view('layouts.listfriend', ['friends' => $friends, 'message' => null]);
 }
 
     //hủy kết bạn
@@ -341,6 +341,7 @@ public function showFriendsList()
 
     // Tìm kiếm bạn bè theo tên
     
+    
     public function searchFriends(Request $request)
     {
         $user = Auth::user();
@@ -369,7 +370,13 @@ public function showFriendsList()
             ->distinct()
             ->paginate(3); // Số lượng bạn bè hiển thị trên mỗi trang
     
-        return view('layouts.listfriend', ['friends' => $friends, 'query' => $query]);
+        // Kiểm tra số lượng kết quả trả về
+        $message = null;
+        if ($friends->isEmpty()) {
+            $message = 'Không tìm thấy kết quả phù hợp.';
+        }
+    
+        return view('layouts.listfriend', ['friends' => $friends, 'query' => $query, 'message' => $message]);
     }
 
 }

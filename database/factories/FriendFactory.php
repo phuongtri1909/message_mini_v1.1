@@ -27,4 +27,19 @@ class FriendFactory extends Factory
             'friend_id' => User::factory(), // Tạo bạn mới
         ];
     }
+
+    /**
+     * Configure the factory.
+     *
+     * @return $this
+     */
+    public function configure()
+    {
+        return $this->afterMaking(function (Friend $friend) {
+            // Đảm bảo rằng user_id và friend_id không bị trùng lặp
+            if ($friend->user_id === $friend->friend_id) {
+                $friend->friend_id = User::factory()->create()->id;
+            }
+        });
+    }
 }
