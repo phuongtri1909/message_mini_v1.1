@@ -2,8 +2,7 @@
 <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            
-            <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data"> <!-- Hành động có thể để trống tạm thời -->
+            <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="profileModalLabel">Thông tin cá nhân</h5>
@@ -13,30 +12,33 @@
                     <!-- Profile Image -->
                     <div class="form-group">
                         <label>Ảnh đại diện</label><br>
-                        <img src="{{ Auth::user()->avatar }}" class="rounded-circle" width="100" height="100" alt="Avatar" >
-                        <input type="file" name="avatar" class="form-control mt-2"> <!-- Thêm input cho avatar -->
+                        <img src="{{ Auth::user()->avatar }}" class="rounded-circle" width="100" height="100" alt="Avatar">
+                        <input type="file" name="avatar" class="form-control mt-2">
                     </div>
-                     <!-- Name -->
-                     <div class="form-group">
+                    
+                    <!-- Name -->
+                    <div class="form-group">
                         <label>Tên</label>
-                        <input type="text" name="name" class="form-control" value="{{ Auth()->user()->name}}" > 
+                        <input type="text" name="name" class="form-control" value="{{ Auth::user()->name }}">
                     </div>
                     
                     <!-- Email -->
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" name="email" class="form-control" value="{{ Auth()->user()->email}}" readonly > 
+                        <input type="email" name="email" class="form-control" value="{{ Auth::user()->email }}" readonly>
                     </div>
 
+                    <!-- Gender -->
                     <div class="form-group">
                         <label for="gender">Giới tính</label>
-                        <select id="gender" name="gender" class="form-control" >     
-                            <option value="female"{{ Auth()->user()->gender == 'female' ? 'selected' : '' }}>Nữ</option>
-                            <option value="male" {{ Auth()->user()->gender == 'male' ? 'selected' : ''}}>Nam</option>
+                        <select id="gender" name="gender" class="form-control">
+                            <option value="female" {{ Auth::user()->gender == 'female' ? 'selected' : '' }}>Nữ</option>
+                            <option value="male" {{ Auth::user()->gender == 'male' ? 'selected' : '' }}>Nam</option>
                         </select>
                     </div>
-                      <!-- Updated At -->
-                      <input type="hidden" name="updated_at" value="{{ Auth::user()->updated_at }}">
+
+                    <!-- Updated At (Hidden Field) -->
+                    <input type="hidden" name="updated_at" value="{{ Auth::user()->updated_at }}">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>

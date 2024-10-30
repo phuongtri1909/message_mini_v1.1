@@ -300,55 +300,48 @@ class UserController extends Controller
             ], 422);
         }
     }
-      // Hàm updateProfileUser
- public function update(Request $request)
- {
-     // Xác thực dữ liệu đầu vào
-     $validator = Validator::make($request->all(), [
-         'avatar' => 'image|nullable|max:2048',
-         'name' => 'required|string|max:255',
-         'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
-         'gender' => 'required|string|in:male,female',
-     ]);
- 
-     if ($validator->fails()) {
-         return redirect()->back()->withErrors($validator)->withInput();
-     }
- 
-     // Kiểm tra trạng thái cập nhật từ session
-     if (session('is_updating', false)) {
-         return redirect()->back()->withErrors(['user' => 'Đang có yêu cầu cập nhật khác. Vui lòng thử lại sau.']);
-     }
- 
-     // Đánh dấu là đang cập nhật
-     session(['is_updating' => true]);
- 
-     $user = Auth::user();
-      // Kiểm tra nếu dữ liệu đã bị thay đổi ở nơi khác
+     // Hàm updateProfileUser
+public function update(Request $request)
+{
+    // Xác thực dữ liệu đầu vào
+    $validator = Validator::make($request->all(), [
+        'avatar' => 'image|nullable|max:2048',
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
+        'gender' => 'required|string|in:male,female',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+    $user = Auth::user();
+
+    // Kiểm tra nếu dữ liệu đã bị thay đổi ở nơi khác
     if ($request->input('updated_at') != $user->updated_at->toDateTimeString()) {
         return redirect()->back()->withErrors(['user' => 'Dữ liệu đã được cập nhật ở nơi khác. Vui lòng tải lại trang.']);
     }
- 
-     // Xử lý tải lên avatar
-     if ($request->hasFile('avatar')) {
-         if ($user->avatar && file_exists(public_path($user->avatar))) {
-             unlink(public_path($user->avatar));
-         }
- 
-         $fileName = uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension();
-         $request->file('avatar')->move(public_path('uploads/images/avatars'), $fileName);
-         $user->avatar = 'uploads/images/avatars/' . $fileName;
-     }
- 
-     // Cập nhật thông tin người dùng
-     $user->name = $request->name;
-     $user->email = $request->email;
-     $user->gender = $request->gender;
- 
-     // Lưu thông tin và reset trạng thái
-     $user->save();
-     session(['is_updating' => false]); // Đánh dấu không còn đang cập nhật
- 
-     return redirect()->back()->with('success', 'Thông tin cá nhân đã được cập nhật thành công!');
- }
+
+    // Xử lý tải lên avatar
+    if ($request->hasFile('avatar')) {
+        if ($user->avatar && file_exists(public_path($user->avatar))) {
+            unlink(public_path($user->avatar));
+        }
+
+        $fileName = uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension();
+        $request->file('avatar')->move(public_path('uploads/images/avatars'), $fileName);
+        $user->avatar = 'uploads/images/avatars/' . $fileName;
+    }
+
+    // Cập nhật thông tin người dùng
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->gender = $request->gender;
+
+    // Lưu thông tin
+    $user->save();
+
+    return redirect()->back()->with('success', 'Thông tin cá nhân đã được cập nhật thành công!');
+}
+
 }
