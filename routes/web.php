@@ -25,7 +25,8 @@ use App\Http\Controllers\FriendController;
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/', [HomeController::class, 'index'])->name('home');
-    Route::get('/listfriend', [HomeController::class, 'listfriend'])->name('listfriend');
+    
+    Route::get('loimoi', [FriendController::class, 'loimoi'])->name('loimoi');
     Route::post('/search-friend', [FriendController::class, 'searchFriend']); // tìm kiếm người dùng
     Route::post('/send-friend-request', [FriendController::class, 'sendFriendRequest']); // gửi lời mời kết bạn
     Route::post('/check-friend-request-status', [FriendController::class, 'checkFriendRequestStatus'])->name('check.friend.request.status'); // kiểm tra trạng thái lời mời kết bạn

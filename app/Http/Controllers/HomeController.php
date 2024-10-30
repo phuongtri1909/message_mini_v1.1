@@ -12,9 +12,5 @@ class HomeController extends Controller
         
         return view('pages.home');
     }
-    public function listfriend()
-    {
-        
-        return view('layouts.listfriend');
-    }
+
 }

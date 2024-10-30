@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Auth;
 
 class FriendController extends Controller
 {
+
+    public function loimoi()
+    {
+        
+        return view('pages.friend.loimoi');
+    }
     
     
 public function searchFriend(Request $request)
@@ -298,7 +304,7 @@ public function showFriendsList()
         ->distinct()
         ->paginate(5); // Số lượng bạn bè hiển thị trên mỗi trang
 
-    return view('layouts.listfriend', ['friends' => $friends, 'message' => null]);
+    return view('pages.friend.listfriend', ['friends' => $friends, 'message' => null]);
 }
 
     //hủy kết bạn
@@ -376,7 +382,7 @@ public function showFriendsList()
             $message = 'Không tìm thấy kết quả phù hợp.';
         }
     
-        return view('layouts.listfriend', ['friends' => $friends, 'query' => $query, 'message' => $message]);
+        return view('pages.friend.listfriend', ['friends' => $friends, 'query' => $query, 'message' => $message]);
     }
 
 }
