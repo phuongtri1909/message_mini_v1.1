@@ -3,6 +3,24 @@
 <div class="message_mini">
     @yield('content')
     <div class="container-fluid hehe">
+         {{-- Hiện thông báo cập nhật user --}}
+    <div class="notification-container">
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+    
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+    </div>
         <div class="row">
             <!-- Left Sidebar -->
             <section class="col-1 sidebar">
@@ -10,7 +28,7 @@
                 <div class="d-flex justify-content-center align-items-center">
                     <div>
                         <div class="profile mb-4 mt-1 text-center">
-                            <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}"
+                            <a href="#"><img src="{{ Auth::user()->avatar }}"
                                     alt="Profile Picture" class="rounded-circle" width="50" height="50"
                                     data-bs-toggle="modal" data-bs-target="#profileModal" style="cursor: pointer;"></a>
                         </div>

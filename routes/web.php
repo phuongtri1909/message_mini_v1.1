@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/friends-list', [FriendController::class, 'showFriendsList'])->name('friends.list'); // danh sách bạn bè trang listfriend
     Route::post('/unfriend', [FriendController::class, 'unfriend'])->name('unfriend'); // Hủy kết bạn
     Route::get('/friends/search', [FriendController::class, 'searchFriends'])->name('friends.search'); // Tìm kiếm bạn bè
+    Route::post('/profile/update', [UserController::class, 'update'])->name('profile.update');
 });
 
 
