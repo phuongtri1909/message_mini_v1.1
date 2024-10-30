@@ -686,7 +686,7 @@ footer .icon-footer {
 .pagination .page-item .page-link {
     padding: 0.5rem 0.75rem; /* Điều chỉnh khoảng cách padding */
 }
-<<<<<<< HEAD
+
 /* Css thông báo*/
 .notification-container {
     position: fixed; /* Để thông báo luôn nằm ở vị trí cố định */
@@ -712,7 +712,7 @@ footer .icon-footer {
 }
 .alert {
     margin: 0 0 10px; /* Khoảng cách giữa các thông báo */
-=======
+}
 
 /* aaaa */
 
@@ -745,5 +745,4 @@ html, body {
 .chat-window {
     height: 100%;
     overflow-y: auto;
->>>>>>> e28ca586c4deb2bf074c4d89d2cd86ac7453454b
 }

@@ -26,7 +26,7 @@
 
             <div class="col-12 col-md-1 sidebar">
                 <!-- Modal Profile -->
-                @include('layouts.profile')
+                
                 <div class="profile mb-4">
                     <img src="{{ Auth::user()->avatar }}" alt="Profile Picture"
                             class="rounded-circle" width="50" height="50" data-bs-toggle="modal"
@@ -85,7 +85,7 @@
                             </li>
                         </ul>
                     </div>
->>>>>>> e28ca586c4deb2bf074c4d89d2cd86ac7453454b
+
                 </div>
             </section>
 
