@@ -14,7 +14,7 @@
                     <!-- Profile Image -->
                     <div class="form-group">
                         <label>Ảnh đại diện</label><br>
-                        <img src="{{  Storage::url(Auth()->user()->avatar) }}" class="rounded-circle" width="100" height="100" alt="Avatar" >
+                        <img src="{{ Auth::user()->avatar }}" class="rounded-circle" width="100" height="100" alt="Avatar" >
                         <input type="file" name="avatar" class="form-control mt-2"> <!-- Thêm input cho avatar -->
                     </div>
                      <!-- Name -->
@@ -36,6 +36,7 @@
                             <option value="male" {{ Auth()->user()->gender == 'male' ? 'selected' : ''}}>Nam</option>
                         </select>
                     </div>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>

@@ -303,7 +303,7 @@ class UserController extends Controller
         }
     }
     // Hàm updateProfileUser
-    public function update(Request $request)
+ public function update(Request $request)
 {
     // Xác thực dữ liệu đầu vào
     $validator = Validator::make($request->all(), [
@@ -314,39 +314,40 @@ class UserController extends Controller
     ]);
 
     if ($validator->fails()) {
-         // Kiểm tra xem có lỗi nào liên quan đến avatar không
-        if ($validator->errors()->has('avatar')) {
-            // Thêm thông báo cụ thể về ảnh không hợp lệ
-            $validator->errors()->add('avatar', 'Ảnh không hợp lệ. Vui lòng chọn một file ảnh có định dạng hợp lệ (JPG, PNG, GIF).');
-        }
         return redirect()->back()->withErrors($validator)->withInput();
     }
 
-    $user = Auth::user();
-
-    // Kiểm tra xem $user có phải là instance của User không
-    if (!$user instanceof User) {
-        return redirect()->back()->withErrors(['user' => 'User không hợp lệ.']);
+    // Kiểm tra trạng thái cập nhật từ session
+    if (session('is_updating', false)) {
+        return redirect()->back()->withErrors(['user' => 'Đang có yêu cầu cập nhật khác. Vui lòng thử lại sau.']);
     }
+
+    // Đánh dấu là đang cập nhật
+    session(['is_updating' => true]);
+
+    $user = Auth::user();
 
     // Xử lý tải lên avatar
     if ($request->hasFile('avatar')) {
-        // Xóa avatar cũ nếu có
-        if ($user->avatar) {
-            Storage::delete($user->avatar);
+        if ($user->avatar && file_exists(public_path($user->avatar))) {
+            unlink(public_path($user->avatar));
         }
-        // Lưu avatar mới
-        $path = $request->file('avatar')->store('avatars', 'public');
-        $user->avatar = $path;
+
+        $fileName = uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension();
+        $request->file('avatar')->move(public_path('uploads/images/avatars'), $fileName);
+        $user->avatar = 'uploads/images/avatars/' . $fileName;
     }
 
-    // Cập nhật thông tin người dùng khác
+    // Cập nhật thông tin người dùng
     $user->name = $request->name;
     $user->email = $request->email;
     $user->gender = $request->gender;
-    $user->save(); // Kiểm tra phương thức save()
 
-    // Chuyển hướng với thông báo thành công
+    // Lưu thông tin và reset trạng thái
+    $user->save();
+    session(['is_updating' => false]); // Đánh dấu không còn đang cập nhật
+
     return redirect()->back()->with('success', 'Thông tin cá nhân đã được cập nhật thành công!');
 }
+
 }

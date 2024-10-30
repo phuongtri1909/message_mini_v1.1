@@ -27,7 +27,7 @@
                 <!-- Modal Profile -->
                 @include('layouts.profile')
                 <div class="profile mb-4">
-                    <img src="{{ Storage::url(Auth()->user()->avatar)}}" alt="Profile Picture"
+                    <img src="{{ Auth::user()->avatar }}" alt="Profile Picture"
                             class="rounded-circle" width="50" height="50" data-bs-toggle="modal"
                             data-bs-target="#profileModal" style="cursor: pointer;">
                 </div>
