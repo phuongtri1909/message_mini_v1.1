@@ -15,7 +15,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-            z-index: 1;
+            z-index: 2;
         }
 
         .footer-send {
@@ -86,21 +86,24 @@
 
 @section('content-2')
     <div class="window-chat">
-        <div class="header-chat bg-white px-2 py-3 d-flex justify-content-between">
-            <div>
-                <h3 class="mb-0">Tên nhóm/Người dùng</h3>
-                <p class="text-muted mb-0">7 thành viên | Tin nhắn đã đọc</p>
+        <div class="header-chat bg-white px-2 py-3 d-flex justify-content-between" style="border-bottom: 0.5px solid rgb(216, 209, 209)">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h3 class="mb-0">Tên nhóm/Người dùng</h3>
+                    <p class="text-muted mb-0">7 thành viên | Tin nhắn đã đọc</p>
+                </div>
+                <div>
+                    <!-- Nút mở offcanvas để hiển thị thành viên và chọn thêm -->
+                    <button class="btn btn-primary ms-5" id="openAddMembersModal"><i class="fa-solid fa-user-group"></i></button>
+                    <!-- Button các chức năng của nhóm -->
+                    <button class="btn btn-primary ms-5" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                        aria-controls="offcanvasRight">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </button>
+                </div>
             </div>
 
-            <div>
-                <!-- Nút mở offcanvas để hiển thị thành viên và chọn thêm -->
-                <button class="btn btn-primary" id="openAddMembersModal"><i class="fa-solid fa-user-group"></i></button>
-                <!-- Button các chức năng của nhóm -->
-                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-                    aria-controls="offcanvasRight">
-                    <i class="fa-solid fa-layer-group"></i>
-                </button>
-            </div>
+           
 
             <!-- Offcanvas bên phải -->
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
