@@ -35,7 +35,8 @@
                             <option value="male" {{ Auth()->user()->gender == 'male' ? 'selected' : ''}}>Nam</option>
                         </select>
                     </div>
-                    
+                      <!-- Updated At (Hidden Field) -->
+                      <input type="hidden" name="updated_at" value="{{ Auth::user()->updated_at }}">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
