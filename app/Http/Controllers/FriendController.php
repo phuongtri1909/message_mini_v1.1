@@ -15,7 +15,7 @@ class FriendController extends Controller
     public function loimoi()
     {
         
-        return view('pages.friend.loimoi');
+        return view('pages.friend.friendRequestList');
     }
     
     
@@ -243,19 +243,7 @@ public function getFriendRequests()
         'status' => 'success',
         'requests' => $friendRequests,
     ]);
-}
-//Hiển thị yêu cầu kết bạn
-public function showFriendRequests()
-{
-    $user = Auth::user();
-
-    // Lấy danh sách yêu cầu kết bạn mà người dùng hiện tại là người nhận
-    $friendRequests = FriendRequest::where('receiver_id', $user->id)
-        ->where('status', 'pending')
-        ->with('sender:id,name,avatar') // Giả sử 'sender' là quan hệ đến user gửi yêu cầu
-        ->get();
-
-    return view('modals.friend_requests', compact('friendRequests'));
+    
 }
 
 // lấy danh sách bạn bè
@@ -285,6 +273,69 @@ public function getFriendsList()
 }
 
 
+// Page danh sách lời mời kết bạn
+public function showFriendRequests()
+{
+    $user = Auth::user();
+
+    // Lấy danh sách yêu cầu kết bạn mà người dùng hiện tại là người nhận
+    $friendRequests = FriendRequest::where('receiver_id', $user->id)
+        ->where('status', 'pending')
+        ->with('sender:id,name,avatar') // Giả sử 'sender' là quan hệ đến user gửi yêu cầu
+        ->paginate(1); // Số lượng yêu cầu kết bạn hiển thị trên mỗi trang
+
+    return view('pages.friend.friendRequestList', compact('friendRequests'));
+}
+
+  // Đồng ý yêu cầu kết bạn từ trang
+  public function acceptFriendRequestPage(Request $request)
+  {
+      $requestId = $request->input('request_id'); // ID của yêu cầu kết bạn
+      $friendRequest = FriendRequest::find($requestId);
+
+      if ($friendRequest && $friendRequest->status === 'pending') {
+          // Cập nhật trạng thái yêu cầu
+          $friendRequest->status = 'accepted';
+          $friendRequest->save();
+
+          // Tạo mối quan hệ bạn bè
+          DB::table('friends')->insert([
+              'user_id' => $friendRequest->sender_id,   // ID của người gửi yêu cầu
+              'friend_id' => $friendRequest->receiver_id, // ID của người nhận yêu cầu
+              'created_at' => now(),
+              'updated_at' => now(),
+          ]);
+
+          // Xóa yêu cầu kết bạn sau khi đã chấp nhận
+          $friendRequest->delete();
+
+          return redirect()->route('friend.requests')->with('success', 'Bạn đã chấp nhận yêu cầu kết bạn.');
+      }
+
+      return redirect()->route('friend.requests')->with('error', 'Không tìm thấy yêu cầu kết bạn hoặc yêu cầu đã được xử lý.');
+  }
+
+  // Từ chối yêu cầu kết bạn từ trang
+  public function declineFriendRequestPage(Request $request)
+  {
+      $requestId = $request->input('request_id'); // ID của yêu cầu kết bạn
+      $friendRequest = FriendRequest::find($requestId);
+
+      if ($friendRequest) {
+          // Kiểm tra trạng thái yêu cầu, chỉ xóa nếu nó đang ở trạng thái pending
+          if ($friendRequest->status === 'pending') {
+              // Xóa yêu cầu kết bạn
+              $friendRequest->delete();
+              return redirect()->route('friend.requests')->with('success', 'Bạn đã từ chối yêu cầu kết bạn.');
+          } else {
+              return redirect()->route('friend.requests')->with('error', 'Yêu cầu đã được xử lý trước đó.');
+          }
+      }
+
+      return redirect()->route('friend.requests')->with('error', 'Không tìm thấy yêu cầu kết bạn hoặc đã được xử lý.');
+  }
+
+// Danh sách bạn bè
 public function showFriendsList()
 {
     $user = Auth::user();
@@ -306,7 +357,6 @@ public function showFriendsList()
 
     return view('pages.friend.listfriend', ['friends' => $friends, 'message' => null]);
 }
-
     //hủy kết bạn
    
     public function unfriend(Request $request)

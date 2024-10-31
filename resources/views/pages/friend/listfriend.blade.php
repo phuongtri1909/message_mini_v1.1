@@ -13,15 +13,15 @@
     @include('components.toast')
 @endsection
 
-@section('content-2-1')
+@section('content-2-1') 
     <div>
         <div class="listfr-header bg-white p-3 border-bottom d-flex align-items-center">
             <i class="fa-solid fa-user-group me-2"></i>
             <h3 class="mb-0">Danh Sách Bạn bè ({{ $friends->total() }})</h3>
         </div>
-
-        <div class="search-bar-main d-flex p-3 bg-light">
-            <form action="{{ route('friends.search') }}" method="GET" class="d-flex w-100">
+ 
+        <div class="search-bar-main d-flex">
+            <form action="{{ route('friends.search') }}" method="GET" class="d-flex" style="width: 92%;">
                 <input type="text" name="query" class="form-control me-2" placeholder="Tìm kiếm bạn bè"
                     value="{{ request('query') }}">
                 <button type="submit" class="btn btn-primary"><i class="fa-solid fa-search"></i></button>
@@ -59,15 +59,24 @@
                             </form>
                         </div>
                     </div>
+                   
                 @endforeach
-
+                @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
                 <div class="d-flex justify-content-center mt-3">
                     {{ $friends->links('pagination::bootstrap-5') }}
                 </div>
             @endif
-
-
         </div>
+        
     </div>
 
 @endsection
