@@ -719,29 +719,3 @@ html, body {
     height: 100%;
     overflow-y: auto;
 }
-/* Css thông báo*/
-.notification-container {
-    position: fixed; /* Để thông báo luôn nằm ở vị trí cố định */
-    top: 20px; /* Khoảng cách từ trên xuống */
-    right: 20px; /* Khoảng cách từ bên phải */
-    z-index: 9999; /* Đảm bảo thông báo hiển thị trên các phần khác */
-    width: auto; /* Đặt chiều rộng tự động */
-    display: block; /* Hiển thị thông báo */
-    animation: fadeOut 2s forwards; /* Áp dụng hiệu ứng fadeOut */
-}
-/* Định nghĩa hiệu ứng fadeOut */
-@keyframes fadeOut {
-    0% {
-        opacity: 1; /* Bắt đầu với độ mờ 100% */
-    }
-    99% {
-        opacity: 1; /* Giữ nguyên độ mờ cho đến gần cuối */
-    }
-    100% {
-        opacity: 0; /* Kết thúc với độ mờ 0% */
-        display: none; /* Ẩn thông báo */
-    }
-}
-.alert {
-    margin: 0 0 10px; /* Khoảng cách giữa các thông báo */
-}
