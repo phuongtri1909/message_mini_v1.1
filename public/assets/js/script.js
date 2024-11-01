@@ -181,20 +181,22 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-//Hàm biểu tượng ảnh
+// Hàm biểu tượng ảnh đã có
 function previewImage(event) {
     const reader = new FileReader();
     reader.onload = function () {
         const output = document.createElement('img');
         output.src = reader.result;
 
-        // Thêm hình ảnh vào container
+        const inputId = event.target.id;
         const imageCircle = document.querySelector('.group-image-circle');
-        if (imageCircle) {
-            imageCircle.innerHTML = ''; // Xóa biểu tượng camera
-            imageCircle.appendChild(output); // Thêm ảnh mới
-        } else {
-            console.error("Không tìm thấy phần tử 'group-image-circle'.");
+
+        if (inputId === 'cover_image') {
+            const coverImagePreview = document.getElementById('coverImagePreview');
+            coverImagePreview.src = reader.result; // Cập nhật ảnh bìa
+        } else if (inputId === 'avatar') {
+            const avatarPreview = document.getElementById('avatarPreview');
+            avatarPreview.src = reader.result; // Cập nhật ảnh đại diện
         }
     };
     reader.readAsDataURL(event.target.files[0]);

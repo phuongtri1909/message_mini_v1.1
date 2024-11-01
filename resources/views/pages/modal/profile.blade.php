@@ -9,13 +9,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Profile Image -->
+                    <!-- Ảnh Bìa -->
                     <div class="form-group">
-                        <label>Ảnh đại diện</label><br>
-                        <img src="{{ Auth::user()->avatar }}" class="rounded-circle" width="100" height="100" alt="Avatar">
-                        <input type="file" name="avatar" class="form-control mt-2">
+                        <label for="cover_image" class="cover-image-label">
+                            <img id="coverImagePreview" src="{{ Auth::user()->cover_image }}" class="rounded border border-primary" width="100%" height="190px" alt="Ảnh Bìa">
+                        </label>
+                        <input type="file" name="cover_image" id="cover_image" class="form-control mt-2" style="display: none;" onchange="previewImage(event)">
                     </div>
-                    
+
+                    <!-- Ảnh Đại Diện -->
+                    <div class="form-group text-left mt-n5">
+                        <label for="avatar"> <!-- Thêm label để kích hoạt chọn tệp -->
+                            <img id="avatarPreview" src="{{ Auth::user()->avatar }}" class="rounded-circle" width="100" height="100" alt="Avatar">
+                        </label>
+                        <input type="file" name="avatar" id="avatar" class="form-control mt-2" style="display: none;" onchange="previewImage(event)">
+                    </div>
+                                        
                     <!-- Name -->
                     <div class="form-group">
                         <label>Tên</label>
@@ -28,6 +37,18 @@
                         <input type="email" name="email" class="form-control" value="{{ Auth::user()->email }}" readonly>
                     </div>
 
+                    <!-- Phone -->
+                    <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input type="text" name="phone" class="form-control" value="{{ Auth::user()->phone }}">
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div class="form-group">
+                        <label>Ngày sinh</label>
+                        <input type="date" name="dob" class="form-control" value="{{ Auth::user()->dob }}">
+                    </div>
+
                     <!-- Gender -->
                     <div class="form-group">
                         <label for="gender">Giới tính</label>
@@ -35,6 +56,12 @@
                             <option value="female" {{ Auth::user()->gender == 'female' ? 'selected' : '' }}>Nữ</option>
                             <option value="male" {{ Auth::user()->gender == 'male' ? 'selected' : '' }}>Nam</option>
                         </select>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="form-group">
+                        <label>Mô tả</label>
+                        <textarea name="description" class="form-control" rows="3">{{ Auth::user()->description }}</textarea>
                     </div>
 
                     <!-- Updated At (Hidden Field) -->
@@ -48,3 +75,4 @@
         </div>
     </div>
 </div>
+
