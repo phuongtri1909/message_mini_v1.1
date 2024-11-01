@@ -55,32 +55,20 @@
 
     <!-- Thêm div bọc các cuộc hội thoại -->
     <div class="chat-list-container">
+        @foreach($friends as $friend)
         <div class="chat-item rounded">
             <div class="d-flex align-items-center">
-                <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                        class="rounded-circle me-3" style="object-fit: cover" width="40" height="40"></a>
+                <a href="#">
+                    <img src="{{ asset($friend->avatar) }}" alt="{{ $friend->name }}" class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
+                </a>
                 <div class="chat-info">
-                    <h5 class="mb-0">Tên người dùng</h5>
+                    <h5 class="mb-0">{{ $friend->name }}</h5>
                     <p class="text-muted mb-0">Đoạn tin nhắn gần nhất</p>
                 </div>
             </div>
             <span class="chat-time text-muted small">5 phút trước</span>
         </div>
-
-        <div class="chat-item rounded">
-            <div class="d-flex align-items-center">
-                <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                        class="rounded-circle me-3" style="object-fit: cover" width="40" height="40"></a>
-                <div class="chat-info">
-                    <h5 class="mb-0">Tên người dùng </h5>
-                    <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
-                    </p>
-                </div>
-            </div>
-            <span class="chat-time text-muted small">5 phút trước</span>
-        </div>
-
-        <!-- Thêm các cuộc hội thoại khác tại đây -->
+        @endforeach
     </div>
 @endsection
 
