@@ -282,7 +282,7 @@ public function showFriendRequests()
     $friendRequests = FriendRequest::where('receiver_id', $user->id)
         ->where('status', 'pending')
         ->with('sender:id,name,avatar') // Giả sử 'sender' là quan hệ đến user gửi yêu cầu
-        ->paginate(1); // Số lượng yêu cầu kết bạn hiển thị trên mỗi trang
+        ->paginate(3); // Số lượng yêu cầu kết bạn hiển thị trên mỗi trang
 
     return view('pages.friend.friendRequestList', compact('friendRequests'));
 }
@@ -351,7 +351,7 @@ public function showFriendsList()
                 ->orWhere('friends.friend_id', $user->id);
         })
         ->where('users.id', '!=', $user->id) // Loại bỏ người dùng hiện tại khỏi danh sách bạn bè
-        ->select('users.id', 'users.name', 'users.email', 'users.avatar', 'users.gender')
+        ->select('users.id', 'users.name', 'users.email', 'users.avatar', 'users.gender', 'friends.created_at as friendship_start')
         ->distinct()
         ->paginate(5); // Số lượng bạn bè hiển thị trên mỗi trang
 
@@ -399,40 +399,40 @@ public function showFriendsList()
     
     
     public function searchFriends(Request $request)
-    {
-        $user = Auth::user();
-        $query = $request->input('query');
-    
-        // Tách từ khóa tìm kiếm thành các từ riêng lẻ
-        $keywords = explode(' ', $query);
-    
-        // Tìm kiếm bạn bè theo tên
-        $friends = DB::table('friends')
-            ->join('users', function ($join) use ($user) {
-                $join->on('friends.friend_id', '=', 'users.id')
-                    ->orOn('friends.user_id', '=', 'users.id');
-            })
-            ->where(function ($query) use ($user) {
-                $query->where('friends.user_id', $user->id)
-                    ->orWhere('friends.friend_id', $user->id);
-            })
-            ->where('users.id', '!=', $user->id) // Loại bỏ người dùng hiện tại khỏi danh sách bạn bè
-            ->where(function ($query) use ($keywords) {
-                foreach ($keywords as $keyword) {
-                    $query->orWhere('users.name', 'LIKE', "%{$keyword}%");
-                }
-            })
-            ->select('users.id', 'users.name', 'users.email', 'users.avatar', 'users.gender')
-            ->distinct()
-            ->paginate(3); // Số lượng bạn bè hiển thị trên mỗi trang
-    
-        // Kiểm tra số lượng kết quả trả về
-        $message = null;
-        if ($friends->isEmpty()) {
-            $message = 'Không tìm thấy kết quả phù hợp.';
-        }
-    
-        return view('pages.friend.listfriend', ['friends' => $friends, 'query' => $query, 'message' => $message]);
+{
+    $user = Auth::user();
+    $query = $request->input('query');
+
+    // Tách từ khóa tìm kiếm thành các từ riêng lẻ
+    $keywords = explode(' ', $query);
+
+    // Tìm kiếm bạn bè theo tên
+    $friends = DB::table('friends')
+        ->join('users', function ($join) use ($user) {
+            $join->on('friends.friend_id', '=', 'users.id')
+                ->orOn('friends.user_id', '=', 'users.id');
+        })
+        ->where(function ($query) use ($user) {
+            $query->where('friends.user_id', $user->id)
+                ->orWhere('friends.friend_id', $user->id);
+        })
+        ->where('users.id', '!=', $user->id) // Loại bỏ người dùng hiện tại khỏi danh sách bạn bè
+        ->where(function ($query) use ($keywords) {
+            foreach ($keywords as $keyword) {
+                $query->orWhere('users.name', 'LIKE', "%{$keyword}%");
+            }
+        })
+        ->select('users.id', 'users.name', 'users.email', 'users.avatar', 'users.gender', 'friends.created_at as friendship_start')
+        ->distinct()
+        ->paginate(3); // Số lượng bạn bè hiển thị trên mỗi trang
+
+    // Kiểm tra số lượng kết quả trả về
+    $message = null;
+    if ($friends->isEmpty()) {
+        $message = 'Không tìm thấy kết quả phù hợp.';
     }
+
+    return view('pages.friend.listfriend', ['friends' => $friends, 'query' => $query, 'message' => $message]);
+}
 
 }
