@@ -532,13 +532,23 @@ function loadFriendRequests() {
                 data.requests.forEach(request => {
                     const requestTime = new Date(request.created_at).toLocaleString(); // Chuyển đổi thời gian thành chuỗi dễ đọc
                     friendRequestsList.innerHTML += `
-                        <div class="friend-request-item">
-                            <img src="${request.sender.avatar}" alt="${request.sender.name}" class="avatar">
-                            <p>${request.sender.name}</p>
-                            <p>Gửi lúc: ${requestTime}</p>
-                            <button class="btn btn-success" onclick="acceptRequest(${request.id})">Chấp nhận</button>
-                            <button class="btn btn-danger" onclick="declineRequest(${request.id})">Từ chối</button>
-                        </div>
+                       <div class="friend-request-item"
+    style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px;">
+    <div style="display: flex; align-items: center;">
+        <img src="${request.sender.avatar}" alt="${request.sender.name}"
+            style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
+        <div>
+            <p style="margin: 0; font-weight: bold;">${request.sender.name}</p>
+            <p style="margin: 0; color: #888;">Gửi lúc: ${requestTime}</p>
+        </div>
+    </div>
+    <div style="display: flex; align-items: center;">
+        <button class="btn btn-success" style="margin-right: 5px; position: relative; width: 110px; height: 40px; background-color: #2dea1c; display: flex; align-items: center; color: white; flex-direction: column; justify-content: center; border: none; padding: 12px; gap: 12px; border-radius: 8px; cursor: pointer;
+    }" onclick="acceptRequest(${request.id})">Chấp nhận</button> 
+    <button class="btn btn-danger" style="width: 110px; height: 40px;  border-radius: 5px; padding: 10px 25px cursor: pointer; transition: all 0.3s ease; position: relative; display: inline-block 
+     outline: none;" onclick="declineRequest(${request.id})">Từ chối</button>
+    </div>
+</div>
                     `;
                 });
             } else {

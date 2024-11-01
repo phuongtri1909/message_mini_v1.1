@@ -30,7 +30,10 @@
         @forelse ($friendRequests as $request)
             <div class="list-group-item d-flex align-items-center">
                 <img src="{{ asset($request->sender->avatar) }}" alt="{{ $request->sender->name }}" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                <div>
                 <span class="friend-name">{{ $request->sender->name }}</span>
+                <p class="d-flex" style="margin: 0; color: #888;"> {{ $request->created_at->diffForHumans() }}</p>
+            </div>
                 <div class="ms-auto">
                     <form action="{{ route('friend.requests.accept.page') }}" method="POST" class="d-inline">
                         @csrf
