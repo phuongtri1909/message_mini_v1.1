@@ -39,19 +39,18 @@
 @endsection
 
 @section('content-1')
-    <div class="search-bar mb-4 d-flex align-items-center">
-        <input type="text" class="form-control me-2" placeholder="Tìm kiếm">
-        <button class="btn" style="border: none; background: none; padding-left: 2px;" data-bs-toggle="modal"
-            data-bs-target="#addFriendModal">
-            <i class="fa-solid fa-user-plus "></i>
-        </button>
+<div class="search-bar mb-4 d-flex align-items-center">
+    <input type="text" id="searchInput" class="form-control me-2" placeholder="Tìm kiếm">
+    <button class="btn" style="border: none; background: none; padding-left: 2px;" data-bs-toggle="modal" data-bs-target="#addFriendModal">
+        <i class="fa-solid fa-user-plus"></i>
+    </button>
+    <button type="button" style="border: none; background: none; padding-left: 2px;" data-bs-toggle="modal" data-bs-target="#createGroupModal">
+        <i class="fa-solid fa-people-group"></i>
+    </button>
+</div>
 
-        <button type="button" style="border: none; background: none; padding-left: 2px;" data-bs-toggle="modal"
-            data-bs-target="#createGroupModal">
-            <a href="#"><i class="fa-solid fa-people-group"></i></a>
-        </button>
-
-    </div>
+<!-- Div để hiển thị kết quả tìm kiếm -->
+<div id="searchResults" class="search-results-container"></div>
 
     <!-- Thêm div bọc các cuộc hội thoại -->
     <div class="chat-list-container">

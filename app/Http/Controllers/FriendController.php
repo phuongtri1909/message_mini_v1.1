@@ -455,6 +455,33 @@ public function showFriendsListHome()
 
     return view('pages.home', ['friends' => $friends, 'message' => null]);
 }
+public function searchFriendsHome(Request $request)
+{
+    $user = Auth::user();
+    $query = $request->input('query');
+    $keywords = explode(' ', $query);
+
+    $friends = DB::table('friends')
+        ->join('users', function ($join) use ($user) {
+            $join->on('friends.friend_id', '=', 'users.id')
+                ->orOn('friends.user_id', '=', 'users.id');
+        })
+        ->where(function ($query) use ($user) {
+            $query->where('friends.user_id', $user->id)
+                ->orWhere('friends.friend_id', $user->id);
+        })
+        ->where('users.id', '!=', $user->id)
+        ->where(function ($query) use ($keywords) {
+            foreach ($keywords as $keyword) {
+                $query->orWhere('users.name', 'LIKE', "%{$keyword}%");
+            }
+        })
+        ->select('users.id', 'users.name', DB::raw("CONCAT('" . asset('') . "', users.avatar) as avatar"))
+        ->distinct()
+        ->get();
+
+    return response()->json(['friends' => $friends]);
+}
 }
 
 

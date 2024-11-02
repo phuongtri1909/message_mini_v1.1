@@ -656,4 +656,40 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Lỗi:', error);
             });
     }
+    ///Hàm load layout searchHome
+    document.getElementById('searchInput').addEventListener('input', function() {
+        let query = this.value;
+    
+        if (query.length > 0) {
+            fetch(`/home/search?query=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    let resultsContainer = document.getElementById('searchResults');
+                    resultsContainer.innerHTML = '';
+    
+                    if (data.friends && data.friends.length > 0) {
+                        data.friends.forEach(friend => {
+                            let friendItem = `
+                                <div class="chat-item rounded">
+                                    <div class="d-flex align-items-center">
+                                        <a href="#">
+                                            <img src="${friend.avatar}" alt="${friend.name}" class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
+                                        </a>
+                                        <div class="chat-info">
+                                            <h5 class="mb-0">${friend.name}</h5>
+                                            <p class="text-muted mb-0">Đoạn tin nhắn gần nhất</p>
+                                        </div>
+                                    </div>
+                                </div>`;
+                            resultsContainer.insertAdjacentHTML('beforeend', friendItem);
+                        });
+                    } else {
+                        resultsContainer.innerHTML = '<p class="text-muted">Không tìm thấy kết quả phù hợp.</p>';
+                    }
+                })
+                .catch(error => console.error('Lỗi khi tải kết quả tìm kiếm:', error));
+        } else {
+            document.getElementById('searchResults').innerHTML = '';
+        }
+    });
 });
