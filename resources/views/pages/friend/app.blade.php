@@ -18,7 +18,7 @@
         <div class="d-flex align-items-center">
             <i class="fa-solid fa-user-group me-2"></i>
             <div class="listfr-info">
-                <a href="{{ route('friends.list') }}" class="mb-0">Danh Sách Bạn Bè</a>
+                <a href="{{ route('friends.list') }}" class="mb-0">{{ __('messages.friendList') }}</a>
             </div>
         </div>
     </div>
@@ -26,7 +26,7 @@
         <div class="d-flex align-items-center">
             <i class="fa-solid fa-user-plus me-2" id="showFriendRequestsModal" style="cursor: pointer;"></i>
             <div class="listfr-info">
-                <a href="{{ route('friend.requests') }}" class="mb-0">Lời Mời Kết Bạn</a>
+                <a href="{{ route('friend.requests') }}" class="mb-0">{{ __('messages.friendInvitation') }}</a>
             </div>
         </div>
     </div>

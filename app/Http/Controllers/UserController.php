@@ -338,7 +338,7 @@ public function update(Request $request)
     // Kiểm tra nếu dữ liệu đã bị thay đổi ở nơi khác
     if ($request->input('updated_at') != $user->updated_at->toDateTimeString()) {
         return redirect()->back()->withErrors(['user' => 'Dữ liệu đã được cập nhật ở nơi khác. Vui lòng tải lại trang.'])
-            ->with('error', 'Dữ liệu đã được cập nhật ở nơi khác!');
+            ->with('error',  __('messages.Datahasbeenupdatedelsewhere'));
     }
 
     // Xử lý tải lên avatar
@@ -374,7 +374,7 @@ public function update(Request $request)
     // Lưu thông tin
     $user->save();
 
-    return redirect()->back()->with('success', 'Thông tin cá nhân đã được cập nhật thành công!');
+    return redirect()->back()->with('success',  __('messages.successfully') );
 }
 
 }
