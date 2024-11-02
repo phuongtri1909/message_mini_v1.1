@@ -573,12 +573,6 @@ footer .icon-footer {
   }
   
   .listfr-header {
-    display: flex;
-    align-items: center;
-    background-color: white;
-    padding: 15px;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 30px;
     height: 70px;
   }
   
@@ -597,9 +591,7 @@ footer .icon-footer {
     padding: 20px;
     background-color: #f0f0f0;
     flex-grow: 1;
-    max-height: 85vh;
     overflow-y: auto;
-    margin-right: 100px;
   }
   
   .friend-item {

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Invitation extends Model
 {
     use HasFactory;
+
+    // Model lời mời tham gia cuộc trò chuyện
     protected $fillable = ['conversation_id', 'invited_user_id', 'invited_by', 'status'];
     public function conversation()
     {

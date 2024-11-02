@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\Events\MessageSent;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
+
+    public function sendMessage(Request $request) {
+        $message = $request->message;
+        broadcast(new MessageSent($message))->toOthers();
+        return response()->json(['status' => 'Message sent!']);
+    }    
     /**
      * Display a listing of the resource.
      */

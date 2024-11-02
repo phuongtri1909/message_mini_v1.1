@@ -17,6 +17,8 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+     // Model người dùng
     protected $fillable = [
         'name',
         'phone',

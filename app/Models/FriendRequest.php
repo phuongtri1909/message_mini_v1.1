@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class FriendRequest extends Model
 {
     use HasFactory;
+
+    // Model yêu cầu kết bạn
     protected $fillable = ['sender_id', 'receiver_id', 'status'];
 
 
