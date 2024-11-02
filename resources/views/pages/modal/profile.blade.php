@@ -40,7 +40,7 @@
                     <!-- Phone -->
                     <div class="form-group">
                         <label>Số điện thoại</label>
-                        <input type="text" name="phone" class="form-control" value="{{ Auth::user()->phone }}">
+                        <input type="tel" name="phone" class="form-control" value="{{ Auth::user()->phone }}" >
                     </div>
 
                     <!-- Date of Birth -->
