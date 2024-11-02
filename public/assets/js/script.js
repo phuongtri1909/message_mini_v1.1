@@ -356,7 +356,7 @@ document.getElementById('searchButton').addEventListener('click', function () {
     const email = document.getElementById('friendEmail').value.trim();
 
     if (email === "") {
-        alert("Vui lòng nhập email!");
+        showToast('Vui lòng nhập email người dùng.', 'error');
         return;
     }
 
@@ -391,11 +391,11 @@ document.getElementById('searchButton').addEventListener('click', function () {
 
                 checkFriendRequestStatus(data.user.id, sendRequestButton, cancelRequestButton, messageButtonn);
             } else {
-                alert(data.message); // Hiển thị thông báo lỗi
+                showToast(data.message, 'error');
             }
         })
         .catch(error => {
-            console.error('Lỗi:', error);
+            showToast('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
         });
 });
 
@@ -434,8 +434,7 @@ function checkFriendRequestStatus(userId, sendRequestButton, cancelRequestButton
                 messageButtonn.style.display = 'block';
                 sendRequestButton.style.display = 'none';
                 cancelRequestButton.style.display = 'none';
-                
-                alert("Hai người đã là bạn bè rồi.");
+                //hai người đã là bạn bè
             } else if (data.status === "sent") {
                 sendRequestButton.style.display = 'none';
                 cancelRequestButton.style.display = 'block';
@@ -444,7 +443,7 @@ function checkFriendRequestStatus(userId, sendRequestButton, cancelRequestButton
                 sendRequestButton.style.display = 'none';
                 cancelRequestButton.style.display = 'none';
                 messageButtonn.style.display = 'none';
-                alert("Người này đã gửi lời mời kết bạn cho bạn. Vui lòng kiểm tra trong mục lời mời kết bạn.");
+                //người này đã gửi lời mời kết bạn cho bạn
             } else {
                 sendRequestButton.style.display = 'block';
                 cancelRequestButton.style.display = 'none';
@@ -460,7 +459,7 @@ function checkFriendRequestStatus(userId, sendRequestButton, cancelRequestButton
             };
         })
         .catch(error => {
-            console.error('Lỗi:', error);
+            saveToast('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
         });
 }
 
@@ -477,14 +476,14 @@ function sendFriendRequest(userId) {
         .then(response => response.json())
         .then(data => {
             if (data.status === "success") {
-                alert(data.message);
+                showToast(data.message, 'success');
                 checkFriendRequestStatus(userId, sendRequestButton, cancelRequestButton);
             } else {
-                alert(data.message);
+                showToast(data.message, 'error');
             }
         })
         .catch(error => {
-            console.error('Lỗi:', error);
+            showToast('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
         });
 }
 
@@ -501,14 +500,14 @@ function cancelFriendRequest(userId) {
         .then(response => response.json())
         .then(data => {
             if (data.status === "success") {
-                alert(data.message);
+                showToast(data.message, 'success');
                 checkFriendRequestStatus(userId, sendRequestButton, cancelRequestButton);
             } else {
-                alert(data.message);
+                showToast(data.message, 'error');
             }
         })
         .catch(error => {
-            console.error('Lỗi:', error);
+            showToast('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
         });
 }
 
@@ -552,11 +551,11 @@ function loadFriendRequests() {
                     `;
                 });
             } else {
-                alert(data.message);
+                saveToast(data.message, 'error');
             }
         })
         .catch(error => {
-            console.error('Lỗi:', error);
+            saveToast('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
         });
 }
 
@@ -573,14 +572,14 @@ function acceptRequest(requestId) {
         .then(response => response.json())
         .then(data => {
             if (data.status === "success") {
-                alert(data.message);
+                showToast(data.message, 'success');
                 loadFriendRequests(); // Cập nhật lại danh sách lời mời
             } else {
-                alert(data.message);
+               showToast(data.message, 'error');
             }
         })
         .catch(error => {
-            console.error('Lỗi:', error);
+            showToast('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
         });
 }
 
@@ -597,14 +596,14 @@ function declineRequest(requestId) {
         .then(response => response.json())
         .then(data => {
             if (data.status === "success") {
-                alert(data.message);
+                showToast(data.message, 'success');
                 loadFriendRequests(); // Cập nhật lại danh sách lời mời
             } else {
-                alert(data.message);
+                showToast(data.message, 'error');
             }
         })
         .catch(error => {
-            console.error('Lỗi:', error);
+            showToast('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
         });
 }
 
@@ -647,11 +646,11 @@ document.addEventListener('DOMContentLoaded', function () {
                         `;
                     });
                 } else {
-                    alert(data.message);
+                    saveToast(data.message, 'error');
                 }
             })
             .catch(error => {
-                console.error('Lỗi:', error);
+                saveToast('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
             });
     }
 });

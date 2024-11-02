@@ -23,8 +23,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    
     @stack('styles')
     @include('components.toast')
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
     {{-- end styles --}}
 </head>
 

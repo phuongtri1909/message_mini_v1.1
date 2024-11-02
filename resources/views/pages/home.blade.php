@@ -12,8 +12,6 @@
         }
 
         .header-chat {
-            position: fixed;
-            top: 0;
             width: 100%;
             z-index: 2;
         }
@@ -39,22 +37,9 @@
 @endsection
 
 @section('content-1')
-    <div class="search-bar mb-4 d-flex align-items-center">
-        <input type="text" class="form-control me-2" placeholder="Tìm kiếm">
-        <button class="btn" style="border: none; background: none; padding-left: 2px;" data-bs-toggle="modal"
-            data-bs-target="#addFriendModal">
-            <i class="fa-solid fa-user-plus "></i>
-        </button>
-
-        <button type="button" style="border: none; background: none; padding-left: 2px;" data-bs-toggle="modal"
-            data-bs-target="#createGroupModal">
-            <a href="#"><i class="fa-solid fa-people-group"></i></a>
-        </button>
-
-    </div>
-
-    <!-- Thêm div bọc các cuộc hội thoại -->
     <div class="chat-list-container">
+
+        @foreach ($conversations as $item)
         <div class="chat-item rounded">
             <div class="d-flex align-items-center">
                 <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
@@ -66,27 +51,13 @@
             </div>
             <span class="chat-time text-muted small">5 phút trước</span>
         </div>
-
-        <div class="chat-item rounded">
-            <div class="d-flex align-items-center">
-                <a href="#"><img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="User"
-                        class="rounded-circle me-3" style="object-fit: cover" width="40" height="40"></a>
-                <div class="chat-info">
-                    <h5 class="mb-0">Tên người dùng </h5>
-                    <p class="text-muted mb-0">Đoạn tin nhắn gần nhấffffffffffffffffffffffffffffffffffffft
-                    </p>
-                </div>
-            </div>
-            <span class="chat-time text-muted small">5 phút trước</span>
-        </div>
-
-        <!-- Thêm các cuộc hội thoại khác tại đây -->
+        @endforeach
     </div>
 @endsection
 
 @section('content-2')
     <div class="window-chat">
-        <div class="header-chat bg-white px-2 py-3 d-flex justify-content-between" style="border-bottom: 0.5px solid rgb(216, 209, 209)">
+        <div class="header-chat bg-white px-2 py-3 border-bottom">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
                     <h3 class="mb-0">Tên nhóm/Người dùng</h3>
@@ -94,9 +65,9 @@
                 </div>
                 <div>
                     <!-- Nút mở offcanvas để hiển thị thành viên và chọn thêm -->
-                    <button class="btn btn-primary ms-5" id="openAddMembersModal"><i class="fa-solid fa-user-group"></i></button>
+                    <button class="btn btn-primary" id="openAddMembersModal"><i class="fa-solid fa-user-group"></i></button>
                     <!-- Button các chức năng của nhóm -->
-                    <button class="btn btn-primary ms-5" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                         aria-controls="offcanvasRight">
                         <i class="fa-solid fa-layer-group"></i>
                     </button>

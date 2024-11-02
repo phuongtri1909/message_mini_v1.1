@@ -9,11 +9,12 @@ class Conversation extends Model
 {
     use HasFactory;
 
+    // Model nhóm trò chuyện
     protected $fillable = ['name', 'is_group', 'created_by'];
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'conversation_user')
+        return $this->belongsToMany(User::class, 'conversation_user', 'conversation_id', 'user_id')
                     ->withPivot('role', 'invited_by')
                     ->withTimestamps();
     }
@@ -26,5 +27,10 @@ class Conversation extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function latestMessage()
+    {
+        return $this->hasOne(Message::class)->latestOfMany();
     }
 }

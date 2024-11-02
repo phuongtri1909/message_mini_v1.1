@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     use HasFactory;
+
+    // Model tin nhắn
     protected $fillable = ['conversation_id', 'sender_id', 'message'];
 
     public function conversation()
