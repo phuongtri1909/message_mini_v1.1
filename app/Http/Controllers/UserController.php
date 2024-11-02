@@ -344,16 +344,12 @@ public function update(Request $request)
     }
 
     // Xử lý tải lên avatar
+   
     if ($request->hasFile('avatar')) {
-        if ($user->avatar && file_exists(public_path($user->avatar))) {
-            unlink(public_path($user->avatar));
-        }
-
         $fileName = uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension();
         $request->file('avatar')->move(public_path('uploads/images/avatars'), $fileName);
         $user->avatar = 'uploads/images/avatars/' . $fileName;
     }
-
     // Xử lý tải lên ảnh bìa
     if ($request->hasFile('cover_image')) {
         if ($user->cover_image && file_exists(public_path($user->cover_image))) {
