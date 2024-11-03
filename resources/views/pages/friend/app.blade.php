@@ -14,6 +14,7 @@
 @endsection
 
 @section('content-1')
+<<<<<<< HEAD
 
 <div class="listfr-item rounded" style="padding: 10px; margin-bottom: 10px; background-color: #f8f9fa;">
     <div class="d-flex align-items-center">
@@ -32,6 +33,24 @@
         </div>
     </div>
 </div>
+=======
+    <div class="listfr-item rounded">
+        <div class="d-flex align-items-center">
+            <i class="fa-solid fa-user-group me-2"></i>
+            <div class="listfr-info">
+                <a href="{{ route('friends.list') }}" class="mb-0">{{ __('messages.friendList') }}</a>
+            </div>
+        </div>
+    </div>
+    <div class="listfr-item rounded" id="friendRequests">
+        <div class="d-flex align-items-center">
+            <i class="fa-solid fa-user-plus me-2" id="showFriendRequestsModal" style="cursor: pointer;"></i>
+            <div class="listfr-info">
+                <a href="{{ route('friend.requests') }}" class="mb-0">{{ __('messages.friendInvitation') }}</a>
+            </div>
+        </div>
+    </div>
+>>>>>>> db3fb46fd331d04209d0de8d0b36097b0f7985fa
 @endsection
 
 @section('content-2')

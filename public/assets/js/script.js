@@ -380,9 +380,8 @@ function loadFriendRequests() {
             if (data.status === "success") {
                 const friendRequestsList = document.getElementById('friendRequestsList');
                 friendRequestsList.innerHTML = ''; // Xóa nội dung hiện tại
-                
+
                 // Duyệt qua danh sách lời mời và tạo HTML
-                
                 data.requests.forEach(request => {
                     const requestTime = new Date(request.created_at).toLocaleString(); // Chuyển đổi thời gian thành chuỗi dễ đọc
                     friendRequestsList.innerHTML += `
@@ -487,6 +486,7 @@ function previewImage(event) {
     reader.readAsDataURL(event.target.files[0]);
 }
 
+<<<<<<< HEAD
          //Hàm chuyển đổi ngôn ngữ
          document.getElementById('saveSettingsBtn').addEventListener('click', function() {
             var selectedLang = document.getElementById('languageSelect').value;
@@ -503,5 +503,8 @@ function previewImage(event) {
             })
             .catch(error => console.error('Fetch error:', error));
         });
+=======
+
+>>>>>>> db3fb46fd331d04209d0de8d0b36097b0f7985fa
 
 

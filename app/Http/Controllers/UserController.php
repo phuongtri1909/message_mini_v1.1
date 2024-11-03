@@ -314,19 +314,17 @@ public function update(Request $request)
         'dob' => 'nullable|date|before_or_equal:today', // Thêm quy tắc cho ngày sinh
         'description' => 'nullable|string|max:1000', // Thêm quy tắc cho mô tả
     ], [
-        'avatar.required' => 'Hãy chọn ảnh avatar',
-        'avatar.image' => 'Avatar phải là ảnh',
-        'avatar.mimes' => 'Chỉ chấp nhận ảnh định dạng jpeg, png, jpg, gif, svg',
-        'avatar.max' => 'Dung lượng avatar không được vượt quá 2MB',
-        'cover_image.image' => 'Ảnh bìa phải là ảnh',
-        'cover_image.mimes' => 'Chỉ chấp nhận ảnh định dạng jpeg, png, jpg, gif, svg',
-        'cover_image.max' => 'Dung lượng ảnh bìa không được vượt quá 2MB',
-        'phone.regex' => 'Số điện thoại chỉ được chứa số',
-        'phone.digits_between' => 'Số điện thoại phải có từ 10 đến 15 chữ số',
-        'dob.date' => 'Ngày sinh không hợp lệ',
-        'dob.before_or_equal' => 'Ngày sinh không được lớn hơn ngày hiện tại', // Thông báo lỗi cho ngày sinh
-        'description.max' => 'Mô tả không được vượt quá 1000 ký tự',
-        
+        'avatar.required' =>  __('messages.avatarrequired'),
+        'avatar.image' =>  __('messages.avatarimage'),
+        'avatar.mimes' =>  __('messages.avatarmimes'),
+        'avatar.max' =>  __('messages.avatarmax'),
+        'cover_image.image' =>  __('messages.cover_imageimage'),
+        'cover_image.mimes' =>  __('messages.cover_imagemimes'),
+        'cover_image.max' =>  __('messages.cover_imagemax'),
+        'phone.max' =>  __('messages.phonemax'),
+        'dob.date' =>  __('messages.dobdate'),
+        'dob.before_or_equal' =>  __('messages.dobbefore_or_equal'), // Thông báo lỗi cho ngày sinh
+        'description.max' =>  __('messages.descriptionmax'),
     ]);
 
     if ($validator->fails()) {

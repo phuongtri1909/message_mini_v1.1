@@ -49,5 +49,16 @@ return [
     'notification' => 'Notification',
     'successfully' => 'Personal information has been updated successfully!',
     'Datahasbeenupdatedelsewhere' => 'Data has been updated elsewhere!',
+    'descriptionmax' => 'Description must not exceed 1000 characters',
+    'avatarrequired' => 'Please select an avatar image',
+    'avatarimage' => 'Avatar must be a photo',
+    'avatarmimes' => 'Only images in jpeg, png, jpg, gif, svg formats are accepted',
+    'avatarmax' => 'Avatar capacity cannot exceed 2MB',
+    'cover_imageimage' => 'Cover photo must be a photo',
+    'cover_imagemimes' => 'Only images in jpeg, png, jpg, gif, svg formats are accepted',
+    'cover_imagemax' => 'Cover photo size cannot exceed 2MB',
+    'phonemax' => 'Phone number must not exceed 15 characters',
+    'dobdate' => 'Invalid date of birth',
+    'dobbefore_or_equal' => 'Date of birth cannot be greater than current date',
 ];
 

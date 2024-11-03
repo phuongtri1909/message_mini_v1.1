@@ -68,12 +68,12 @@
                         data-bs-target="#addFriendModal">
                         <i class="fa-solid fa-user-plus "></i>
                     </button>
-
-                    <button type="button" style="border: none; background: none; padding-left: 2px;"
-                        data-bs-toggle="modal" data-bs-target="#createGroupModal">
+            
+                    <button type="button" style="border: none; background: none; padding-left: 2px;" data-bs-toggle="modal"
+                        data-bs-target="#createGroupModal">
                         <a href="#"><i class="fa-solid fa-people-group"></i></a>
                     </button>
-
+            
                 </div>
                 @yield('content-1')
             </section>
@@ -135,8 +135,7 @@
                     </div>
 
                     <div class="col-2">
-                        <button type="button" class="btn btn-primary" id="searchButton" disabled><i
-                                class="fa-solid fa-magnifying-glass"></i></button>
+                        <button type="button" class="btn btn-primary" id="searchButton" disabled><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </div>
 
@@ -146,31 +145,23 @@
                         <div class="avatar" style="float: left; margin-right: 10px;">
                             <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Avatar" class="rounded-circle"
                                 id="resultUserAvatar" style="height: 50px; width:50px;">
-                        </div>
+                        </div> 
                         <div class="d-flex flex-column">
                             <div class="d-flex">
                                 <p class="mb-0 me-2"><strong id="resultUserName"></strong></p> |
-                                <p class="mb-0 ms-2" id="resultUserGender" style="color: gray;"></p>
-                                <!-- Thêm giới tính -->
+                                <p class="mb-0 ms-2" id="resultUserGender" style="color: gray;"></p> <!-- Thêm giới tính -->
                             </div>
                             <p class="mb-0" id="resultUserEmail" style="color: gray;"></p>
-
+                            
                         </div>
                     </div>
-                    <div class="d-flex mt-3">
-                        <button type="button" class="btn btn-success" id="sendRequestButton" style="display: none;">Gửi
-                            yêu
-                            cầu kết bạn</button>
-                        <button type="button" class="btn btn-danger" id="cancelRequestButton" style="display: none;">Thu
-                            hồi
-                            yêu cầu</button>
-                        <button type="button" class="btn btn-info" id="messageButtonn" style="display: none;">Nhắn
-                            tin</button> <!-- Nút nhắn tin -->
-                        <button type="button" class="btn btn-success" id="acceptRequestButton"
-                            style="display: none; margin-right: 5px; ">Chấp nhận</button>
-                        <button type="button" class="btn btn-danger" id="declineRequestButton" style="display: none;">Từ
-                            chối</button>
-                    </div>
+                    <button type="button" class="btn btn-success" id="sendRequestButton" style="display: none;">Gửi
+                        yêu
+                        cầu kết bạn</button>
+                    <button type="button" class="btn btn-danger" id="cancelRequestButton" style="display: none;">Thu hồi
+                        yêu cầu</button>
+                    <button type="button" class="btn btn-info" id="messageButtonn" style="display: none;">Nhắn
+                        tin</button> <!-- Nút nhắn tin -->
                 </div>
 
 
