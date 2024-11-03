@@ -310,7 +310,7 @@ public function update(Request $request)
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
         'gender' => 'required|string|in:male,female',
-        'phone' => 'nullable|string|max:15', // Thêm quy tắc cho số điện thoại
+        'phone' => 'nullable|string|regex:/^[0-9]+$/|digits_between:10,15|max:15', // Chỉ cho phép số
         'dob' => 'nullable|date|before_or_equal:today', // Thêm quy tắc cho ngày sinh
         'description' => 'nullable|string|max:1000', // Thêm quy tắc cho mô tả
     ], [
@@ -321,10 +321,12 @@ public function update(Request $request)
         'cover_image.image' => 'Ảnh bìa phải là ảnh',
         'cover_image.mimes' => 'Chỉ chấp nhận ảnh định dạng jpeg, png, jpg, gif, svg',
         'cover_image.max' => 'Dung lượng ảnh bìa không được vượt quá 2MB',
-        'phone.max' => 'Số điện thoại không được vượt quá 15 ký tự',
+        'phone.regex' => 'Số điện thoại chỉ được chứa số',
+        'phone.digits_between' => 'Số điện thoại phải có từ 10 đến 15 chữ số',
         'dob.date' => 'Ngày sinh không hợp lệ',
         'dob.before_or_equal' => 'Ngày sinh không được lớn hơn ngày hiện tại', // Thông báo lỗi cho ngày sinh
         'description.max' => 'Mô tả không được vượt quá 1000 ký tự',
+        
     ]);
 
     if ($validator->fails()) {
@@ -342,16 +344,12 @@ public function update(Request $request)
     }
 
     // Xử lý tải lên avatar
+   
     if ($request->hasFile('avatar')) {
-        if ($user->avatar && file_exists(public_path($user->avatar))) {
-            unlink(public_path($user->avatar));
-        }
-
         $fileName = uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension();
         $request->file('avatar')->move(public_path('uploads/images/avatars'), $fileName);
         $user->avatar = 'uploads/images/avatars/' . $fileName;
     }
-
     // Xử lý tải lên ảnh bìa
     if ($request->hasFile('cover_image')) {
         if ($user->cover_image && file_exists(public_path($user->cover_image))) {

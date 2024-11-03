@@ -10,9 +10,9 @@
                 <div class="d-flex justify-content-center align-items-center">
                     <div>
                         <div class="profile mb-4 mt-1 text-center">
-                            <a href="#"><img src="{{ Auth::user()->avatar }}" alt="Profile Picture"
-                                    class="rounded-circle" width="50" height="50" data-bs-toggle="modal"
-                                    data-bs-target="#profileModal" style="cursor: pointer;"></a>
+                            <a href="#"><img src="{{ asset(Auth::user()->avatar) }}"
+                                    alt="Profile Picture" class="rounded-circle" width="50" height="50"
+                                    data-bs-toggle="modal" data-bs-target="#profileModal" style="cursor: pointer;"></a>
                         </div>
                         <ul class="nav flex-column align-items-center">
                             <li class="nav-item mb-3">
