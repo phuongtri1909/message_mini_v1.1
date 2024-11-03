@@ -7,6 +7,9 @@
     <script>
         showSavedToast();
     </script>
+    <script>
+      
+    </script>
 @endpush
 
 @section('content')
@@ -21,10 +24,10 @@
 <div class="container">
     <h3>Lời Mời Kết Bạn({{ $friendRequests->total() }})</h3>
     @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+    <div id="messageAlert" data-message="{{ session('success') }}" data-status="success"></div>
     @endif
     @if (session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
+    <div id="messageAlert" data-message="{{ session('error') }}" data-status="error"></div>
     @endif
     <div class="list-group">
         @forelse ($friendRequests as $request)
