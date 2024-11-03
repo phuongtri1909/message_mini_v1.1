@@ -44,9 +44,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-    Route::get('/chat/{conversation_id}', [MessageController::class, 'openConversation'])->name('chat');
     Route::post('/send-message', [MessageController::class, 'sendMessage'])->name('send.message');
-    Route::get('/messages/{conversationId}', [MessageController::class, 'fetchMessages']);
+    Route::get('/conversation/{conversationId}', [MessageController::class, 'openConversation'])->name('conversation');
 });
 
 

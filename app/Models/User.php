@@ -100,4 +100,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(FriendRequest::class, 'receiver_id');
     }
+
+    public function canJoinConversation($conversationId)
+    {
+        return $this->conversations()->where('conversation_id', $conversationId)->exists();
+    }
 }
