@@ -322,6 +322,8 @@ public function update(Request $request)
         'cover_image.mimes' =>  __('messages.cover_imagemimes'),
         'cover_image.max' =>  __('messages.cover_imagemax'),
         'phone.max' =>  __('messages.phonemax'),
+        'phone.regex' =>  __('messages.phoneregex'), 
+        'phone.digits_between' =>  __('messages.phonedigits_between'),
         'dob.date' =>  __('messages.dobdate'),
         'dob.before_or_equal' =>  __('messages.dobbefore_or_equal'), // Thông báo lỗi cho ngày sinh
         'description.max' =>  __('messages.descriptionmax'),

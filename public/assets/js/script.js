@@ -486,7 +486,6 @@ function previewImage(event) {
     reader.readAsDataURL(event.target.files[0]);
 }
 
-<<<<<<< HEAD
          //Hàm chuyển đổi ngôn ngữ
          document.getElementById('saveSettingsBtn').addEventListener('click', function() {
             var selectedLang = document.getElementById('languageSelect').value;
@@ -503,8 +502,5 @@ function previewImage(event) {
             })
             .catch(error => console.error('Fetch error:', error));
         });
-=======
-
->>>>>>> db3fb46fd331d04209d0de8d0b36097b0f7985fa
 
 

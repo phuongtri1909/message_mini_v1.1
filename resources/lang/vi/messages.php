@@ -60,4 +60,6 @@ return [
     'phonemax' => 'Số điện thoại không được vượt quá 15 ký tự',
     'dobdate' => 'Ngày sinh không hợp lệ',
     'dobbefore_or_equal' => 'Ngày sinh không được lớn hơn ngày hiện tại',
+    'phoneregex' => 'Số điện thoại chỉ được chứa số', 
+    'phonedigits_between' => 'Số điện thoại phải có từ 10 đến 15 chữ số',
 ];

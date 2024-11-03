@@ -40,11 +40,7 @@
                     <!-- Phone -->
                     <div class="form-group">
                         <label>{{ __('messages.phone')}}</label>
-<<<<<<< HEAD
                         <input type="tel" name="phone" class="form-control" value="{{ Auth::user()->phone }}">
-=======
-                        <input type="tel" name="phone" class="form-control" value="{{ Auth::user()->phone }}" >
->>>>>>> db3fb46fd331d04209d0de8d0b36097b0f7985fa
                     </div>
 
                     <!-- Date of Birth -->

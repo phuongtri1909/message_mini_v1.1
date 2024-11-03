@@ -85,67 +85,11 @@ document.addEventListener('DOMContentLoaded', function () {
 @endsection
 
 @section('content-2-1')
-<<<<<<< HEAD
 
 <div>
     <div class="listfr-header bg-white p-3 border-bottom d-flex align-items-center">
         <i class="fa-solid fa-user-group me-2"></i>
         <h3 class="mb-0">{{__('messages.friendList')}} ({{ $friends->total() }})</h3>
-=======
-    <div>
-        <div class="listfr-header bg-white p-3 border-bottom d-flex align-items-center">
-            <i class="fa-solid fa-user-group me-2"></i>
-            <h3 class="mb-0">{{ __('messages.friendList') }} ({{ $friends->total() }})</h3>
-        </div>
-
-        <div class="search-bar-main d-flex mx-3 my-4">
-            <form action="{{ route('friends.search') }}" method="GET" class="d-flex w-100">
-                <input type="text" name="query" class="form-control me-2" placeholder="{{ __('messages.searchFriend') }}"
-                    value="{{ request('query') }}">
-                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-search"></i></button>
-            </form>
-        </div>
-
-        <div class="listfr-body bg-white p-3">
-            @if ($message)
-                <div class="alert alert-warning">{{ $message }}</div>
-            @else
-                @foreach ($friends as $friend)
-                    <div class="friend-item d-flex align-items-center p-2 border-bottom" style="position: relative;">
-                        <img src="{{ asset($friend->avatar) }}" alt="{{ $friend->name }}"
-                            class="friend-img rounded-circle me-3" style="width: 40px; height: 40px;">
-                        <div>
-                            <span class="friend-name">{{ $friend->name }}</span>
-                            <p style="margin: 0; color: #888;" class="d-flex">{{ __('messages.friendAlready') }}:
-                                {{ \Carbon\Carbon::parse($friend->friendship_start)->diffForHumans() }}</p>
-                        </div>
-                        <a href="#" class="ms-auto toggle-menu" data-dropdown-id="dropdown-menu-{{ $friend->id }}"
-                            tabindex="0" style="color: #333;">
-                            <i class="fa-solid fa-ellipsis-v"></i>
-                        </a>
-
-                        <div id="dropdown-menu-{{ $friend->id }}" class="dropdown-menu-custom"
-                            style="display: none; position: absolute; top: 100%; right: 0; background: #fff; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); z-index: 10;">
-                            <a href="#" class="dropdown-item"
-                                style="padding: 8px 15px; color: #333; text-decoration: none; display: block;">{{ __('messages.viewInformation') }}</a>
-                            <a href="#" class="dropdown-item"
-                                style="padding: 8px 15px; color: #333; text-decoration: none; display: block;">{{ __('messages.sendMessage') }}</a>
-                            <form action="{{ route('unfriend') }}" method="POST" style="margin: 0;">
-                                @csrf
-                                <input type="hidden" name="friend_id" value="{{ $friend->id }}">
-                                <button type="submit" class="dropdown-item"
-                                    style="padding: 8px 15px; color: #333; text-decoration: none; background: none; border: none; cursor: pointer;">{{ __('messages.deleteFriend') }}</button>
-                            </form>
-                        </div>
-                    </div>
-                @endforeach
-
-                <div class="d-flex justify-content-center mt-3">
-                    {{ $friends->links('pagination::bootstrap-5') }}
-                </div>
-            @endif
-        </div>
->>>>>>> db3fb46fd331d04209d0de8d0b36097b0f7985fa
 
     </div>
 

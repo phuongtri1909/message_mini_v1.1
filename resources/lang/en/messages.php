@@ -60,5 +60,7 @@ return [
     'phonemax' => 'Phone number must not exceed 15 characters',
     'dobdate' => 'Invalid date of birth',
     'dobbefore_or_equal' => 'Date of birth cannot be greater than current date',
+    'phoneregex' => 'Phone numbers contain only numbers', 
+    'phonedigits_between' => 'The phone number must have 10 to 15 digits',
 ];
 
