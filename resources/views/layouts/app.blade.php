@@ -10,9 +10,9 @@
                 <div class="d-flex justify-content-center align-items-center">
                     <div>
                         <div class="profile mb-4 mt-1 text-center">
-                            <a href="#"><img src="{{ Auth::user()->avatar }}"
-                                    alt="Profile Picture" class="rounded-circle" width="50" height="50"
-                                    data-bs-toggle="modal" data-bs-target="#profileModal" style="cursor: pointer;"></a>
+                            <a href="#"><img src="{{ Auth::user()->avatar }}" alt="Profile Picture"
+                                    class="rounded-circle" width="50" height="50" data-bs-toggle="modal"
+                                    data-bs-target="#profileModal" style="cursor: pointer;"></a>
                         </div>
                         <ul class="nav flex-column align-items-center">
                             <li class="nav-item mb-3">
@@ -65,16 +65,16 @@
             <section class="col-0 col-md-3 bg-white px-0" style="border-right: 0.5px solid rgba(224, 226, 225, 0.874);">
                 <div class="search-bar mb-4 d-flex align-items-center border-bottom px-3">
                     <input type="text" class="form-control me-2" placeholder="Tìm kiếm">
-                    <button class="btn" style="border: none; background: none; padding-left: 2px;" data-bs-toggle="modal"
-                        data-bs-target="#addFriendModal">
+                    <button class="btn" style="border: none; background: none; padding-left: 2px;"
+                        data-bs-toggle="modal" data-bs-target="#addFriendModal">
                         <i class="fa-solid fa-user-plus "></i>
                     </button>
-            
-                    <button type="button" style="border: none; background: none; padding-left: 2px;" data-bs-toggle="modal"
-                        data-bs-target="#createGroupModal">
+
+                    <button type="button" style="border: none; background: none; padding-left: 2px;"
+                        data-bs-toggle="modal" data-bs-target="#createGroupModal">
                         <a href="#"><i class="fa-solid fa-people-group"></i></a>
                     </button>
-            
+
                 </div>
                 @yield('content-1')
             </section>
@@ -127,16 +127,17 @@
             </div>
             <div class="modal-body">
                 <div class="mb-3 row">
-                    
+
                     <label for="friendEmail" class="form-label">Nhập Email:</label>
                     <div class=" col-10">
                         <input type="email" class="form-control" id="friendEmail" placeholder="Nhập Email" required
-                            pattern="^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$" title="Vui lòng nhập định dạng email hợp lệ."
-                            maxlength="100">
+                            pattern="^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$"
+                            title="Vui lòng nhập định dạng email hợp lệ." maxlength="100">
                     </div>
 
                     <div class="col-2">
-                        <button type="button" class="btn btn-primary" id="searchButton" disabled><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <button type="button" class="btn btn-primary" id="searchButton" disabled><i
+                                class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </div>
 
@@ -146,23 +147,31 @@
                         <div class="avatar" style="float: left; margin-right: 10px;">
                             <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Avatar" class="rounded-circle"
                                 id="resultUserAvatar" style="height: 50px; width:50px;">
-                        </div> 
+                        </div>
                         <div class="d-flex flex-column">
                             <div class="d-flex">
                                 <p class="mb-0 me-2"><strong id="resultUserName"></strong></p> |
-                                <p class="mb-0 ms-2" id="resultUserGender" style="color: gray;"></p> <!-- Thêm giới tính -->
+                                <p class="mb-0 ms-2" id="resultUserGender" style="color: gray;"></p>
+                                <!-- Thêm giới tính -->
                             </div>
                             <p class="mb-0" id="resultUserEmail" style="color: gray;"></p>
-                            
+
                         </div>
                     </div>
-                    <button type="button" class="btn btn-success" id="sendRequestButton" style="display: none;">Gửi
-                        yêu
-                        cầu kết bạn</button>
-                    <button type="button" class="btn btn-danger" id="cancelRequestButton" style="display: none;">Thu hồi
-                        yêu cầu</button>
-                    <button type="button" class="btn btn-info" id="messageButtonn" style="display: none;">Nhắn
-                        tin</button> <!-- Nút nhắn tin -->
+                    <div class="d-flex mt-3">
+                        <button type="button" class="btn btn-success" id="sendRequestButton" style="display: none;">Gửi
+                            yêu
+                            cầu kết bạn</button>
+                        <button type="button" class="btn btn-danger" id="cancelRequestButton" style="display: none;">Thu
+                            hồi
+                            yêu cầu</button>
+                        <button type="button" class="btn btn-info" id="messageButtonn" style="display: none;">Nhắn
+                            tin</button> <!-- Nút nhắn tin -->
+                        <button type="button" class="btn btn-success" id="acceptRequestButton"
+                            style="display: none; margin-right: 5px; ">Chấp nhận</button>
+                        <button type="button" class="btn btn-danger" id="declineRequestButton" style="display: none;">Từ
+                            chối</button>
+                    </div>
                 </div>
 
 
