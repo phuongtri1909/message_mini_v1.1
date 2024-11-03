@@ -696,3 +696,47 @@ html, body {
     height: 100%;
     overflow-y: auto;
 }
+.position-relative {
+    position: relative;
+}
+
+/* Ảnh Bìa */
+.cover-image-label img {
+    border: 5px solid transparent; /* Viền mặc định */
+    transition: border 0.3s; /* Hiệu ứng chuyển đổi cho viền */
+}
+
+.cover-image-label img:hover {
+    border: 5px solid rgba(0, 123, 255, 0.7); /* Viền khi hover */
+}
+.cover-image-wrapper {
+    position: relative;
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    height: 200px; /* Chiều cao cố định hoặc điều chỉnh theo nhu cầu */
+    overflow: hidden; /* Ẩn phần vượt ra ngoài */
+}
+
+.cover-image-label {
+    background-size: cover; /* Giữ nguyên tỉ lệ hình ảnh */
+    background-position: center; /* Căn giữa hình ảnh */
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    height: 100%; /* Chiếm toàn bộ chiều cao */
+}
+
+/* Ảnh Đại Diện */
+.text-left {
+    text-align: left; /* Căn giữa ảnh đại diện */
+}
+
+.text-left img {
+    border: 3px solid white; /* Viền mặc định cho ảnh đại diện */
+    transition: border 0.3s; /* Hiệu ứng chuyển đổi cho viền */
+}
+
+.text-left img:hover {
+    border: 3px solid rgba(0, 123, 255, 0.7); /* Viền khi hover */
+}
+
+.mt-n5 {
+    margin-top: -5rem; /* Điều chỉnh vị trí ảnh đại diện gần với ảnh bìa hơn */
+}
