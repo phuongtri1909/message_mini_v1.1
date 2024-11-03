@@ -203,7 +203,7 @@
 
     <!-- Thêm input để gửi tin nhắn -->
 
-    <form id="send-message-form">
+    <form id="send-message-form" method="POST">
         <div class="footer-send chat-input d-flex align-items-center bg-white p-3 border-top">
             <div class="input-icons ms-3" style="display: flex;">
                 <a href="#" id="folderIcon"><i class="fa-solid fa-folder"></i></a>
@@ -244,81 +244,82 @@
         </div>
     </div>
 </div>
-@vite('resources/js/app.js')
+
 @push('scripts')
-    
-    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+    @vite('resources/js/app.js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const conversationId = $('#conversation_id').val();
-
-            // Lắng nghe sự kiện từ kênh Private
-            Echo.private(`chat.${conversationId}`)
+            Echo.private('chat.{{ $latestConversation->id }}')
                 .listen('MessageSent', (e) => {
+                    console.log(e.message);
+                    
                     const messageHtml = `
-                        <div class="message d-flex mb-3 ${e.message.sender_id === {{ Auth::id() }} ? 'justify-content-end' : ''}">
+                         <div class="message d-flex mb-3 ${e.message.sender_id === {{ Auth::id() }} ? 'justify-content-end' : ''}">
                             ${e.message.sender_id !== {{ Auth::id() }} ? `
-                                    <img src="${e.message.sender.avatar ? '{{ asset('') }}' + e.message.sender.avatar : '{{ asset('default-avatar.png') }}'}" alt="User" class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
-                                ` : ''}
-                            <div class="message-content ${e.message.sender_id === {{ Auth::id() }} ? 'bg-primary text-white' : 'bg-white'} p-2 rounded">
-                                <p class="mb-0">${e.message.message}</p>
-                                <span class="message-time text-muted small">${moment(e.message.created_at).fromNow()}</span>
+                                        <img src="${e.message.sender.avatar ? '{{ asset('e.message.sender.avatar') }}' : '{{ asset('default-avatar.png') }}'}" alt="User" class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
+                                        ` : ''}
+                         <div class="message-content ${e.message.sender_id === {{ Auth::id() }} ? 'bg-primary text-white' : 'bg-white'} p-2 rounded">
+                                 <p class="mb-0">${e.message.message}</p>
+                             <span class="message-time text-muted small">${e.message.created_at}</span>
                             </div>
-                            ${e.message.sender_id === {{ Auth::id() }} ? `
-                                    <img src="${e.message.sender.avatar ? '{{ asset('') }}' + e.message.sender.avatar : '{{ asset('default-avatar.png') }}'}" alt="User" class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">
-                                ` : ''}
-                        </div>
-                    `;
+                             ${e.message.sender_id === {{ Auth::id() }} ? `
+                                         <img src="${e.message.sender.avatar ? '{{ asset('e.message.sender.avatar') }}' : '{{ asset('default-avatar.png') }}'}" alt="User" class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">
+                                         ` : ''}
+                         </div>
+                     `;
 
                     $('.box-chat').prepend(messageHtml);
                     var chatBox = document.querySelector('.box-chat');
                     chatBox.scrollTop = chatBox.scrollHeight;
+
                 });
+        });
+        
 
-                $('#send-message-form').submit(function(e) {
-                    e.preventDefault();
+        document.addEventListener('DOMContentLoaded', function() {
+            $('#send-message-form').submit(function(e) {
+                e.preventDefault();
 
-                    let message = $('#messageInput').val();
+                let message = $('#messageInput').val();
 
-                    $.ajax({
-                        url: '/send-message',
-                        type: 'POST',
-                        data: {
-                            _token: $('input[name="_token"]').val(),
-                            conversation_id: conversationId,
-                            message: message
-                        },
-                        success: function(response) {
-                            if (response.status === 'success') {
-                                $('#messageInput').val('');
-                                // Optionally, you can append the new message to the chat box here
-                            } else {
-                                console.log(response.message);
-                                
-                            }
-                        },
-                        error: function(xhr) {
-                            if (xhr.status === 422) {
-                                // Validation error
-                                let errors = xhr.responseJSON.errors;
-                                let errorMessage = '';
-                                for (let key in errors) {
-                                    if (errors.hasOwnProperty(key)) {
-                                        errorMessage += errors[key][0] + '\n';
-                                    }
-                                }
-                               
-                                console.log(errerrorMessageors);
-                                
-                            } else {
-                             
+                $.ajax({
+                    url: '/send-message',
+                    type: 'POST',
+                    data: {
+                        _token: $('input[name="_token"]').val(),
+                        conversation_id: {{ $latestConversation->id }},
+                        message: message
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            $('#messageInput').val('');
+                        } else {
+                            console.log(response.message);
 
-                                console.log(xhr.responseJSON.message);
-                                
-                            }
                         }
-                    });
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            // Validation error
+                            let errors = xhr.responseJSON.errors;
+                            let errorMessage = '';
+                            for (let key in errors) {
+                                if (errors.hasOwnProperty(key)) {
+                                    errorMessage += errors[key][0] + '\n';
+                                }
+                            }
+
+                            console.log(errerrorMessageors);
+
+                        } else {
+
+
+                            console.log(xhr.responseJSON.message);
+
+                        }
+                    }
                 });
+            });
 
         });
     </script>
