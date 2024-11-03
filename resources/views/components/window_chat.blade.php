@@ -26,24 +26,24 @@
             <div class="d-flex">
                 {{-- chỗ này nếu avatar null thì lấy ảnh user ghép lại --}}
                 <img class="rounded-circle" width="50" height="50px"
-                    src="{{ asset($latestConversation->is_group ? $latestConversation->avatar : $latestConversation->friend->avatar) }}"
+                    src="{{ asset($conversation->is_group ? $conversation->avatar : $conversation->friend->avatar) }}"
                     alt="">
                 <div class="ms-3">
                     <h5 class="mb-0">
-                        @if ($latestConversation->is_group)
-                            {{ $latestConversation->name }}
+                        @if ($conversation->is_group)
+                            {{ $conversation->name }}
                         @else
                             @php
-                                $userInfo = $latestConversation->conversationUserInfo->firstWhere(
+                                $userInfo = $conversation->conversationUserInfo->firstWhere(
                                     'user_id',
-                                    $latestConversation->friend->id,
+                                    $conversation->friend->id,
                                 );
                             @endphp
-                            {{ $userInfo->nickname ?? $latestConversation->friend->name }}
+                            {{ $userInfo->nickname ?? $conversation->friend->name }}
                         @endif
                     </h5>
                     <p class="text-muted mb-0">
-                        {{ $latestConversation->is_group ? $latestConversation->conversationUserInfo->count() : '' }}
+                        {{ $conversation->is_group ? $conversation->conversationUserInfo->count() : '' }}
                     </p>
                 </div>
             </div>
@@ -180,22 +180,24 @@
         </div>
     </div>
 
+   
     <div class="box-chat chat-messages flex-grow-1 p-3 overflow-auto">
-        @foreach ($latestConversation->messages as $message)
+        @foreach ($conversation->messages as $message)
             <div class="message d-flex mb-3 {{ $message->sender_id === Auth::id() ? 'justify-content-end' : '' }}">
                 @if ($message->sender_id !== Auth::id())
-                    <img src="{{ asset($message->sender->avatar ?? 'default-avatar.png') }}" alt="User"
-                        class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
+                    <img src="{{ $conversation->is_group ? asset('/assets/images/avatar_default.jpg') : asset($message->sender->avatar ?? '/assets/images/avatar_default.jpg') }}" alt="User"
+                    class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
                 @endif
-                <div
-                    class="message-content {{ $message->sender_id === Auth::id() ? 'bg-primary text-white' : 'bg-white' }} p-2 rounded">
+                <div class="message-content {{ $message->sender_id === Auth::id() ? 'bg-primary text-white' : 'bg-white' }} p-2 rounded">
+                    @if($conversation->is_group && $message->sender_id !== Auth::id())
+                        <p class="mb-0 text-muted">{{ $message->sender->name }}</p>
+                    @endif
                     <p class="mb-0">{{ $message->message }}</p>
-                    <span
-                        class="message-time text-muted small">{{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}</span>
+                    <span class="message-time text-muted small">{{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}</span>
                 </div>
                 @if ($message->sender_id === Auth::id())
-                    <img src="{{ asset($message->sender->avatar ?? 'default-avatar.png') }}" alt="User"
-                        class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">
+                    <img src="{{ $conversation->is_group ? asset('/assets/images/avatar_default.jpg') : asset($message->sender->avatar ?? '/assets/images/avatar_default.jpg') }}" alt="User"
+                    class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
                 @endif
             </div>
         @endforeach
@@ -203,7 +205,8 @@
 
     <!-- Thêm input để gửi tin nhắn -->
 
-    <form id="send-message-form" method="POST">
+    <form id="send-message-form">
+        @csrf
         <div class="footer-send chat-input d-flex align-items-center bg-white p-3 border-top">
             <div class="input-icons ms-3" style="display: flex;">
                 <a href="#" id="folderIcon"><i class="fa-solid fa-folder"></i></a>
@@ -212,7 +215,7 @@
             </div>
 
             <input type="hidden" name="conversation_id" id="conversation_id"
-                value="{{ $latestConversation->id }}">
+                value="{{ $conversation->id }}">
             <textarea class="form-control rounded-pill" id="messageInput" placeholder="Nhập @, tin nhắn tới ..." rows="1"
                 oninput="toggleSendIcon()" style="resize: none; overflow: hidden; width:700px"></textarea>
             <button type="submit" href="#" id="sendIcon" style="display: none;">
@@ -249,53 +252,57 @@
     @vite('resources/js/app.js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            Echo.private('chat.{{ $latestConversation->id }}')
+            const conversationId = document.getElementById('conversation_id').value;
+            Echo.private('chat.' + conversationId)
                 .listen('MessageSent', (e) => {
                     console.log(e.message);
-                    
+
+                    const avatarUrl = e.message.sender.avatar_url;
+
                     const messageHtml = `
-                         <div class="message d-flex mb-3 ${e.message.sender_id === {{ Auth::id() }} ? 'justify-content-end' : ''}">
+                        <div class="message d-flex mb-3 ${e.message.sender_id === {{ Auth::id() }} ? 'justify-content-end' : ''}">
                             ${e.message.sender_id !== {{ Auth::id() }} ? `
-                                        <img src="${e.message.sender.avatar ? '{{ asset('e.message.sender.avatar') }}' : '{{ asset('default-avatar.png') }}'}" alt="User" class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
-                                        ` : ''}
-                         <div class="message-content ${e.message.sender_id === {{ Auth::id() }} ? 'bg-primary text-white' : 'bg-white'} p-2 rounded">
-                                 <p class="mb-0">${e.message.message}</p>
-                             <span class="message-time text-muted small">${e.message.created_at}</span>
+                                <img src="${avatarUrl}" alt="User" class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
+                            ` : ''}
+                            <div class="message-content ${e.message.sender_id === {{ Auth::id() }} ? 'bg-primary text-white' : 'bg-white'} p-2 rounded">
+                                <p class="mb-0">${e.message.message}</p>
+                                <span class="message-time text-muted small">${e.message.created_at}</span>
                             </div>
-                             ${e.message.sender_id === {{ Auth::id() }} ? `
-                                         <img src="${e.message.sender.avatar ? '{{ asset('e.message.sender.avatar') }}' : '{{ asset('default-avatar.png') }}'}" alt="User" class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">
-                                         ` : ''}
-                         </div>
-                     `;
+                            ${e.message.sender_id === {{ Auth::id() }} ? `
+                                <img src="${avatarUrl}" alt="User" class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">
+                            ` : ''}
+                        </div>
+                    `;
 
                     $('.box-chat').prepend(messageHtml);
                     var chatBox = document.querySelector('.box-chat');
                     chatBox.scrollTop = chatBox.scrollHeight;
-
                 });
         });
+
         
 
         document.addEventListener('DOMContentLoaded', function() {
-            $('#send-message-form').submit(function(e) {
+            $(document).on('submit', '#send-message-form', function(e) {
+                console.log('submitting message');
+                
                 e.preventDefault();
 
                 let message = $('#messageInput').val();
 
                 $.ajax({
-                    url: '/send-message',
+                    url: '{{ route('send.message') }}',
                     type: 'POST',
                     data: {
                         _token: $('input[name="_token"]').val(),
-                        conversation_id: {{ $latestConversation->id }},
+                        conversation_id: $('#conversation_id').val(),
                         message: message
                     },
                     success: function(response) {
                         if (response.status === 'success') {
                             $('#messageInput').val('');
                         } else {
-                            console.log(response.message);
-
+                            showToastr(response.message, 'error');
                         }
                     },
                     error: function(xhr) {
@@ -309,18 +316,14 @@
                                 }
                             }
 
-                            console.log(errerrorMessageors);
+                            showToastr(errorMessage, 'error');
 
                         } else {
-
-
-                            console.log(xhr.responseJSON.message);
-
+                            showToastr(xhr.responseJSON.message, 'error');
                         }
                     }
                 });
             });
-
         });
     </script>
 @endpush

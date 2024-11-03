@@ -39,5 +39,10 @@ class Conversation extends Model
         return $this->hasOne(Message::class)->latestOfMany();
     }
 
+    public function conversationUsers()
+    {
+        return $this->hasMany(ConversationUser::class);
+    }
+
 
 }
