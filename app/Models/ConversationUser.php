@@ -9,6 +9,8 @@ class ConversationUser extends Model
 {
     use HasFactory;
 
+    protected $table = 'conversation_user';
+
     // Model người dùng trong cuộc trò chuyện
     protected $fillable = ['conversation_id', 'user_id','nickname', 'role', 'invited_by'];
 

@@ -12,11 +12,16 @@ class Conversation extends Model
     // Model nhóm trò chuyện
     protected $fillable = ['name', 'is_group', 'created_by'];
 
+    // public function users()
+    // {
+    //     return $this->belongsToMany(User::class, 'conversation_user', 'conversation_id', 'user_id')
+    //                 ->withPivot('role', 'invited_by')
+    //                 ->withTimestamps();
+    // }
+
     public function users()
     {
-        return $this->belongsToMany(User::class, 'conversation_user', 'conversation_id', 'user_id')
-                    ->withPivot('role', 'invited_by')
-                    ->withTimestamps();
+        return $this->belongsToMany(User::class);
     }
 
     public function messages()
@@ -33,4 +38,6 @@ class Conversation extends Model
     {
         return $this->hasOne(Message::class)->latestOfMany();
     }
+
+
 }
