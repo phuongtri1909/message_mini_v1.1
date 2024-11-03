@@ -64,21 +64,21 @@
             <!-- Chat List -->
             <section class="col-0 col-md-3 bg-white px-0" style="border-right: 0.5px solid rgba(224, 226, 225, 0.874);">
                 <div class="search-bar mb-4 d-flex align-items-center border-bottom px-3">
-                    <input type="text" class="form-control me-2" placeholder="Tìm kiếm">
-                    <button class="btn" style="border: none; background: none; padding-left: 2px;" data-bs-toggle="modal"
-                        data-bs-target="#addFriendModal">
-                        <i class="fa-solid fa-user-plus "></i>
+                    <input type="text" class="form-control me-2" placeholder="Tìm kiếm" id="searchMessages" oninput="searchMessages()">
+                    <button class="btn" style="border: none; background: none; padding-left: 2px;" data-bs-toggle="modal" data-bs-target="#addFriendModal">
+                        <i class="fa-solid fa-user-plus"></i>
                     </button>
-            
-                    <button type="button" style="border: none; background: none; padding-left: 2px;" data-bs-toggle="modal"
-                        data-bs-target="#createGroupModal">
+                    <button type="button" style="border: none; background: none; padding-left: 2px;" data-bs-toggle="modal" data-bs-target="#createGroupModal">
                         <a href="#"><i class="fa-solid fa-people-group"></i></a>
                     </button>
-            
                 </div>
+                
+                <div id="searchResults" class="mt-2" style="display: none;">
+                    <ul class="list-group" id="searchResultsList"></ul>
+                </div>
+                
                 @yield('content-1')
             </section>
-
             <!-- Main Chat Window -->
             <section class="col-11 col-md-8 chat-window px-0">
                 @yield('content-2')
@@ -358,3 +358,43 @@
 
 
 @include('layouts.partials.footer')
+<script>
+    function searchMessages() {
+        const query = document.getElementById('searchMessages').value;
+
+        if (query.length === 0) {
+            document.getElementById('searchResults').style.display = 'none'; // Ẩn kết quả nếu input rỗng
+            return;
+        }
+
+        fetch(`{{ route('messages.search') }}?query=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                const resultsList = document.getElementById('searchResultsList');
+                resultsList.innerHTML = ''; // Xóa kết quả cũ
+
+                if (data.length > 0) {
+                    data.forEach(message => {
+                        const listItem = document.createElement('li');
+                        listItem.classList.add('list-group-item');
+
+                        // Tạo HTML cho từng kết quả tìm kiếm
+                        listItem.innerHTML = `
+                            <div class="d-flex align-items-center">
+                                <img src="${message.sender.avatar}" alt="${message.sender.name}" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                                <div>
+                                    <strong>${message.sender.name}</strong>: ${message.message}
+                                </div>
+                            </div>
+                        `; // Hiển thị avatar, tên và nội dung tin nhắn
+
+                        resultsList.appendChild(listItem);
+                    });
+                    document.getElementById('searchResults').style.display = 'block'; // Hiện kết quả
+                } else {
+                    document.getElementById('searchResults').style.display = 'none'; // Ẩn kết quả nếu không có
+                }
+            })
+            .catch(error => console.error('Error fetching messages:', error));
+    }
+</script>

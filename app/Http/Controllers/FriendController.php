@@ -8,7 +8,7 @@ use App\Models\FriendRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\Message;
 class FriendController extends Controller
 {
 
@@ -435,4 +435,17 @@ public function showFriendsList()
     return view('pages.friend.listfriend', ['friends' => $friends, 'query' => $query, 'message' => $message]);
 }
 
+public function searchMessages(Request $request)
+{
+    // Lấy từ khóa tìm kiếm từ request
+    $query = $request->input('query');
+
+    // Tìm kiếm các tin nhắn theo từ khóa và lấy thông tin người gửi
+    $messages = Message::with('sender') // Nạp thông tin người gửi
+        ->where('message', 'like', "%{$query}%")
+        ->get(['message', 'sender_id']); // Chỉ lấy thông tin cần thiết
+
+    // Trả về kết quả tìm kiếm dưới dạng JSON
+    return response()->json($messages);
+}
 }
