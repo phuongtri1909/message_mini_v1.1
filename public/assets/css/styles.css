@@ -337,16 +337,6 @@ footer .icon-footer {
     overflow-y: auto;
 }
 
-.chat-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-radius: 10px;
-    margin: 10px;
-    cursor: pointer;
-    
-}
 
 .chat-item:hover {
     background: #f0ecec;
@@ -379,11 +369,6 @@ footer .icon-footer {
     color: #888;
 }
 
-.message {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 10px;
-}
 
 .message img {
     width: 40px;

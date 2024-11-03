@@ -10,7 +10,6 @@
     <title>@yield('title')</title>
     <meta name="description" content="@yield('description')">
     <meta name="keywords" content="@yield('keywords')">
-
     <link rel="shortcut icon" href="{{ asset('assets/images/logo/logochat.png') }}" type="image/x-icon">
     @stack('meta')
 

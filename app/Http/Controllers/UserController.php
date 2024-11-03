@@ -347,8 +347,8 @@ public function update(Request $request)
    
     if ($request->hasFile('avatar')) {
         $fileName = uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension();
-        $request->file('avatar')->move(public_path('uploads/images/avatars'), $fileName);
-        $user->avatar = 'uploads/images/avatars/' . $fileName;
+        $request->file('avatar')->move(public_path('/uploads/images/avatars'), $fileName);
+        $user->avatar = '/uploads/images/avatars/' . $fileName;
     }
     // Xử lý tải lên ảnh bìa
     if ($request->hasFile('cover_image')) {
