@@ -329,8 +329,8 @@ public function update(Request $request)
         }
 
         $fileName = uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension();
-        $request->file('avatar')->move(public_path('uploads/images/avatars'), $fileName);
-        $user->avatar = 'uploads/images/avatars/' . $fileName;
+        $request->file('avatar')->move(public_path('/uploads/images/avatars'), $fileName);
+        $user->avatar = '/uploads/images/avatars/' . $fileName;
     }
 
     // Cập nhật thông tin người dùng
