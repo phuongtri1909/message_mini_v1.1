@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
+    
+
     public function openConversation($conversationId)
     {
         $conversation = Conversation::find($this->decodeId($conversationId));
@@ -43,6 +45,8 @@ class MessageController extends Controller
                 'sender_id' => $senderId,
                 'message' => $messageText
             ]);
+
+            $message->load('sender');
     
             // Phát sự kiện tin nhắn
             broadcast(new MessageSent($message))->toOthers();
