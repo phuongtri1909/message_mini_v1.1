@@ -61,7 +61,7 @@ class HomeController extends Controller
         $conversations = $conversations->filter(function ($conversation) {
             return $conversation->latestMessage !== null || $conversation->is_group;
         })->sortByDesc(function ($conversation) {
-            return $conversation->latestMessage ? $conversation->latestMessage->created_at : null;
+            return $conversation->latestMessage ? $conversation->latestMessage->created_at : $conversation->created_at;
         });
         
         // Lấy cuộc trò chuyện mới nhất
