@@ -70,11 +70,16 @@ class User extends Authenticatable
         return $this->friends()->where('friend_id', $userId)->exists();
     }
 
+    // public function conversations()
+    // {
+    //     return $this->belongsToMany(User::class, 'conversation_user')
+    //         ->withPivot('role', 'invited_by', 'nickname') // Thêm 'nickname' vào pivot
+    //         ->withTimestamps();
+    // }
+
     public function conversations()
     {
-        return $this->belongsToMany(User::class, 'conversation_user')
-            ->withPivot('role', 'invited_by', 'nickname') // Thêm 'nickname' vào pivot
-            ->withTimestamps();
+        return $this->belongsToMany(Conversation::class, 'conversation_user', 'user_id', 'conversation_id');
     }
 
     public function messages()

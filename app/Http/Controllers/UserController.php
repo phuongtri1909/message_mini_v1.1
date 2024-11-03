@@ -310,21 +310,23 @@ public function update(Request $request)
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
         'gender' => 'required|string|in:male,female',
-        'phone' => 'nullable|string|max:15', // Thêm quy tắc cho số điện thoại
+        'phone' => 'nullable|string|regex:/^[0-9]+$/|digits_between:10,15|max:15', // Chỉ cho phép số
         'dob' => 'nullable|date|before_or_equal:today', // Thêm quy tắc cho ngày sinh
         'description' => 'nullable|string|max:1000', // Thêm quy tắc cho mô tả
     ], [
-        'avatar.required' => 'Hãy chọn ảnh avatar',
-        'avatar.image' => 'Avatar phải là ảnh',
-        'avatar.mimes' => 'Chỉ chấp nhận ảnh định dạng jpeg, png, jpg, gif, svg',
-        'avatar.max' => 'Dung lượng avatar không được vượt quá 2MB',
-        'cover_image.image' => 'Ảnh bìa phải là ảnh',
-        'cover_image.mimes' => 'Chỉ chấp nhận ảnh định dạng jpeg, png, jpg, gif, svg',
-        'cover_image.max' => 'Dung lượng ảnh bìa không được vượt quá 2MB',
-        'phone.max' => 'Số điện thoại không được vượt quá 15 ký tự',
-        'dob.date' => 'Ngày sinh không hợp lệ',
-        'dob.before_or_equal' => 'Ngày sinh không được lớn hơn ngày hiện tại', // Thông báo lỗi cho ngày sinh
-        'description.max' => 'Mô tả không được vượt quá 1000 ký tự',
+        'avatar.required' =>  __('messages.avatarrequired'),
+        'avatar.image' =>  __('messages.avatarimage'),
+        'avatar.mimes' =>  __('messages.avatarmimes'),
+        'avatar.max' =>  __('messages.avatarmax'),
+        'cover_image.image' =>  __('messages.cover_imageimage'),
+        'cover_image.mimes' =>  __('messages.cover_imagemimes'),
+        'cover_image.max' =>  __('messages.cover_imagemax'),
+        'phone.max' =>  __('messages.phonemax'),
+        'phone.regex' =>  __('messages.phoneregex'), 
+        'phone.digits_between' =>  __('messages.phonedigits_between'),
+        'dob.date' =>  __('messages.dobdate'),
+        'dob.before_or_equal' =>  __('messages.dobbefore_or_equal'), // Thông báo lỗi cho ngày sinh
+        'description.max' =>  __('messages.descriptionmax'),
     ]);
 
     if ($validator->fails()) {
@@ -338,20 +340,16 @@ public function update(Request $request)
     // Kiểm tra nếu dữ liệu đã bị thay đổi ở nơi khác
     if ($request->input('updated_at') != $user->updated_at->toDateTimeString()) {
         return redirect()->back()->withErrors(['user' => 'Dữ liệu đã được cập nhật ở nơi khác. Vui lòng tải lại trang.'])
-            ->with('error', 'Dữ liệu đã được cập nhật ở nơi khác!');
+            ->with('error',  __('messages.Datahasbeenupdatedelsewhere'));
     }
 
     // Xử lý tải lên avatar
+   
     if ($request->hasFile('avatar')) {
-        if ($user->avatar && file_exists(public_path($user->avatar))) {
-            unlink(public_path($user->avatar));
-        }
-
         $fileName = uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension();
-        $request->file('avatar')->move(public_path('uploads/images/avatars'), $fileName);
-        $user->avatar = 'uploads/images/avatars/' . $fileName;
+        $request->file('avatar')->move(public_path('/uploads/images/avatars'), $fileName);
+        $user->avatar = '/uploads/images/avatars/' . $fileName;
     }
-
     // Xử lý tải lên ảnh bìa
     if ($request->hasFile('cover_image')) {
         if ($user->cover_image && file_exists(public_path($user->cover_image))) {
@@ -374,7 +372,7 @@ public function update(Request $request)
     // Lưu thông tin
     $user->save();
 
-    return redirect()->back()->with('success', 'Thông tin cá nhân đã được cập nhật thành công!');
+    return redirect()->back()->with('success',  __('messages.successfully') );
 }
 
 }

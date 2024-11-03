@@ -8,7 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SocialsController;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\MessageController;
-
+use App\Http\Controllers\LanguageController; 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,8 +19,7 @@ use App\Http\Controllers\MessageController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-
+Route::get('/language/{lang}', [LanguageController::class, 'changeLanguage'])->name('language.switch');
 
 
 Route::group(['middleware' => 'auth'], function () {
@@ -45,8 +44,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/search-messages', [FriendController::class, 'searchMessages'])->name('messages.search');
 
 
-    Route::get('/chat/{user}', [MessageController::class, 'openConversation']);
-    Route::post('/send-message', [MessageController::class, 'sendMessage']);
+    Route::get('/chat/{conversation_id}', [MessageController::class, 'openConversation'])->name('chat');
+    Route::post('/send-message', [MessageController::class, 'sendMessage'])->name('send.message');
     Route::get('/messages/{conversationId}', [MessageController::class, 'fetchMessages']);
 });
 

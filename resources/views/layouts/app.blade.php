@@ -10,7 +10,7 @@
                 <div class="d-flex justify-content-center align-items-center">
                     <div>
                         <div class="profile mb-4 mt-1 text-center">
-                            <a href="#"><img src="{{ Auth::user()->avatar }}"
+                            <a href="#"><img src="{{ asset(Auth::user()->avatar) }}"
                                     alt="Profile Picture" class="rounded-circle" width="50" height="50"
                                     data-bs-toggle="modal" data-bs-target="#profileModal" style="cursor: pointer;"></a>
                         </div>
@@ -49,10 +49,9 @@
                                         <i class="fa-solid fa-cog text-white" style="font-size: 24px;"></i>
                                     </a>
                                     <ul class="dropdown-menu bg-drak" aria-labelledby="settingsDropdown">
-                                        <li><a class="dropdown-item" href="{{ route('logout') }}" id="logoutOption">Đăng
-                                                xuất</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('logout') }}" id="logoutOption">{{ __('messages.logout')}}</a></li>
                                         <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                data-bs-target="#languageSettingsModal">Cài đặt ngôn ngữ</a></li>
+                                                data-bs-target="#languageSettingsModal">{{ __('messages.settingLanguage')}}</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -122,15 +121,15 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addFriendModalLabel">Thêm Bạn Mới</h5>
+                <h5 class="modal-title" id="addFriendModalLabel">{{ __('messages.addNewFriend')}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-3 row">
                     
-                    <label for="friendEmail" class="form-label">Nhập Email:</label>
+                    <label for="friendEmail" class="form-label">{{ __('messages.enterEmail')}}:</label>
                     <div class=" col-10">
-                        <input type="email" class="form-control" id="friendEmail" placeholder="Nhập Email" required
+                        <input type="email" class="form-control" id="friendEmail" placeholder="{{ __('messages.enterEmail')}}" required
                             pattern="^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$" title="Vui lòng nhập định dạng email hợp lệ."
                             maxlength="100">
                     </div>
@@ -170,7 +169,7 @@
                 <!-- Thêm phần thông báo lỗi -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.close')}}</button>
             </div>
         </div>
     </div>
@@ -184,7 +183,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="friendRequestsModalLabel">Danh Sách Lời Mời Kết Bạn</h5>
+                <h5 class="modal-title" id="friendRequestsModalLabel">{{ __('messages.friendRequestList')}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -193,7 +192,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.close')}}</button>
             </div>
         </div>
     </div>
@@ -204,7 +203,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="friendsListModalLabel">Danh Sách Bạn Bè</h5>
+                <h5 class="modal-title" id="friendsListModalLabel">{{ __('messages.friendList')}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -214,47 +213,52 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                    style="height:96px; width:96px;">Đóng</button>
+                    style="height:96px; width:96px;">{{ __('messages.close') }}</button>
             </div>
         </div>
     </div>
 </div>
 
 <!--modal cài đặt ngôn ngữ -->
-
 <div class="modal fade" id="languageSettingsModal" tabindex="-1" aria-labelledby="languageSettingsLabel"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="languageSettingsLabel">Cài đặt</h5>
+                <!-- Thay đổi văn bản "Cài đặt" bằng khóa 'settings' từ tệp ngôn ngữ -->
+                <h5 class="modal-title" id="languageSettingsLabel">{{ __('messages.settings') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="settings-container">
                     <div class="row">
                         <div class="col-4">
+                            <!-- Thay đổi văn bản "Cài đặt chung" bằng khóa 'general_settings' -->
                             <button type="button" class="btn btn-light" id="generalSettingsBtn">
-                                <i class="fa-solid fa-gear"></i> Cài đặt chung
+                                <i class="fa-solid fa-gear"></i> {{ __('messages.general_settings') }}
                             </button>
                         </div>
                         <div class="col-8">
-                            <label for="languageSelect" class="form-label">Thay đổi ngôn ngữ</label>
+                            <!-- Thay đổi văn bản "Thay đổi ngôn ngữ" bằng khóa 'change_language' -->
+                            <label for="languageSelect" class="form-label">{{ __('messages.change_language') }}</label>
                             <select class="form-select" id="languageSelect" aria-label="Language select">
-                                <option value="en">Tiếng Anh</option>
-                                <option value="vi">Tiếng Việt</option>
+                                <option value="en">{{ __('messages.en')}}</option>
+                                <option value="vi">{{ __('messages.vi')}}</option>
                             </select>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary" id="saveSettingsBtn">Đồng ý</button>
+                <!-- Thay đổi văn bản "Hủy" bằng khóa 'cancel' -->
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.cancel') }}</button>
+                <!-- Thay đổi văn bản "Đồng ý" bằng khóa 'confirm' -->
+                <button type="button" class="btn btn-primary" id="saveSettingsBtn">{{ __('messages.confirm') }}</button>
             </div>
         </div>
     </div>
 </div>
+
 
 <!--Modal tìm kiếm kết bạn-->
 <div class="modal fade" id="friendSearchModal" tabindex="-1" aria-labelledby="friendSearchLabel" aria-hidden="true">

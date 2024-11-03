@@ -155,7 +155,7 @@ public function sendFriendRequest(Request $request)
         }
     
         if ($friendRequestReceived) {
-            return response()->json(['status' => 'received']);
+            return response()->json(['status' => 'received', 'request_id' => $friendRequestReceived->id]);
         }
     
         return response()->json(['status' => 'none']);

@@ -6,6 +6,13 @@
 @push('scripts')
     <script>
         showSavedToast();
+        const translations = {
+            accept: "{{ __('messages.accept') }}",
+            refuse: "{{ __('messages.refuse') }}"
+        };
+    </script>
+    <script>
+      
     </script>
 @endpush
 
@@ -16,15 +23,15 @@
 @section('content-2-1')
 <div class="listfr-header bg-white p-3 border-bottom d-flex align-items-center">
     <i class="fa-solid fa-user-group me-2"></i>
-    <h3 class="mb-0">Danh sách lời mời kết bạn</h3>
+    <h3 class="mb-0">{{__('messages.friendRequestList')}}</h3>
 </div>
 <div class="container">
-    <h3>Lời Mời Kết Bạn({{ $friendRequests->total() }})</h3>
+    <h3>{{ __('messages.friendInvitation') }}({{ $friendRequests->total() }})</h3>
     @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+    <div id="messageAlert" data-message="{{ session('success') }}" data-status="success"></div>
     @endif
     @if (session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
+    <div id="messageAlert" data-message="{{ session('error') }}" data-status="error"></div>
     @endif
     <div class="list-group">
         @forelse ($friendRequests as $request)
@@ -38,12 +45,12 @@
                     <form action="{{ route('friend.requests.accept.page') }}" method="POST" class="d-inline">
                         @csrf
                         <input type="hidden" name="request_id" value="{{ $request->id }}">
-                        <button type="submit" class="btn btn-success btn-sm">Chấp nhận</button>
+                        <button type="submit" class="btn btn-success btn-sm">{{ __('messages.accept') }}</button>
                     </form>
                     <form action="{{ route('friend.requests.decline.page') }}" method="POST" class="d-inline">
                         @csrf
                         <input type="hidden" name="request_id" value="{{ $request->id }}">
-                        <button type="submit" class="btn btn-danger btn-sm">Từ chối</button>
+                        <button type="submit" class="btn btn-danger btn-sm">{{ __('messages.refuse') }}</button>
                     </form>
                 </div>
             </div>
@@ -60,3 +67,4 @@
     </div>
 </div>
 @endsection
+
