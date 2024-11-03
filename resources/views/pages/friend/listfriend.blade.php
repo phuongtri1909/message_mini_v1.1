@@ -85,15 +85,17 @@ document.addEventListener('DOMContentLoaded', function () {
 @endsection
 
 @section('content-2-1')
+
 <div>
     <div class="listfr-header bg-white p-3 border-bottom d-flex align-items-center">
         <i class="fa-solid fa-user-group me-2"></i>
-        <h3 class="mb-0">Danh Sách Bạn bè ({{ $friends->total() }})</h3>
+        <h3 class="mb-0">{{__('messages.friendList')}} ({{ $friends->total() }})</h3>
+
     </div>
 
     <div class="search-bar-main d-flex mx-3 my-4">
         <form action="{{ route('friends.search') }}" method="GET" class="d-flex w-100">
-            <input type="text" name="query" class="form-control me-2" placeholder="Tìm kiếm bạn bè"
+            <input type="text" name="query" class="form-control me-2" placeholder="{{__('messages.searchFriend')}}"
                 value="{{ request('query') }}">
             <button type="submit" class="btn btn-primary"><i class="fa-solid fa-search"></i></button>
         </form>
@@ -109,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 style="width: 40px; height: 40px;">
             <div>
                 <span class="friend-name">{{ $friend->name }}</span>
-                <p style="margin: 0; color: #888;" class="d-flex">Đã là bạn:
+                <p style="margin: 0; color: #888;" class="d-flex">{{__('messages.friendAlready')}}:
                     {{ \Carbon\Carbon::parse($friend->friendship_start)->diffForHumans() }}</p>
             </div>
             <a href="#" class="ms-auto toggle-menu" data-dropdown-id="dropdown-menu-{{ $friend->id }}" tabindex="0"

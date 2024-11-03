@@ -5,7 +5,7 @@
             <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="profileModalLabel">Thông tin cá nhân</h5>
+                    <h5 class="modal-title" id="profileModalLabel">{{ __('messages.profile_info') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -27,40 +27,40 @@
                                         
                     <!-- Name -->
                     <div class="form-group">
-                        <label>Tên</label>
+                        <label>{{ __('messages.name')}}</label>
                         <input type="text" name="name" class="form-control" value="{{ Auth::user()->name }}">
                     </div>
                     
                     <!-- Email -->
                     <div class="form-group">
-                        <label>Email</label>
+                        <label>{{ __('messages.email')}}</label>
                         <input type="email" name="email" class="form-control" value="{{ Auth::user()->email }}" readonly>
                     </div>
 
                     <!-- Phone -->
                     <div class="form-group">
-                        <label>Số điện thoại</label>
-                        <input type="tel" name="phone" class="form-control" value="{{ Auth::user()->phone }}" >
+                        <label>{{ __('messages.phone')}}</label>
+                        <input type="tel" name="phone" class="form-control" value="{{ Auth::user()->phone }}">
                     </div>
 
                     <!-- Date of Birth -->
                     <div class="form-group">
-                        <label>Ngày sinh</label>
+                        <label>{{ __('messages.dob')}}</label>
                         <input type="date" name="dob" class="form-control" value="{{ Auth::user()->dob }}">
                     </div>
 
                     <!-- Gender -->
                     <div class="form-group">
-                        <label for="gender">Giới tính</label>
+                        <label for="gender">{{ __('messages.gender')}}</label>
                         <select id="gender" name="gender" class="form-control">
-                            <option value="female" {{ Auth::user()->gender == 'female' ? 'selected' : '' }}>Nữ</option>
-                            <option value="male" {{ Auth::user()->gender == 'male' ? 'selected' : '' }}>Nam</option>
+                            <option value="female" {{ Auth::user()->gender == 'female' ? 'selected' : '' }}>{{ __('messages.female')}}</option>
+                            <option value="male" {{ Auth::user()->gender == 'male' ? 'selected' : '' }}>{{ __('messages.male')}}</option>
                         </select>
                     </div>
 
                     <!-- Description -->
                     <div class="form-group">
-                        <label>Mô tả</label>
+                        <label>{{ __('messages.description')}}</label>
                         <textarea name="description" class="form-control" rows="3">{{ Auth::user()->description }}</textarea>
                     </div>
 
@@ -68,8 +68,8 @@
                     <input type="hidden" name="updated_at" value="{{ Auth::user()->updated_at }}">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.close')}}</button>
+                    <button type="submit" class="btn btn-primary">{{ __('messages.update')}}</button>
                 </div>
             </form>
         </div>

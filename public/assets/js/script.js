@@ -366,6 +366,7 @@ function declineSearchRequest(requestId) {
         });
 }
 // hàm xử lý lời mời kết bạn
+
 function loadFriendRequests() {
     fetch('/get-friend-requests', {
         method: 'GET',
@@ -485,6 +486,21 @@ function previewImage(event) {
     reader.readAsDataURL(event.target.files[0]);
 }
 
-
+         //Hàm chuyển đổi ngôn ngữ
+         document.getElementById('saveSettingsBtn').addEventListener('click', function() {
+            var selectedLang = document.getElementById('languageSelect').value;
+            // Gửi yêu cầu đến route để thay đổi ngôn ngữ
+            fetch(`/language/${selectedLang}`)
+            .then(response => {
+                if (response.ok) {
+                    // Tái tải trang để áp dụng ngôn ngữ mới
+                    location.reload();
+                } else {
+                    // Xử lý lỗi nếu cần
+                    console.error('Error changing language');
+                }
+            })
+            .catch(error => console.error('Fetch error:', error));
+        });
 
 

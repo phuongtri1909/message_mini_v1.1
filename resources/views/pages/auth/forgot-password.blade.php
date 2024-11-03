@@ -24,7 +24,7 @@
                                                                 alt="logohoanxu">
                                                         </a>
                                                     </div>
-                                                    <h4 class="text-center color-coins-refund">Bạn quên mật khẩu rồi à?</h4>
+                                                    <h4 class="text-center color-coins-refund">{{ __('messages.haveYouForgottenYourPassword') }}</h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -37,7 +37,7 @@
                                                             class="form-control @error('email') is-invalid @enderror"
                                                             name="email" id="email" placeholder="name@example.com"
                                                             value="{{ old('email') }}" required>
-                                                        <label for="email" class="form-label">Nhập email của bạn</label>
+                                                        <label for="email" class="form-label">{{ __('messages.enterYourEmail') }}</label>
                                                     </div>
                                                 </div>
 
@@ -50,7 +50,7 @@
                                                 <div class="box-button col-12">
                                                     <button
                                                         class="w-100 btn btn-lg border-coins-refund-2 color-coins-refund"
-                                                        type="submit" id="btn-send">Tiếp tục</button>
+                                                        type="submit" id="btn-send">{{ __('messages.continue') }}</button>
                                                 </div>
 
                                             </div>
@@ -59,7 +59,7 @@
                                             <div class="col-12">
                                                 <div
                                                     class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-5">
-                                                    <span>Bạn đã nhớ mật khẩu? <a href="{{ route('login') }}" class="link-secondary text-decoration-none color-coins-refund">Đăng nhập</a></span>
+                                                    <span>{{ __('messages.rememberedPassword') }} <a href="{{ route('login') }}" class="link-secondary text-decoration-none color-coins-refund">{{ __('messages.login') }}</a></span>
                                                     
                                                 </div>
                                             </div>
