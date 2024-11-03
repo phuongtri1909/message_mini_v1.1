@@ -81,277 +81,58 @@ $(document).ready(function () {
     }
 });
 
-// Hàm để cuộn xuống dưới
-function scrollToBottom() {
-    const chatMessages = document.querySelector('.chat-messages');
-    if (chatMessages) {
-        chatMessages.scrollTop = chatMessages.scrollHeight; // Cuộn xuống dưới cùng
-    }
-}
 
-// Gọi hàm cuộn xuống khi trang tải xong
+// Danh sách bạn bè
 document.addEventListener('DOMContentLoaded', function () {
-    scrollToBottom();
+    const friendsListModal = document.getElementById('friendsListModal');
+    const friendsList = document.getElementById('friendsList');
 
-    // Ẩn hiện ảnh đã gửi
-    const imagesList = document.querySelectorAll('.images-list .view-image');
-    const viewToggleBtn = document.getElementById('view-toggle-btn');
-
-    function hideExtraImages() {
-        imagesList.forEach((img, index) => {
-            img.classList.toggle('d-none', index >= 6);
-        });
-        viewToggleBtn.textContent = "Xem tất cả";
-    }
-
-    hideExtraImages();
-
-    // Xử lý khi bấm nút "Xem tất cả" hoặc "Ẩn bớt"
-    viewToggleBtn.addEventListener('click', function () {
-        if (viewToggleBtn.textContent === "Xem tất cả") {
-            imagesList.forEach(img => img.classList.remove('d-none'));
-            viewToggleBtn.textContent = "Ẩn bớt";
-        } else {
-            hideExtraImages();
-        }
+    // Gọi hàm loadFriendsList khi modal được mở
+    friendsListModal.addEventListener('show.bs.modal', function () {
+        loadFriendsList();
     });
 
-    // Hiển thị ảnh lớn khi bấm vào ảnh nhỏ
-    imagesList.forEach(image => {
-        image.addEventListener('click', function () {
-            const modalImage = document.getElementById('modalImage');
-            if (modalImage) {
-                modalImage.src = this.src;
-                const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
-                imageModal.show();
-            } else {
-                console.error("Không tìm thấy phần tử 'modalImage'.");
+    // Hàm tải danh sách bạn bè
+    function loadFriendsList() {
+        fetch('/friends-list-modal', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
-        });
-    });
-});
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    friendsList.innerHTML = ''; // Xóa nội dung hiện tại
 
-// JavaScript để xử lý nút "Xem tất cả" và mở modal ảnh
-document.addEventListener('DOMContentLoaded', function () {
-    const viewAllBtn = document.getElementById('view-all-btn');
-    const extraImages = document.querySelector('.extra-images');
-    // Kiểm tra xem cả hai phần tử có tồn tại không
-    if (viewAllBtn && extraImages) {
-        viewAllBtn.addEventListener('click', function () {
-            extraImages.classList.toggle('d-none');
-            this.innerText = this.innerText === "Xem tất cả" ? "Ẩn bớt" : "Xem tất cả";
-        });
-    } else {
-        console.error("Không tìm thấy phần tử với ID 'view-all-btn' hoặc lớp 'extra-images'.");
-    }
-});
-
-// Xử lý sự kiện khi nhấn vào ảnh để xem lớn
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.view-image').forEach(image => {
-        image.addEventListener('click', function () {
-            const modalImage = document.getElementById('modalImage');
-            if (modalImage) {
-                modalImage.src = this.src;
-                const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
-                imageModal.show();
-            } else {
-                console.error("Không tìm thấy phần tử 'modalImage'.");
-            }
-        });
-    });
-});
-
-// xem tất cả thành viên
-document.addEventListener('DOMContentLoaded', function () {
-    // Lấy các phần tử cần thiết
-    const viewMembersBtn = document.getElementById('view-all-members-btn');
-    const membersOffcanvas = document.getElementById('offcanvasMembers');
-    // Kiểm tra xem cả hai phần tử có tồn tại hay không
-    if (viewMembersBtn && membersOffcanvas) {
-        // Khởi tạo offcanvas Bootstrap cho phần tử 'offcanvasMembers'
-        const offcanvasInstance = new bootstrap.Offcanvas(membersOffcanvas);
-
-        // Thêm sự kiện click cho nút để hiển thị offcanvas
-        viewMembersBtn.addEventListener('click', function () {
-            offcanvasInstance.show();
-        });
-    } else {
-        console.error("Không tìm thấy phần tử 'view-all-members-btn' hoặc 'offcanvasMembers'");
-    }
-});
-
-// Hàm biểu tượng ảnh đã có
-function previewImage(event) {
-    const reader = new FileReader();
-    reader.onload = function () {
-        const output = document.createElement('img');
-        output.src = reader.result;
-
-        const inputId = event.target.id;
-        const imageCircle = document.querySelector('.group-image-circle');
-
-        if (inputId === 'cover_image') {
-            const coverImagePreview = document.getElementById('coverImagePreview');
-            coverImagePreview.src = reader.result; // Cập nhật ảnh bìa
-        } else if (inputId === 'avatar') {
-            const avatarPreview = document.getElementById('avatarPreview');
-            avatarPreview.src = reader.result; // Cập nhật ảnh đại diện
-        }
-    };
-    reader.readAsDataURL(event.target.files[0]);
-}
-
-//Hàm chỉnh cài đặt danh sách bạn bè 3 chấm
-document.addEventListener('DOMContentLoaded', function () {
-    const toggleMenus = document.querySelectorAll('.toggle-menu');
-
-    toggleMenus.forEach(toggleMenu => {
-        toggleMenu.addEventListener('click', function (event) {
-            event.preventDefault();
-            const dropdownId = this.getAttribute('data-dropdown-id');
-            const dropdownMenu = document.getElementById(dropdownId);
-
-            // Ẩn tất cả các menu dropdown khác
-            document.querySelectorAll('.dropdown-menu-custom').forEach(menu => {
-                if (menu !== dropdownMenu) {
-                    menu.style.display = 'none';
-                }
-            });
-
-            // Hiển thị hoặc ẩn menu dropdown hiện tại
-            if (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') {
-                dropdownMenu.style.display = 'block';
-            } else {
-                dropdownMenu.style.display = 'none';
-            }
-        });
-    });
-
-    // Ẩn menu dropdown khi nhấp ra ngoài
-    document.addEventListener('click', function (event) {
-        if (!event.target.closest('.friend-item')) {
-            document.querySelectorAll('.dropdown-menu-custom').forEach(menu => {
-                menu.style.display = 'none';
-            });
-        }
-    });
-});
-
-
-
-
-// modal thêm thành viên
-document.addEventListener('DOMContentLoaded', function () {
-    // Khởi tạo modal Thêm thành viên
-    const addMembersModal = new bootstrap.Modal(document.getElementById('addMembersModal'));
-
-    // Sự kiện mở modal
-    document.getElementById('openAddMembersModal').addEventListener('click', function () {
-        addMembersModal.show();
-    });
-
-    // Sự kiện thêm thành viên đã chọn
-    document.getElementById('addSelectedMembers').addEventListener('click', function () {
-        const selectedMembers = [];
-        document.querySelectorAll('#addMembersModal .form-check-input:checked').forEach(checkbox => {
-            selectedMembers.push(checkbox.value);
-        });
-        console.log("Các thành viên được thêm:", selectedMembers);
-        // Đóng modal
-        addMembersModal.hide();
-    });
-});
-
-
-// input gửi tin nhắn
-document.addEventListener('DOMContentLoaded', function () {
-    const folderIcon = document.getElementById('folderIcon');
-    const imageIcon = document.getElementById('imageIcon');
-    const fileIcon = document.getElementById('fileIcon');
-    const folderInput = document.getElementById('folderInput');
-    const imageInput = document.getElementById('imageInput');
-    const fileInput = document.getElementById('fileInput');
-    const previewContainer = document.getElementById('previewContainer');
-    const previewContent = document.getElementById('previewContent');
-    const sendIcon = document.getElementById('sendIcon');
-    const messageInput = document.getElementById('messageInput');
-
-    folderIcon.addEventListener('click', function () {
-        folderInput.click();
-    });
-
-    imageIcon.addEventListener('click', function () {
-        imageInput.click();
-    });
-
-    fileIcon.addEventListener('click', function () {
-        fileInput.click();
-    });
-
-    function handleFileSelect(input) {
-        const files = input.files;
-        previewContent.innerHTML = '';
-
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                const fileType = file.type.split('/')[0];
-                let element;
-
-                if (fileType === 'image') {
-                    element = document.createElement('img');
-                    element.src = e.target.result;
-                    element.style.width = '50px';
-                    element.style.height = '50px';
-                    element.style.objectFit = 'cover';
-                    element.style.marginRight = '5px';
+                    // Duyệt qua danh sách bạn bè và tạo HTML
+                    data.friends.forEach(friend => {
+                        friendsList.innerHTML += `
+                            <div class="friend-item">
+                                <img src="${asset('public/' + friend.avatar)}" alt="${friend.name}" class="avatar" style="height:96px; width:96px;">
+                                <p>${friend.name}</p>
+                            </div>
+                        `;
+                    });
                 } else {
-                    element = document.createElement('div');
-                    element.textContent = file.name;
-                    element.style.marginRight = '5px';
+                    saveToast(data.message, 'error');
                 }
-
-                previewContent.appendChild(element);
-            };
-
-            reader.readAsDataURL(file);
-        }
-
-        previewContainer.style.display = 'block';
-        toggleSendIcon();
+            })
+            .catch(error => {
+                saveToast('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
+            });
     }
-
-    folderInput.addEventListener('change', function () {
-        handleFileSelect(this);
-    });
-
-    imageInput.addEventListener('change', function () {
-        handleFileSelect(this);
-    });
-
-    fileInput.addEventListener('change', function () {
-        handleFileSelect(this);
-    });
-
-    messageInput.addEventListener('input', function () {
-        toggleSendIcon();
-    });
-
-    function toggleSendIcon() {
-        // Hiển thị nút gửi nếu có tin nhắn hoặc ảnh/tệp đính kèm
-        if (messageInput.value.trim() !== '' || previewContent.children.length > 0) {
-            sendIcon.style.display = 'block';
-            previewContainer.style.display = 'block';
-        } else {
-            sendIcon.style.display = 'none';
-            previewContainer.style.display = 'none';
-        }
+     // Hàm asset để tạo đường dẫn đầy đủ
+     function asset(path) {
+        return `${window.location.origin}/${path}`;
     }
 });
 
+// Gọi hàm loadFriendRequests khi modal được mở
+document.getElementById('showFriendRequestsModal').addEventListener('click', function () {
+    loadFriendRequests();
+});
 
 // hàm xử lý tìm kiếm người dùng
 document.getElementById('searchButton').addEventListener('click', function () {
@@ -377,12 +158,14 @@ document.getElementById('searchButton').addEventListener('click', function () {
             const sendRequestButton = document.getElementById('sendRequestButton');
             const cancelRequestButton = document.getElementById('cancelRequestButton');
             const messageButtonn = document.getElementById('messageButtonn');
+            const acceptRequestButton = document.getElementById('acceptRequestButton');
+            const declineRequestButton = document.getElementById('declineRequestButton');
 
             resultUserName.textContent = '';
             searchResult.style.display = "none";
 
             if (data.status === "success") {
-                const userAvatar = data.user.avatar || "assets/images/logo/uocmo.jpg";
+                const userAvatar = data.user.avatar ? asset('public/' + data.user.avatar) : asset('assets/images/logo/uocmo.jpg');
 
                 document.getElementById('resultUserAvatar').src = userAvatar;
                 document.getElementById('resultUserName').textContent = data.user.name || "Không có tên";
@@ -391,7 +174,7 @@ document.getElementById('searchButton').addEventListener('click', function () {
 
                 searchResult.style.display = "block";
 
-                checkFriendRequestStatus(data.user.id, sendRequestButton, cancelRequestButton, messageButtonn);
+                checkFriendRequestStatus(data.user.id, sendRequestButton, cancelRequestButton, acceptRequestButton, declineRequestButton, messageButtonn);
             } else {
                 showToast(data.message, 'error');
             }
@@ -436,20 +219,36 @@ function checkFriendRequestStatus(userId, sendRequestButton, cancelRequestButton
                 messageButtonn.style.display = 'block';
                 sendRequestButton.style.display = 'none';
                 cancelRequestButton.style.display = 'none';
+                acceptRequestButton.style.display = 'none';
+                declineRequestButton.style.display = 'none';
                 //hai người đã là bạn bè
             } else if (data.status === "sent") {
                 sendRequestButton.style.display = 'none';
                 cancelRequestButton.style.display = 'block';
                 messageButtonn.style.display = 'none';
+                acceptRequestButton.style.display = 'none';
+                declineRequestButton.style.display = 'none';
             } else if (data.status === "received") {
                 sendRequestButton.style.display = 'none';
                 cancelRequestButton.style.display = 'none';
                 messageButtonn.style.display = 'none';
+                acceptRequestButton.style.display = 'block';
+                declineRequestButton.style.display = 'block';
+
+                acceptRequestButton.onclick = function () {
+                    acceptSearchRequest(data.request_id);
+                };
+
+                declineRequestButton.onclick = function () {
+                    declineSearchRequest(data.request_id);
+                };
                 //người này đã gửi lời mời kết bạn cho bạn
             } else {
                 sendRequestButton.style.display = 'block';
                 cancelRequestButton.style.display = 'none';
                 messageButtonn.style.display = 'none';
+                acceptRequestButton.style.display = 'none';
+                declineRequestButton.style.display = 'none';
             }
 
             sendRequestButton.onclick = function () {
@@ -513,7 +312,59 @@ function cancelFriendRequest(userId) {
         });
 }
 
+// Hàm đồng ý kết bạn từ ô tìm kiếm
+function acceptSearchRequest(requestId) {
+    fetch('/accept-friend-request', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ request_id: requestId })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                showToast(data.message, 'success');
+                // Cập nhật lại trạng thái của các nút trong ô tìm kiếm
+                document.getElementById('acceptRequestButton').style.display = 'none';
+                document.getElementById('declineRequestButton').style.display = 'none';
+                document.getElementById('messageButtonn').style.display = 'block';
+            } else {
+                showToast(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            showToast('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
+        });
+}
 
+// Hàm từ chối kết bạn từ ô tìm kiếm
+function declineSearchRequest(requestId) {
+    fetch('/decline-friend-request', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ request_id: requestId })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                showToast(data.message, 'success');
+                // Cập nhật lại trạng thái của các nút trong ô tìm kiếm
+                document.getElementById('acceptRequestButton').style.display = 'none';
+                document.getElementById('declineRequestButton').style.display = 'none';
+                document.getElementById('sendRequestButton').style.display = 'block';
+            } else {
+                showToast(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            showToast('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
+        });
+}
 // hàm xử lý lời mời kết bạn
 
 function loadFriendRequests() {
@@ -529,16 +380,15 @@ function loadFriendRequests() {
             if (data.status === "success") {
                 const friendRequestsList = document.getElementById('friendRequestsList');
                 friendRequestsList.innerHTML = ''; // Xóa nội dung hiện tại
-                
+
                 // Duyệt qua danh sách lời mời và tạo HTML
-                
                 data.requests.forEach(request => {
                     const requestTime = new Date(request.created_at).toLocaleString(); // Chuyển đổi thời gian thành chuỗi dễ đọc
                     friendRequestsList.innerHTML += `
                        <div class="friend-request-item"
     style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px;">
     <div style="display: flex; align-items: center;">
-        <img src="${request.sender.avatar}" alt="${request.sender.name}"
+        <img src="${asset('public/' + request.sender.avatar)}" alt="${request.sender.name}"
             style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
         <div>
             <p style="margin: 0; font-weight: bold;">${request.sender.name}</p>
@@ -561,8 +411,11 @@ function loadFriendRequests() {
         .catch(error => {
             saveToast('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
         });
+        
 }
-
+function asset(path) {
+    return `${window.location.origin}/${path}`;
+}
 // Hàm đồng ý kết bạn
 function acceptRequest(requestId) {
     fetch('/accept-friend-request', {
@@ -579,7 +432,7 @@ function acceptRequest(requestId) {
                 showToast(data.message, 'success');
                 loadFriendRequests(); // Cập nhật lại danh sách lời mời
             } else {
-               showToast(data.message, 'error');
+                showToast(data.message, 'error');
             }
         })
         .catch(error => {
@@ -611,68 +464,28 @@ function declineRequest(requestId) {
         });
 }
 
-// Gọi hàm loadFriendRequests khi modal được mở
-document.getElementById('showFriendRequestsModal').addEventListener('click', function () {
-    loadFriendRequests();
-});
 
-// Danh sách bạn bè
-document.addEventListener('DOMContentLoaded', function () {
-    const friendsListModal = document.getElementById('friendsListModal');
-    const friendsList = document.getElementById('friendsList');
+// Hàm biểu tượng ảnh đã có
+function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function () {
+        const output = document.createElement('img');
+        output.src = reader.result;
 
-    // Gọi hàm loadFriendsList khi modal được mở
-    friendsListModal.addEventListener('show.bs.modal', function () {
-        loadFriendsList();
-    });
+        const inputId = event.target.id;
+        const imageCircle = document.querySelector('.group-image-circle');
 
-    // Hàm tải danh sách bạn bè
-    function loadFriendsList() {
-        fetch('/friends-list-modal', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === "success") {
-                    friendsList.innerHTML = ''; // Xóa nội dung hiện tại
-                    
-                    // Duyệt qua danh sách bạn bè và tạo HTML
-                    data.friends.forEach(friend => {
-                        friendsList.innerHTML += `
-                            <div class="friend-item">
-                                <img src="${friend.avatar}" alt="${friend.name}" class="avatar" style="height:96px; width:96px;">
-                                <p>${friend.name}</p>
-                            </div>
-                        `;
-                    });
-                } else {
-                    saveToast(data.message, 'error');
-                }
-            })
-            .catch(error => {
-                saveToast('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
-            });
-    }
+        if (inputId === 'cover_image') {
+            const coverImagePreview = document.getElementById('coverImagePreview');
+            coverImagePreview.src = reader.result; // Cập nhật ảnh bìa
+        } else if (inputId === 'avatar') {
+            const avatarPreview = document.getElementById('avatarPreview');
+            avatarPreview.src = reader.result; // Cập nhật ảnh đại diện
+        }
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
 
-         //Hàm chuyển đổi ngôn ngữ
-         document.getElementById('saveSettingsBtn').addEventListener('click', function() {
-            var selectedLang = document.getElementById('languageSelect').value;
-            // Gửi yêu cầu đến route để thay đổi ngôn ngữ
-            fetch(`/language/${selectedLang}`)
-            .then(response => {
-                if (response.ok) {
-                    // Tái tải trang để áp dụng ngôn ngữ mới
-                    location.reload();
-                } else {
-                    // Xử lý lỗi nếu cần
-                    console.error('Error changing language');
-                }
-            })
-            .catch(error => console.error('Fetch error:', error));
-        });
 
-});
+
+

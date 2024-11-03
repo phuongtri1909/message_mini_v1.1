@@ -79,16 +79,6 @@ class Controller extends BaseController
         ]);
     }
     
-
-    // Gui tin nhan
-    function sendMessage($conversationId, $senderId, $messageText) {
-        return Message::create([
-            'conversation_id' => $conversationId,
-            'sender_id' => $senderId,
-            'message' => $messageText
-        ]);
-    }
-
     // Lay danh sach cuoc tro chuyen cua nguoi dung
     function getConversations($userId) {
         return ConversationUser::where('user_id', $userId)->with('conversation')->get();
@@ -105,22 +95,18 @@ class Controller extends BaseController
         return ConversationUser::where('conversation_id', $conversationId)->with('user')->get();
     }
 
-    function endcodeId($id) {
+    function encodeId($id) {
         $encryptionKey = env('ENCRYPTION_KEY');
-        $encryptedId = openssl_encrypt($id, 'aes-256-cbc', $encryptionKey, 0, substr($encryptionKey, 0, 16));
-        return base64_encode($encryptedId);
+        $method = 'AES-256-CBC';
+        $iv = substr(hash('sha256', $encryptionKey), 0, 16); // Khởi tạo IV từ key
+        return base64_encode(openssl_encrypt($id, $method, $encryptionKey, 0, $iv));
     }
 
     function decodeId($encryptedId) {
         $encryptionKey = env('ENCRYPTION_KEY');
     
-        $encryptedId = base64_decode($encryptedId);
-        $decryptedId = openssl_decrypt($encryptedId, 'aes-256-cbc', $encryptionKey, 0, substr($encryptionKey, 0, 16));
-    
-        if ($decryptedId === false) {
-            return redirect()->back()->with('error', 'ID Không hợp lệ');
-        }
-    
-        return $decryptedId;
+        $method = 'AES-256-CBC';
+        $iv = substr(hash('sha256', $encryptionKey), 0, 16); // Khởi tạo IV từ key
+        return openssl_decrypt(base64_decode($encryptedId), $method, $encryptionKey, 0, $iv);
     }
 }

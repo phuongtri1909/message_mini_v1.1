@@ -310,7 +310,7 @@ public function update(Request $request)
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
         'gender' => 'required|string|in:male,female',
-        'phone' => 'nullable|string|max:15', // Thêm quy tắc cho số điện thoại
+        'phone' => 'nullable|string|regex:/^[0-9]+$/|digits_between:10,15|max:15', // Chỉ cho phép số
         'dob' => 'nullable|date|before_or_equal:today', // Thêm quy tắc cho ngày sinh
         'description' => 'nullable|string|max:1000', // Thêm quy tắc cho mô tả
     ], [
@@ -342,16 +342,12 @@ public function update(Request $request)
     }
 
     // Xử lý tải lên avatar
+   
     if ($request->hasFile('avatar')) {
-        if ($user->avatar && file_exists(public_path($user->avatar))) {
-            unlink(public_path($user->avatar));
-        }
-
         $fileName = uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension();
-        $request->file('avatar')->move(public_path('uploads/images/avatars'), $fileName);
-        $user->avatar = 'uploads/images/avatars/' . $fileName;
+        $request->file('avatar')->move(public_path('/uploads/images/avatars'), $fileName);
+        $user->avatar = '/uploads/images/avatars/' . $fileName;
     }
-
     // Xử lý tải lên ảnh bìa
     if ($request->hasFile('cover_image')) {
         if ($user->cover_image && file_exists(public_path($user->cover_image))) {

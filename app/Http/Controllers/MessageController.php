@@ -4,69 +4,52 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use App\Events\MessageSent;
+use App\Models\Conversation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
-
-    public function sendMessage(Request $request) {
-        $message = $request->message;
-        broadcast(new MessageSent($message))->toOthers();
-        return response()->json(['status' => 'Message sent!']);
-    }    
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function openConversation($conversationId)
     {
-        //
+        $conversation = Conversation::find($this->decodeId($conversationId));
+        
+        if (!$conversation) {
+            return redirect()->route('home')->with('error', 'Cuộc trò chuyện không tồn tại');
+        }
+
+        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function sendMessage(Request $request)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Message $message)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Message $message)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Message $message)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Message $message)
-    {
-        //
+        try {
+            $request->validate([
+                'conversation_id' => 'required|exists:conversations,id',
+                'message' => 'required|string'
+            ], [
+                'conversation_id.required' => 'Không tìm thấy cuộc trò chuyện',
+                'conversation_id.exists' => 'Cuộc trò chuyện không tồn tại',
+                'message.required' => 'Nội dung tin nhắn không được để trống',
+                'message.string' => 'Nội dung tin nhắn phải là chuỗi'
+            ]);
+    
+            $conversationId = $request->input('conversation_id');
+            $senderId = Auth::id();
+            $messageText = $request->input('message');
+    
+            $message = Message::create([
+                'conversation_id' => $conversationId,
+                'sender_id' => $senderId,
+                'message' => $messageText
+            ]);
+    
+            // Phát sự kiện tin nhắn
+            broadcast(new MessageSent($message))->toOthers();
+    
+            return response()->json(['status' => 'success', 'message' => $message]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
     }
 }
