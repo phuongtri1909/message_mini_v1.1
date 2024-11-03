@@ -12,7 +12,7 @@
                     <!-- Ảnh Bìa -->
                     <div class="form-group">
                         <label for="cover_image" class="cover-image-label">
-                            <img id="coverImagePreview" src="{{ Auth::user()->cover_image }}" class="rounded border border-primary" width="100%" height="190px" alt="Ảnh Bìa">
+                            <img id="coverImagePreview" src="{{ asset(Auth::user()->cover_image) }}" class="rounded border border-primary" width="100%" height="190px" alt="Ảnh Bìa">
                         </label>
                         <input type="file" name="cover_image" id="cover_image" class="form-control mt-2" style="display: none;" onchange="previewImage(event)">
                     </div>
@@ -20,7 +20,7 @@
                     <!-- Ảnh Đại Diện -->
                     <div class="form-group text-left mt-n5">
                         <label for="avatar"> <!-- Thêm label để kích hoạt chọn tệp -->
-                            <img id="avatarPreview" src="{{ Auth::user()->avatar }}" class="rounded-circle" width="100" height="100" alt="Avatar">
+                            <img id="avatarPreview" src="{{ asset(Auth::user()->avatar) }}" class="rounded-circle" width="100" height="100" alt="Avatar">
                         </label>
                         <input type="file" name="avatar" id="avatar" class="form-control mt-2" style="display: none;" onchange="previewImage(event)">
                     </div>
@@ -40,7 +40,7 @@
                     <!-- Phone -->
                     <div class="form-group">
                         <label>{{ __('messages.phone')}}</label>
-                        <input type="text" name="phone" class="form-control" value="{{ Auth::user()->phone }}">
+                        <input type="tel" name="phone" class="form-control" value="{{ Auth::user()->phone }}">
                     </div>
 
                     <!-- Date of Birth -->
