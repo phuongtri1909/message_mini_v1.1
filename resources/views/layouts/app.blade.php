@@ -121,21 +121,22 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addFriendModalLabel">{{ __('messages.addNewFriend')}}</h5>
+                <h5 class="modal-title" id="addFriendModalLabel">Thêm Bạn Mới</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-3 row">
-                    
-                    <label for="friendEmail" class="form-label">{{ __('messages.enterEmail')}}:</label>
+
+                    <label for="friendEmail" class="form-label">Nhập Email:</label>
                     <div class=" col-10">
-                        <input type="email" class="form-control" id="friendEmail" placeholder="{{ __('messages.enterEmail')}}" required
-                            pattern="^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$" title="Vui lòng nhập định dạng email hợp lệ."
-                            maxlength="100">
+                        <input type="email" class="form-control" id="friendEmail" placeholder="Nhập Email" required
+                            pattern="^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$"
+                            title="Vui lòng nhập định dạng email hợp lệ." maxlength="100">
                     </div>
 
                     <div class="col-2">
-                        <button type="button" class="btn btn-primary" id="searchButton" disabled><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <button type="button" class="btn btn-primary" id="searchButton" disabled><i
+                                class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </div>
 
@@ -145,23 +146,31 @@
                         <div class="avatar" style="float: left; margin-right: 10px;">
                             <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Avatar" class="rounded-circle"
                                 id="resultUserAvatar" style="height: 50px; width:50px;">
-                        </div> 
+                        </div>
                         <div class="d-flex flex-column">
                             <div class="d-flex">
                                 <p class="mb-0 me-2"><strong id="resultUserName"></strong></p> |
-                                <p class="mb-0 ms-2" id="resultUserGender" style="color: gray;"></p> <!-- Thêm giới tính -->
+                                <p class="mb-0 ms-2" id="resultUserGender" style="color: gray;"></p>
+                                <!-- Thêm giới tính -->
                             </div>
                             <p class="mb-0" id="resultUserEmail" style="color: gray;"></p>
-                            
+
                         </div>
                     </div>
-                    <button type="button" class="btn btn-success" id="sendRequestButton" style="display: none;">Gửi
-                        yêu
-                        cầu kết bạn</button>
-                    <button type="button" class="btn btn-danger" id="cancelRequestButton" style="display: none;">Thu hồi
-                        yêu cầu</button>
-                    <button type="button" class="btn btn-info" id="messageButtonn" style="display: none;">Nhắn
-                        tin</button> <!-- Nút nhắn tin -->
+                    <div class="d-flex mt-3">
+                        <button type="button" class="btn btn-success" id="sendRequestButton" style="display: none;">Gửi
+                            yêu
+                            cầu kết bạn</button>
+                        <button type="button" class="btn btn-danger" id="cancelRequestButton" style="display: none;">Thu
+                            hồi
+                            yêu cầu</button>
+                        <button type="button" class="btn btn-info" id="messageButtonn" style="display: none;">Nhắn
+                            tin</button> <!-- Nút nhắn tin -->
+                        <button type="button" class="btn btn-success" id="acceptRequestButton"
+                            style="display: none; margin-right: 5px; ">Chấp nhận</button>
+                        <button type="button" class="btn btn-danger" id="declineRequestButton" style="display: none;">Từ
+                            chối</button>
+                    </div>
                 </div>
 
 
@@ -169,11 +178,12 @@
                 <!-- Thêm phần thông báo lỗi -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.close')}}</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
             </div>
         </div>
     </div>
 </div>
+
 
 
 <!--modal các lời mời-->
