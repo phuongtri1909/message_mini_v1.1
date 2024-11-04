@@ -287,7 +287,7 @@
                 <!-- Kết quả tìm kiếm -->
                 <div class="search-result mt-3" style="display: none;" id="searchResult">
                     <div class="avatar" style="float: left; margin-right: 10px;">
-                        <img src="avatar" alt="Avatar" class="rounded-circle">
+                        <img src="https://via.placeholder.com/50" alt="Avatar" class="rounded-circle">
                     </div>
                     <div class="user-info">
                         <p><strong id="userName">User1</strong></p>
