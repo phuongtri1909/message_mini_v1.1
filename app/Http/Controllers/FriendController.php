@@ -439,13 +439,16 @@ public function searchMessages(Request $request)
 {
     // Lấy từ khóa tìm kiếm từ request
     $query = $request->input('query');
+    $userId = auth()->id(); // Lấy ID của người dùng hiện tại
 
-    // Tìm kiếm các tin nhắn theo từ khóa và lấy thông tin người gửi
+    // Tìm kiếm các tin nhắn theo từ khóa
     $messages = Message::with('sender') // Nạp thông tin người gửi
-        ->where('message', 'like', "%{$query}%")
+        ->where('message', 'like', "%{$query}%") // Tìm tin nhắn chứa từ khóa
         ->get(['message', 'sender_id']); // Chỉ lấy thông tin cần thiết
 
     // Trả về kết quả tìm kiếm dưới dạng JSON
     return response()->json($messages);
 }
+
+
 }

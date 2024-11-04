@@ -16,20 +16,7 @@ class FriendSeeder extends Seeder
     {
         // Tạo 5 user cụ thể với thông tin xác định trước và đặt mật khẩu
         $specificUsers = collect([
-            User::factory()->create([
-                'name' => 'User 1',
-                'email' => 'user1@gmail.com',
-                'password' => bcrypt('111111'),
-                'active' => 'active',
-                'email_verified_at' => now(),
-            ]),
-            User::factory()->create([
-                'name' => 'User 2',
-                'email' => 'user2@gmail.com',
-                'password' => bcrypt('222222'),
-                'active' => 'active',
-                'email_verified_at' => now(),
-            ]),
+           
             User::factory()->create([
                 'name' => 'User 3',
                 'email' => 'user3@gmail.com',
