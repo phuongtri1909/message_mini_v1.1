@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     data.friends.forEach(friend => {
                         friendsList.innerHTML += `
                             <div class="friend-item">
-                                <img src="${asset('public/' + friend.avatar)}" alt="${friend.name}" class="avatar" style="height:96px; width:96px;">
+                                <img src="${asset(friend.avatar)}" alt="${friend.name}" class="avatar" style="height:96px; width:96px;">
                                 <p>${friend.name}</p>
                             </div>
                         `;
@@ -165,7 +165,7 @@ document.getElementById('searchButton').addEventListener('click', function () {
             searchResult.style.display = "none";
 
             if (data.status === "success") {
-                const userAvatar = data.user.avatar ? asset('public/' + data.user.avatar) : asset('assets/images/logo/uocmo.jpg');
+                const userAvatar = data.user.avatar ? asset(data.user.avatar) : asset('assets/images/logo/uocmo.jpg');
 
                 document.getElementById('resultUserAvatar').src = userAvatar;
                 document.getElementById('resultUserName').textContent = data.user.name || "Không có tên";
@@ -388,7 +388,7 @@ function loadFriendRequests() {
                        <div class="friend-request-item"
     style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px;">
     <div style="display: flex; align-items: center;">
-        <img src="${asset('public/' + request.sender.avatar)}" alt="${request.sender.name}"
+        <img src="${asset(request.sender.avatar)}" alt="${request.sender.name}"
             style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
         <div>
             <p style="margin: 0; font-weight: bold;">${request.sender.name}</p>
@@ -414,6 +414,10 @@ function loadFriendRequests() {
         
 }
 function asset(path) {
+    // Loại bỏ dấu gạch chéo thừa ở đầu đường dẫn nếu có
+    if (path.startsWith('/')) {
+        path = path.substring(1);
+    }
     return `${window.location.origin}/${path}`;
 }
 // Hàm đồng ý kết bạn
