@@ -441,8 +441,14 @@ public function searchMessages(Request $request)
     $query = $request->input('query');
     $userId = auth()->id(); // Lấy ID của người dùng hiện tại
 
-    // Tìm kiếm các tin nhắn theo từ khóa
+    // Tìm kiếm các tin nhắn theo từ khóa, chỉ nếu người gửi là bạn bè
     $messages = Message::with('sender') // Nạp thông tin người gửi
+        ->whereHas('sender', function ($q) use ($userId) {
+            // Kiểm tra nếu người gửi là bạn bè của người dùng hiện tại
+            $q->whereHas('friends', function ($q) use ($userId) {
+                $q->where('friend_id', $userId);
+            });
+        })
         ->where('message', 'like', "%{$query}%") // Tìm tin nhắn chứa từ khóa
         ->get(['message', 'sender_id']); // Chỉ lấy thông tin cần thiết
 
