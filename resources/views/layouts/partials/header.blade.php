@@ -25,7 +25,6 @@
     
     @stack('styles')
     @include('components.toast')
-    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
     {{-- end styles --}}
 </head>
 

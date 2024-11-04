@@ -17,14 +17,20 @@ class HomeController extends Controller
     {
         $userId = Auth::id();
 
-        // Lấy các cuộc trò chuyện mà user tham gia và có tin nhắn
+        // Lấy các cuộc trò chuyện mà user tham gia , 1-1 thì cần có tin nhắn, group thì không
         $conversations = Conversation::whereHas('users', function ($query) use ($userId) {
             $query->where('user_id', $userId);
-        })->whereHas('messages') // Chỉ lấy các cuộc trò chuyện có tin nhắn
-            ->with(['latestMessage', 'users' => function ($query) use ($userId) {
-                $query->where('user_id', '!=', $userId); // Lấy thông tin người bạn
-            }])
-            ->get();
+        })
+        ->where(function ($query) {
+            $query->whereHas('messages') // Chỉ lấy các cuộc trò chuyện có tin nhắn
+                  ->orWhere('is_group', true); // Hoặc là cuộc trò chuyện nhóm
+        })
+        ->with(['latestMessage', 'users' => function ($query) use ($userId) {
+            $query->where('user_id', '!=', $userId); // Lấy thông tin người bạn
+        }, 'creator', 'conversationUsers' => function ($query) {
+            $query->with('user'); // Lấy thông tin user từ bảng conversation_user
+        }])
+        ->get();
 
         // Kiểm tra nếu không có cuộc trò chuyện nào
         if ($conversations->isEmpty()) {
@@ -38,45 +44,55 @@ class HomeController extends Controller
             }
 
             // Lấy tin nhắn cuối cùng và định dạng thời gian
+            $now = Carbon::now();
             if ($conversation->latestMessage) {
                 $latestMessageTime = Carbon::parse($conversation->latestMessage->created_at);
-                $now = Carbon::now();
+               
 
-                if ($latestMessageTime->diffInSeconds($now) < 60) {
-                    $conversation->latestMessage->time_diff = $latestMessageTime->diffInSeconds($now) . ' giây trước';
-                } elseif ($latestMessageTime->diffInMinutes($now) < 60) {
-                    $conversation->latestMessage->time_diff = $latestMessageTime->diffInMinutes($now) . ' phút trước';
-                } elseif ($latestMessageTime->diffInHours($now) < 24) {
-                    $conversation->latestMessage->time_diff = $latestMessageTime->diffInHours($now) . ' giờ trước';
-                } else {
-                    $conversation->latestMessage->time_diff = $latestMessageTime->diffInDays($now) . ' ngày trước';
-                }
+                $conversation->latestMessage->time_diff = $this->formatTimeDiff($latestMessageTime, $now);
+            }else{
+                $conversation->time_diff = $this->formatTimeDiff($conversation->created_at, $now);
             }
             return $conversation;
         });
 
+        //sửa có 1 cuộc trò chuyện chưa có tin nhắn thì phải sắp xếp theo thời gian tạo với thời gian tin nhắn mới nhất
         // Sắp xếp các cuộc trò chuyện theo tin nhắn mới nhất
-        $conversations = $conversations->sortByDesc(function ($conversation) {
-            return $conversation->latestMessage->created_at;
+        $conversations = $conversations->filter(function ($conversation) {
+            return $conversation->latestMessage !== null || $conversation->is_group;
+        })->sortByDesc(function ($conversation) {
+            return $conversation->latestMessage ? $conversation->latestMessage->created_at : $conversation->created_at;
         });
-
-        // Lấy cuộc trò chuyện có tin nhắn mới nhất
+        
+        // Lấy cuộc trò chuyện mới nhất
         $latestConversation = $conversations->first();
         
         if ($latestConversation) {
-            // Lấy thông tin từ bảng conversation_user
+            //các user trong cuộc trò chuyện
             $latestConversation->conversationUserInfo = ConversationUser::where('conversation_id', $latestConversation->id)
                 ->get();
-            
+
             // Lấy 20 tin nhắn mới nhất của cuộc trò chuyện này
             $latestConversation->messages = Message::where('conversation_id', $latestConversation->id)
                 ->orderBy('created_at', 'desc')
                 ->take(20)
                 ->with('sender')
                 ->get();
-
         }
-
         return view('pages.home', compact('conversations', 'latestConversation'));
+    }
+
+
+    private function formatTimeDiff($latestTime, $now)
+    {
+        if ($latestTime->diffInSeconds($now) < 60) {
+            return $latestTime->diffInSeconds($now) . ' giây trước';
+        } elseif ($latestTime->diffInMinutes($now) < 60) {
+            return $latestTime->diffInMinutes($now) . ' phút trước';
+        } elseif ($latestTime->diffInHours($now) < 24) {
+            return $latestTime->diffInHours($now) . ' giờ trước';
+        } else {
+            return $latestTime->diffInDays($now) . ' ngày trước';
+        }
     }
 }

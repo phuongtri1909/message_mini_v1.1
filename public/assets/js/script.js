@@ -539,4 +539,15 @@ function previewImage(event) {
             .catch(error => console.error('Fetch error:', error));
         });
 
+// Hàm xử lý tin nhắn
+function toggleSendIcon() {
+    // Hiển thị nút gửi nếu có tin nhắn hoặc ảnh/tệp đính kèm
+    if (messageInput.value.trim() !== '' || previewContent.children.length > 0) {
+        sendIcon.style.display = 'block';
+        previewContainer.style.display = 'block';
+    } else {
+        sendIcon.style.display = 'none';
+        previewContainer.style.display = 'none';
+    }
+}
 

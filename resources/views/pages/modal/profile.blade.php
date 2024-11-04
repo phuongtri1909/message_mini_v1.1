@@ -12,7 +12,7 @@
                     <!-- Ảnh Bìa -->
                     <div class="form-group">
                         <label for="cover_image" class="cover-image-label">
-                            <img id="coverImagePreview" src="{{ asset(Auth::user()->cover_image) }}" class="rounded border border-primary" width="100%" height="190px" alt="Ảnh Bìa">
+                            <img id="coverImagePreview" src="{{ Auth::user()->cover_image ? asset(Auth::user()->cover_image) :  asset('assets/images/logo/uocmo.jpg')  }}" class="rounded border border-primary" width="100%" height="190px" alt="Ảnh Bìa">
                         </label>
                         <input type="file" name="cover_image" id="cover_image" class="form-control mt-2" style="display: none;" onchange="previewImage(event)">
                     </div>
