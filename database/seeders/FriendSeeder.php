@@ -56,7 +56,19 @@ class FriendSeeder extends Seeder
         // Tạo 50 user ngẫu nhiên
         $randomUsers = User::factory()->count(50)->create();
 
-        // Tạo 10 mối quan hệ bạn bè cho mỗi user cụ thể
+        // Tạo mối quan hệ bạn bè giữa các user cụ thể
+        foreach ($specificUsers as $user) {
+            foreach ($specificUsers as $friend) {
+                if ($user->id !== $friend->id) {
+                    Friend::factory()->create([
+                        'user_id' => $user->id,
+                        'friend_id' => $friend->id,
+                    ]);
+                }
+            }
+        }
+
+        // Tạo 10 mối quan hệ bạn bè cho mỗi user cụ thể với các user ngẫu nhiên
         foreach ($specificUsers as $user) {
             // Lấy ngẫu nhiên 10 user khác để làm bạn
             $friendIds = $randomUsers->where('id', '!=', $user->id)->random(10)->pluck('id');
@@ -68,6 +80,7 @@ class FriendSeeder extends Seeder
                 ]);
             }
         }
+
         // Tạo 5 lời mời kết bạn cho mỗi user cụ thể từ các tài khoản ngẫu nhiên
         foreach ($specificUsers as $user) {
             // Lấy ngẫu nhiên 5 user khác để gửi lời mời kết bạn
@@ -80,6 +93,7 @@ class FriendSeeder extends Seeder
                 ]);
             }
         }
+
         // Tạo các mối quan hệ bạn bè ngẫu nhiên cho các user còn lại
         foreach ($randomUsers as $user) {
             // Lấy ngẫu nhiên 10 user khác để làm bạn

@@ -193,7 +193,7 @@
                         <p class="mb-0 text-muted">{{ $message->sender->name }}</p>
                     @endif
                     <p class="mb-0">{{ $message->message }}</p>
-                    <span class="message-time text-muted small">{{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}</span>
+                    <span style="color: crimson"  class="message-time text-muted small">{{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}</span>
                 </div>
                 @if ($message->sender_id === Auth::id())
                     <img src="{{ $conversation->is_group ? asset('/assets/images/avatar_default.jpg') : asset($message->sender->avatar ?? '/assets/images/avatar_default.jpg') }}" alt="User"
@@ -266,7 +266,7 @@
                             ` : ''}
                             <div class="message-content ${e.message.sender_id === {{ Auth::id() }} ? 'bg-primary text-white' : 'bg-white'} p-2 rounded">
                                 <p class="mb-0">${e.message.message}</p>
-                                <span class="message-time text-muted small">${e.message.created_at}</span>
+                                <span style="color: crimson" class="message-time text-muted small">${e.message.created_at}</span>
                             </div>
                             ${e.message.sender_id === {{ Auth::id() }} ? `
                                 <img src="${avatarUrl}" alt="User" class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">
