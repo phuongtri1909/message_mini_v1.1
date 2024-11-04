@@ -6,6 +6,7 @@ return [
     'cancel' => 'Hủy',
     'confirm' => 'Đồng ý',
     'profile_info' => 'Thông tin cá nhân',
+    'friend_info' => 'Thông tin bạn bè',
     'cover_image' => 'Ảnh Bìa',
     'avatar' => 'Ảnh Đại Diện',
     'name' => 'Tên',

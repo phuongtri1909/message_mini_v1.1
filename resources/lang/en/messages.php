@@ -6,6 +6,7 @@ return [
     'cancel' => 'Cancel',
     'confirm' => 'Confirm',
     'profile_info' => 'Profile Information',
+    'friend_info' => 'Friend Information',
     'cover_image' => 'Cover Image',
     'avatar' => 'Avatar',
     'name' => 'Name',
