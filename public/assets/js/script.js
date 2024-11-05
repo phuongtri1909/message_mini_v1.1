@@ -555,3 +555,37 @@ function toggleSendIcon() {
     }
 }
 
+// ---------------Modal tạo nhóm------------------
+
+function filterMembers() {
+    const input = document.getElementById('groupMembers').value.toLowerCase();
+    const memberCheckboxes = document.querySelectorAll('#friendsListContent .form-check');
+
+    memberCheckboxes.forEach(checkbox => {
+        const label = checkbox.querySelector('.form-check-label');
+        const memberName = label.textContent.toLowerCase();
+
+        if (memberName.includes(input)) {
+            checkbox.style.display = 'block'; // Hiện checkbox nếu tên thành viên phù hợp
+        } else {
+            checkbox.style.display = 'none'; // Ẩn checkbox nếu không phù hợp
+        }
+    });
+}
+function previewImageGruop(event) {
+    const input = event.target;
+    const preview = document.getElementById('groupImagePreview');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function (e) {
+            preview.src = e.target.result; // Gán đường dẫn ảnh đã chọn
+            preview.style.display = 'block'; // Hiển thị hình ảnh
+        }
+        
+        reader.readAsDataURL(input.files[0]); // Đọc file
+    }
+}
+
+// ------------------------Đóng---------------------
