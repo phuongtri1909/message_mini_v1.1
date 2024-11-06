@@ -393,27 +393,20 @@ footer .icon-footer {
 }
 
 
-.chat-window {
-    position: relative;
-}
-
 .chat-input {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 100px;
+    height: auto;
     background-color: #fff;
     border-top: 1px solid #ddd;
-    /* Đường viền trên */
 }
 
 .chat-input input {
     flex-grow: 1;
     border-radius: 20px;
-    /* Bo tròn các góc */
     border: 1px solid #ddd;
-    /* Đường viền */
 }
 
 .container {
@@ -438,14 +431,6 @@ footer .icon-footer {
 }
 @media (max-width: 768px) {
 
-    .sidebar,
-    .chat-list,
-    .chat-window {
-        width: 100%;
-        /* Chiếm toàn bộ chiều ngang màn hình */
-        margin-bottom: 20px;
-        /* Khoảng cách giữa các phần */
-    }
 
     .chat-input {
         position: static;

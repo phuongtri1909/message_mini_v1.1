@@ -5,7 +5,7 @@
     <div class="container-fluid hehe">
         <div class="row h-100">
             <!-- Left Sidebar -->
-            <section class="col-1 sidebar">
+            <section class="col-2 col-md-1 sidebar">
                 @include('pages.modal.profile')
                 <div class="d-flex justify-content-center align-items-center">
                     <div>
@@ -61,7 +61,7 @@
             </section>
 
             <!-- Chat List -->
-            <section class="col-0 col-md-3 bg-white px-0" style="border-right: 0.5px solid rgba(224, 226, 225, 0.874);">
+            <section class="d-none d-md-block col-md-3 col-xs-3 bg-white px-0" style="border-right: 0.5px solid rgba(224, 226, 225, 0.874);">
                 <div class="search-bar mb-4 d-flex align-items-center border-bottom px-3">
                     <input type="text" class="form-control me-2" placeholder="Tìm kiếm" id="searchMessages" oninput="searchMessages()">
                     <button class="btn" style="border: none; background: none; padding-left: 2px;" data-bs-toggle="modal" data-bs-target="#addFriendModal">
@@ -79,7 +79,7 @@
                 @yield('content-1')
             </section>
             <!-- Main Chat Window -->
-            <section class="col-11 col-md-8 chat-window px-0">
+            <section class="col-10 col-md-8 chat-window px-0">
                 @yield('content-2')
             </section>
         </div>

@@ -210,7 +210,7 @@
 
 <!-- Thêm input để gửi tin nhắn -->
 
-<div class="footer-send chat-input d-flex flex-column py-3 border-top">
+<div class="footer-send chat-input d-flex flex-column pb-2 border-top">
     <form id="send-message-form" action="{{ route('send.message') }}">
         @csrf
         <div class="">
@@ -228,7 +228,7 @@
                     </button>
                 </div>
 
-                <div id="previewContainer" class="d-flex flex-wrap mt-2"></div>
+                <div id="previewContainer" class="d-flex flex-wrap"></div>
             </div>
 
             <!-- Các phần tử input file ẩn -->
