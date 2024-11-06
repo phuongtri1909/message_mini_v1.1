@@ -22,7 +22,7 @@ use App\Http\Controllers\LanguageController;
 Route::get('/language/{lang}', [LanguageController::class, 'changeLanguage'])->name('language.switch');
 
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth']], function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/', [HomeController::class, 'index'])->name('home');
     
@@ -67,6 +67,6 @@ Route::group(['middleware' => 'guest'], function () {
     })->name('forgot-password');
     Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot.password');
 
-    Route::get('auth/google', [AuthController::class, 'redirectToGoogle']);
+    Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
     Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 });
