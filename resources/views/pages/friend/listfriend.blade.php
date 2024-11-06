@@ -102,103 +102,103 @@
 
     {{-- Load cuộc trò chuyện --}}
     <script>
-        function initializeChat(conversationId, authId) {
-            Echo.private('chat.' + conversationId)
-                .listen('MessageSent', (e) => {
-                    console.log(e.message.sender_id ,authId);
-
-                    const avatarUrl = e.message.sender.avatar_url;
-
-                    const messageHtml = `
-                <div class="message d-flex mb-3 ${e.message.sender_id === authId ? 'justify-content-end' : ''}">
-                    ${e.message.sender_id !== authId ? `<img src="${avatarUrl}" alt="User" class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">` : ''}
-                    <div class="message-content ${e.message.sender_id === authId ? 'bg-primary text-white' : 'bg-white'} p-2 rounded">
-                        <p class="mb-0">${e.message.message}</p>
-                        <span class="message-time text-muted small">${e.message.created_at}</span>
+        document.addEventListener('DOMContentLoaded', function() {
+            function appendMessage(message, isSender) {
+                const avatarUrl = message.sender.avatar_url;
+                const messageHtml = `
+                <div class="message d-flex mb-3 ${isSender ? 'justify-content-end' : ''}">
+                    ${!isSender ? `
+                            <img src="${avatarUrl}" alt="User" class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
+                        ` : ''}
+                    <div class="message-content ${isSender ? 'bg-primary text-white' : 'bg-white'} p-2 rounded">
+                        <p class="mb-0">${message.message}</p>
+                        <span class="message-time text-muted small">${message.time_diff}</span>
                     </div>
-                    ${e.message.sender_id === authId ? `<img src="${avatarUrl}" alt="User" class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">` : ''}
+                    ${isSender ? `
+                            <img src="${avatarUrl}" alt="User" class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">
+                        ` : ''}
                 </div>
             `;
+                $('.box-chat').prepend(messageHtml);
+                var chatBox = document.querySelector('.box-chat');
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
 
-                    $('.box-chat').prepend(messageHtml);
-                    var chatBox = document.querySelector('.box-chat');
-                    chatBox.scrollTop = chatBox.scrollHeight;
-                });
-        }
+            function initializeChat(conversationId, authId) {
+                Echo.private('chat.' + conversationId)
+                    .listen('MessageSent', (e) => {
+                        appendMessage(e.message, parseInt(e.message.sender_id) === parseInt(authId));
+                    });
+            }
 
-        function initializeMessageForm() {
-            $(document).on('submit', '#send-message-form', function(e) {
-                console.log('submitting message');
-
-                e.preventDefault();
-
-                let message = $('#messageInput').val();
-
-                $.ajax({
-                    url: $('#send-message-form').attr('action'),
-                    type: 'POST',
-                    data: {
-                        _token: $('input[name="_token"]').val(),
-                        conversation_id: $('#conversation_id').val(),
-                        message: message
-                    },
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            $('#messageInput').val('');
-                        } else {
-                            showToastr(response.message, 'error');
-                        }
-                    },
-                    error: function(xhr) {
-                        if (xhr.status === 422) {
-                            // Validation error
-                            let errors = xhr.responseJSON.errors;
-                            let errorMessage = '';
-                            for (let key in errors) {
-                                if (errors.hasOwnProperty(key)) {
-                                    errorMessage += errors[key][0] + '\n';
-                                }
+            function initializeMessageForm(authId) {
+                $(document).on('submit', '#send-message-form', function(e) {
+                    e.preventDefault();
+                    let message = $('#messageInput').val();
+                    $('#messageInput').val('');
+                    $.ajax({
+                        url: $('#send-message-form').attr('action'),
+                        type: 'POST',
+                        data: {
+                            _token: $('input[name="_token"]').val(),
+                            conversation_id: $('#conversation_id').val(),
+                            message: message
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                appendMessage(response.message, parseInt(response.message
+                                    .sender_id) === parseInt(authId));
+                            } else {
+                                showToast(response.message, 'error');
                             }
-
-                            showToastr(errorMessage, 'error');
-
-                        } else {
-                            showToastr(xhr.responseJSON.message, 'error');
+                        },
+                        error: function(xhr) {
+                            if (xhr.status === 422) {
+                                // Validation error
+                                let errors = xhr.responseJSON.errors;
+                                let errorMessage = '';
+                                for (let key in errors) {
+                                    if (errors.hasOwnProperty(key)) {
+                                        errorMessage += errors[key][0] + '\n';
+                                    }
+                                }
+                                showToast(errorMessage, 'error');
+                            } else {
+                                showToast(xhr.responseJSON.message, 'error');
+                            }
                         }
-                    }
+                    });
                 });
-            });
-        }
+            }
 
-        function openConversation(userId) {
-            fetch(`/conversations/user/${userId}`)
-                .then(response => {
-                    if (!response.ok) {
-                        return response.json().then(error => {
-                            throw new Error(error.message);
-                        });
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.status === 'success') {
-                        document.querySelector('.window-chat').innerHTML = data.html;
-                        const conversationId = document.getElementById('conversation_id').value;
-                        const authId = document.getElementById('auth_id').value;
-                        console.log(authId);
-                        
-                        initializeChat(conversationId, authId);
-                        initializeMessageForm();
-                    } else {
-                        showToast(data.message, 'error');
-                    }
-                })
-                .catch(error => {
-                    showToast(error.message, 'error');
-                });
-        }
+            function openConversation(userId) {
+                fetch(`/conversations/user/${userId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(error => {
+                                throw new Error(error.message);
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.status === 'success') {
+                            document.querySelector('.window-chat').innerHTML = data.html;
+                            const conversationId = document.getElementById('conversation_id').value;
+                            const authId = document.getElementById('auth_id').value;
 
-        document.addEventListener('DOMContentLoaded', function() {
+                            initializeChat(conversationId, authId);
+                            initializeMessageForm(authId);
+                        } else {
+                            showToast(data.message, 'error');
+                        }
+                    })
+                    .catch(error => {
+                        showToast(error.message, 'error');
+                    });
+            }
+
+
             $(document).on('click', '.open-conversation', function(event) {
                 event.preventDefault();
                 const userId = $(this).data('user-id');

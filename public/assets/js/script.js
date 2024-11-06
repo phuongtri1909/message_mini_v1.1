@@ -506,12 +506,10 @@ function previewImage(event) {
 // Hàm xử lý tin nhắn
 function toggleSendIcon() {
     // Hiển thị nút gửi nếu có tin nhắn hoặc ảnh/tệp đính kèm
-    if (messageInput.value.trim() !== '' || previewContent.children.length > 0) {
+    if (messageInput.value.trim() !== '' || previewContainer.children.length > 0) {
         sendIcon.style.display = 'block';
-        previewContainer.style.display = 'block';
     } else {
         sendIcon.style.display = 'none';
-        previewContainer.style.display = 'none';
     }
 }
 

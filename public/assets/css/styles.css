@@ -420,19 +420,6 @@ footer .icon-footer {
     max-height: 100%;
 }
 
-.input-icons {
-    position: absolute;
-    /* Đặt vị trí tuyệt đối cho .input-icons */
-    top: -1px;
-    /* Điều chỉnh chiều cao của icon lên trên */
-    left: 10px;
-    /* Căn lề bên trái cho icon */
-    z-index: 1;
-    /* Đặt độ ưu tiên cho icon */
-    font-size: 20px;
-
-}
-
 .input-icons a {
     margin-right: 10px;
     /* Khoảng cách giữa các icon */

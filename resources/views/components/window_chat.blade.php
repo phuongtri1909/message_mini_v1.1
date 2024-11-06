@@ -17,6 +17,10 @@
             flex-direction: column-reverse;
             margin-bottom: 75px;
         }
+
+        #messageInput:focus-visible{
+            outline: none !important;
+        }
     </style>
 @endpush
 
@@ -26,8 +30,8 @@
         <div class="d-flex">
             {{-- chỗ này nếu avatar null thì lấy ảnh user ghép lại --}}
             <img class="rounded-circle" width="50" height="50px"
-                src="{{ asset($conversation->is_group ? $conversation->avatar : $conversation->friend->avatar) }}"
-                alt="">
+            src="{{ $conversation->is_group ? ($conversation->avatar ? asset($conversation->avatar) : asset('/assets/images/avatar_default_group.jpg')) : ($conversation->friend->avatar ? asset($conversation->friend->avatar) : asset('/assets/images/avatar_default.jpg')) }}"
+            alt="">
             <div class="ms-3">
                 <h5 class="mb-0">
                     @if ($conversation->is_group)
@@ -191,13 +195,13 @@
                 @if ($conversation->is_group && $message->sender_id !== Auth::id())
                     <p class="mb-0 text-muted">{{ $message->sender->name }}</p>
                 @endif
-                <p class="mb-0">{{ $message->message }}</p>
+                <p class="mb-0">{{ decryptMessage($message->message); }}</p>
                 <span
                     class="message-time text-muted small">{{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}</span>
             </div>
             @if ($message->sender_id === Auth::id())
                 <img src="{{ $conversation->is_group ? asset('/assets/images/avatar_default.jpg') : asset($message->sender->avatar ?? '/assets/images/avatar_default.jpg') }}"
-                    alt="User" class="rounded-circle me-3" style="object-fit: cover" width="40"
+                    alt="User" class="rounded-circle ms-3" style="object-fit: cover" width="40"
                     height="40">
             @endif
         </div>
@@ -206,35 +210,37 @@
 
 <!-- Thêm input để gửi tin nhắn -->
 
-<form id="send-message-form" action="{{ route('send.message') }}">
-    @csrf
-    <div class="footer-send chat-input d-flex align-items-center bg-white p-3 border-top">
-        <div class="input-icons ms-3" style="display: flex;">
-            <a href="#" id="folderIcon"><i class="fa-solid fa-folder"></i></a>
-            <a href="#" id="imageIcon"><i class="fa-solid fa-image"></i></a>
-            <a href="#" id="fileIcon"><i class="fa-solid fa-paperclip"></i></a>
+<div class="footer-send chat-input d-flex flex-column py-3 border-top">
+    <form id="send-message-form" action="{{ route('send.message') }}">
+        @csrf
+        <div class="">
+            <div class="d-flex w-100 flex-column ">
+                <div class="px-5 d-flex py-2 ">
+                    <a class="me-3" title="Chọn ảnh" id="imageIcon"><i class="fa-solid fa-image fa-lg text-dark"></i></a>
+                    <a title="Chọn file" id="fileIcon"><i class="fa-solid fa-paperclip fa-lg text-dark"></i></a>
+                </div>
+        
+                <div class="d-flex w-100 justify-content-space-evenly border-top border-primary px-4">
+                    <textarea class="w-100 border-0" id="messageInput" placeholder="Nhập @, tin nhắn tới ..." rows="1" oninput="toggleSendIcon()" style="resize: none; overflow: hidden"></textarea>
+            
+                    <button class="border-0 bg-white" type="submit" id="sendIcon" style="display: none;">
+                        <i class="fa-solid fa-paper-plane" style="font-size: 25px;"></i>
+                    </button>
+                </div>
+
+                <div id="previewContainer" class="d-flex flex-wrap mt-2"></div>
+            </div>
+
+            <!-- Các phần tử input file ẩn -->
+            <div>
+                <input type="hidden" name="conversation_id" id="conversation_id" value="{{ $conversation->id }}">
+                <input type="hidden" name="auth_id" id="auth_id" value="{{ Auth::id() }}">
+                <input type="file" id="imageInput" style="display: none;" accept="image/*">
+                <input type="file" id="fileInput" style="display: none;">
+            </div>
         </div>
-
-        <input type="hidden" name="conversation_id" id="conversation_id" value="{{ $conversation->id }}">
-        <input type="hidden" name="auth_id" id="auth_id" value="{{ Auth::id() }}">
-        <textarea class="form-control rounded-pill" id="messageInput" placeholder="Nhập @, tin nhắn tới ..." rows="1"
-            oninput="toggleSendIcon()" style="resize: none; overflow: hidden; width:700px"></textarea>
-        <button type="submit" href="#" id="sendIcon" style="display: none;">
-            <i class="fa-solid fa-paper-plane" style="font-size: 25px;"></i>
-        </button>
-
-        <!-- Các phần tử input file ẩn -->
-        <input type="file" id="folderInput" style="display: none;" webkitdirectory>
-        <input type="file" id="imageInput" style="display: none;" accept="image/*">
-        <input type="file" id="fileInput" style="display: none;">
-
-        <!-- Hiển thị ảnh hoặc tệp đã chọn ngay cạnh nút gửi -->
-        <div id="previewContainer"
-            style="display: none; position: absolute; bottom: 80px; right: 60px; background: white; border: 1px solid #ccc; padding: 5px; border-radius: 5px;">
-            <div id="previewContent"></div>
-        </div>
-    </div>
-</form>
+    </form>
+</div>
 
 
 <!-- Modal để hiển thị ảnh lớn -->
@@ -252,78 +258,80 @@
     @vite('resources/js/app.js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const authId = {{ Auth::id() }};
             const conversationId = document.getElementById('conversation_id').value;
-            Echo.private('chat.' + conversationId)
-                .listen('MessageSent', (e) => {
-                    console.log(e.message);
-
-                    const avatarUrl = e.message.sender.avatar_url;
-
-                    const messageHtml = `
-                        <div class="message d-flex mb-3 ${e.message.sender_id === {{ Auth::id() }} ? 'justify-content-end' : ''}">
-                            ${e.message.sender_id !== {{ Auth::id() }} ? `
-                                    <img src="${avatarUrl}" alt="User" class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
-                                ` : ''}
-                            <div class="message-content ${e.message.sender_id === {{ Auth::id() }} ? 'bg-primary text-white' : 'bg-white'} p-2 rounded">
-                                <p class="mb-0">${e.message.message}</p>
-                                <span class="message-time text-muted small">${e.message.created_at}</span>
-                            </div>
-                            ${e.message.sender_id === {{ Auth::id() }} ? `
-                                    <img src="${avatarUrl}" alt="User" class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">
-                                ` : ''}
+    
+            function appendMessage(message, isSender) {
+                const avatarUrl = message.sender.avatar_url;
+                const messageHtml = `
+                    <div class="message d-flex mb-3 ${isSender ? 'justify-content-end' : ''}">
+                        ${!isSender ? `
+                            <img src="${avatarUrl}" alt="User" class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
+                        ` : ''}
+                        <div class="message-content ${isSender ? 'bg-primary text-white' : 'bg-white'} p-2 rounded">
+                            <p class="mb-0">${message.message}</p>
+                            <span class="message-time text-muted small">${message.time_diff}</span>
                         </div>
-                    `;
-
-                    $('.box-chat').prepend(messageHtml);
-                    var chatBox = document.querySelector('.box-chat');
-                    chatBox.scrollTop = chatBox.scrollHeight;
-                });
-        });
-
-
-
-        document.addEventListener('DOMContentLoaded', function() {
-            $(document).on('submit', '#send-message-form', function(e) {
-                console.log('submitting message');
-
-                e.preventDefault();
-
-                let message = $('#messageInput').val();
-
-                $.ajax({
-                    url: '{{ route('send.message') }}',
-                    type: 'POST',
-                    data: {
-                        _token: $('input[name="_token"]').val(),
-                        conversation_id: $('#conversation_id').val(),
-                        message: message
-                    },
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            $('#messageInput').val('');
-                        } else {
-                            showToastr(response.message, 'error');
-                        }
-                    },
-                    error: function(xhr) {
-                        if (xhr.status === 422) {
-                            // Validation error
-                            let errors = xhr.responseJSON.errors;
-                            let errorMessage = '';
-                            for (let key in errors) {
-                                if (errors.hasOwnProperty(key)) {
-                                    errorMessage += errors[key][0] + '\n';
-                                }
+                        ${isSender ? `
+                            <img src="${avatarUrl}" alt="User" class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">
+                        ` : ''}
+                    </div>
+                `;
+                $('.box-chat').prepend(messageHtml);
+                var chatBox = document.querySelector('.box-chat');
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+    
+            function initializeEcho() {
+                Echo.private('chat.' + conversationId)
+                    .listen('MessageSent', (e) => {
+                        console.log(e.message);
+                        appendMessage(e.message, parseInt(e.message.sender_id) === parseInt(authId));
+                    });
+            }
+    
+            function initializeMessageForm() {
+                $(document).on('submit', '#send-message-form', function(e) {
+                    e.preventDefault();
+                    let message = $('#messageInput').val();
+                    $('#sendIcon').css('display', 'none')
+                    $('#messageInput').val('');
+                    $.ajax({
+                        url: '{{ route('send.message') }}',
+                        type: 'POST',
+                        data: {
+                            _token: $('input[name="_token"]').val(),
+                            conversation_id: $('#conversation_id').val(),
+                            message: message
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                appendMessage(response.message, parseInt(response.message.sender_id) === parseInt(authId));
+                            } else {
+                                showToast(response.message, 'error');
                             }
-
-                            showToastr(errorMessage, 'error');
-
-                        } else {
-                            showToastr(xhr.responseJSON.message, 'error');
+                        },
+                        error: function(xhr) {
+                            if (xhr.status === 422) {
+                                // Validation error
+                                let errors = xhr.responseJSON.errors;
+                                let errorMessage = '';
+                                for (let key in errors) {
+                                    if (errors.hasOwnProperty(key)) {
+                                        errorMessage += errors[key][0] + '\n';
+                                    }
+                                }
+                                showToast(errorMessage, 'error');
+                            } else {
+                                showToast(xhr.responseJSON.message, 'error');
+                            }
                         }
-                    }
+                    });
                 });
-            });
+            }
+    
+            initializeEcho();
+            initializeMessageForm();
         });
     </script>
 @endpush

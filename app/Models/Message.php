@@ -14,13 +14,6 @@ class Message extends Model
     // Model tin nhắn
     protected $fillable = ['conversation_id', 'sender_id', 'message'];
 
-    protected static function booted()
-    {
-        static::created(function ($message) {
-            broadcast(new MessageSent($message));
-        });
-    }
-
     public function conversation()
     {
         return $this->belongsTo(Conversation::class);

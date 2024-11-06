@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use Carbon\Carbon;
 use App\Models\Message;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Broadcasting\Channel;
@@ -28,9 +29,23 @@ class MessageSent implements ShouldBroadcast
         $this->message->load('sender');
         $this->message->sender->avatar_url = $this->message->sender->avatar ? asset($this->message->sender->avatar) 
         : asset('/assets/images/avatar_default.jpg');
+        $this->message->time_diff = $this->formatTimeDiff($this->message->created_at, Carbon::now());
 
-        Log::info('Broadcasting MessageSent event for message ID: ' . $this->message->id);
+        $this->message->message = decryptMessage($this->message->message);
 
         return new PrivateChannel('chat.'.$this->message->conversation->id);
+    }
+
+    private function formatTimeDiff($latestTime, $now)
+    {
+        if ($latestTime->diffInSeconds($now) < 60) {
+            return $latestTime->diffInSeconds($now) . ' giây trước';
+        } elseif ($latestTime->diffInMinutes($now) < 60) {
+            return $latestTime->diffInMinutes($now) . ' phút trước';
+        } elseif ($latestTime->diffInHours($now) < 24) {
+            return $latestTime->diffInHours($now) . ' giờ trước';
+        } else {
+            return $latestTime->diffInDays($now) . ' ngày trước';
+        }
     }
 }
