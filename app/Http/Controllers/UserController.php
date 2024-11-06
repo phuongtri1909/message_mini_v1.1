@@ -217,8 +217,8 @@ class UserController extends Controller
         try {
             $imageBackup = $user->avatar;
             $imageName = $user->id . time() . '.' . $request->avatar->extension();
-            $request->avatar->move(public_path('/uploads/images/avatar/'), $imageName);
-            $imagePath = '/uploads/images/avatar/' . $imageName;
+            $request->avatar->move(public_path('uploads/images/avatar/'), $imageName);
+            $imagePath = 'uploads/images/avatar/' . $imageName;
 
             $user->avatar = $imagePath;
             $user->save();
@@ -347,8 +347,8 @@ public function update(Request $request)
    
     if ($request->hasFile('avatar')) {
         $fileName = uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension();
-        $request->file('avatar')->move(public_path('/uploads/images/avatars'), $fileName);
-        $user->avatar = '/uploads/images/avatars/' . $fileName;
+        $request->file('avatar')->move(public_path('uploads/images/avatars'), $fileName);
+        $user->avatar = 'uploads/images/avatars/' . $fileName;
     }
     // Xử lý tải lên ảnh bìa
     if ($request->hasFile('cover_image')) {

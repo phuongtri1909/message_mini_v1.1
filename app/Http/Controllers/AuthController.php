@@ -225,10 +225,10 @@ class AuthController extends Controller
             $googleUser = Socialite::driver('google')->stateless()->user();
             $imageContents = Http::get($googleUser->avatar)->body();
             $imageName = Str::random(40) . '.jpg';
-            $imagePath = public_path('/uploads/images/avatars/' . $imageName);
+            $imagePath = public_path('uploads/images/avatars/' . $imageName);
 
-            if (!File::exists(public_path('/uploads/images/avatars'))) {
-                File::makeDirectory(public_path('/uploads/images/avatars'), 0755, true);
+            if (!File::exists(public_path('uploads/images/avatars'))) {
+                File::makeDirectory(public_path('uploads/images/avatars'), 0755, true);
             }
 
             File::put($imagePath, $imageContents);
@@ -238,7 +238,7 @@ class AuthController extends Controller
                 $user = new User();
                 $user->email = $googleUser->email;
                 $user->name = $googleUser->name;
-                $user->avatar = '/uploads/images/avatars/' . $imageName;
+                $user->avatar = 'uploads/images/avatars/' . $imageName;
                 $user->active = 'active';
                 $user->password = bcrypt(Str::random(10));
             }
