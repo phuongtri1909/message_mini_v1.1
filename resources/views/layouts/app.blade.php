@@ -3,7 +3,7 @@
 <div class="message_mini">
     @yield('content')
     <div class="container-fluid hehe">
-        <div class="row">
+        <div class="row h-100">
             <!-- Left Sidebar -->
             <section class="col-1 sidebar">
                 @include('pages.modal.profile')
