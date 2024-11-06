@@ -363,7 +363,6 @@ public function update(Request $request)
 
     // Cập nhật thông tin người dùng
     $user->name = $request->name;
-    $user->email = $request->email;
     $user->gender = $request->gender;
     $user->phone = $request->phone; // Cập nhật số điện thoại
     $user->dob = $request->dob; // Cập nhật ngày sinh

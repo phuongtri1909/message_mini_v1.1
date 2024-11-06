@@ -42,6 +42,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/friends/search', [FriendController::class, 'searchFriends'])->name('friends.search'); // Tìm kiếm bạn bè
     Route::post('/profile/update', [UserController::class, 'update'])->name('profile.update');
     Route::get('/search-messages', [FriendController::class, 'searchMessages'])->name('messages.search');
+    Route::get('/friends/list/group', [FriendController::class, 'getFriendsListGroup'])->name('friends.list.group');
+
+
+
 
 
     Route::post('/send-message', [MessageController::class, 'sendMessage'])->name('send.message');

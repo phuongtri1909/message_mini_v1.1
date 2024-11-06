@@ -322,44 +322,25 @@
                                     <i class="fa-solid fa-camera"></i>
                                 </div>
                             </label>
-                            <input type="file" id="groupImageInput" style="display:none;"
-                                onchange="previewImage(event)">
+                            <input type="file" id="groupImageInput" style="display:none;" onchange="previewImageGruop(event)">
+                            <img id="groupImagePreview" src="" alt="Image Preview" style="display: none;">
                         </div>
-                        <div class="group-name-container w-100 "
-                            style="padding-left: 20px;top: 15px;position: relative; padding-left: 20px">
+                        <div class="group-name-container w-100" style="padding-left: 20px; top: 15px; position: relative;">
                             <label for="groupName">Tên nhóm</label>
                             <input type="text" class="form-control" id="groupName" placeholder="Nhập tên nhóm">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="groupMembers">Thành viên</label>
-                        <input type="text" class="form-control" id="groupMembers" placeholder="Nhập tên thành viên">
+                        <label for="groupMembers">Tên Thành viên</label>
+                        <input type="text" class="form-control" id="groupMembers" placeholder="Nhập tên thành viên muốn tìm"oninput="filterMembers()">
                     </div>
                     <!-- Danh sách thành viên -->
                     <div class="list-group" id="membersList">
-                        <!-- Đây là nơi danh sách thành viên sẽ xuất hiện -->
-                        <label>Tất cả thành viên</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" id="member1">
-                            <label class="form-check-label" for="member1">
-                                <img src="{{ asset('assets/images/svg/lenovo.jpg') }}" alt="avatar" width="60"
-                                    height="60" style="border-radius: 50%"> Tiểu Cường Nè
-                            </label>
+                        <label>Chọn thành viên</label>
+                        <div id="friendsListContent">
+                            <!-- Danh sách bạn bè sẽ được load vào đây -->
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" id="member2">
-                            <label class="form-check-label" for="member2">
-                                <img src="{{ asset('assets/images/svg/lenovo.jpg') }}" alt="avatar" width="60"
-                                    height="60" style="border-radius: 50%"> Tiểu Cường Đây
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" id="member3">
-                            <label class="form-check-label" for="member3">
-                                <img src="{{ asset('assets/images/svg/lenovo.jpg') }}" alt="avatar" width="60"
-                                    height="60" style="border-radius: 50%"> Tiểu Cường Kia
-                            </label>
-                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -369,6 +350,7 @@
         </div>
     </div>
 </div>
+
 
 
 @include('layouts.partials.footer')
@@ -411,4 +393,34 @@
             })
             .catch(error => console.error('Error fetching messages:', error));
     }
+
+    // ------Load danh sách gruop ---------
+    document.addEventListener("DOMContentLoaded", function() {
+    // Khi mở modal, tải danh sách bạn bè qua AJAX
+    document.getElementById('createGroupModal').addEventListener('shown.bs.modal', function() {
+        fetch('{{ route('friends.list.group') }}')
+            .then(response => response.json())
+            .then(friends => {
+                let content = '';
+                if (friends.length > 0) {
+                    friends.forEach(friend => {
+                        content += `
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="${friend.id}" id="member${friend.id}">
+                                <label class="form-check-label" for="member${friend.id}">
+                                    <img src="{{ asset('') }}${friend.avatar ?? 'assets/images/avatar_default.jpg'}" alt="avatar" width="60" height="60" style="border-radius: 50%">
+                                    ${friend.name}
+                                </label>
+                            </div>`;
+                    });
+                } else {
+                    content = '<p>Không có bạn bè nào.</p>';
+                }
+                document.getElementById('friendsListContent').innerHTML = content;
+            })
+            .catch(() => {
+                document.getElementById('friendsListContent').innerHTML = '<p>Không thể tải danh sách bạn bè.</p>';
+            });
+    });
+});
 </script>
