@@ -21,7 +21,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
-        if($request->has('email') && $request->has('otp') && $request->has('password') && $request->has('name') && $request->has('phone') && $request->has('dob') && $request->has('gender')){
+        if ($request->has('email') && $request->has('otp') && $request->has('password') && $request->has('name') && $request->has('phone') && $request->has('dob') && $request->has('gender')) {
             try {
                 $request->validate([
                     'email' => 'required|email',
@@ -83,7 +83,6 @@ class AuthController extends Controller
                     'message' => 'Đăng ký thành công, chào mừng bạn đến với hệ thống',
                     'url' => route('home'),
                 ]);
-
             } catch (Exception $e) {
                 return response()->json([
                     'status' => 'error',
@@ -136,7 +135,7 @@ class AuthController extends Controller
             $user->key_active = bcrypt($otp);
             $user->save();
 
-           Mail::to($user->email)->send(new OTPMail($otp));
+            Mail::to($user->email)->send(new OTPMail($otp));
 
             return response()->json([
                 'status' => 'success',
@@ -151,7 +150,8 @@ class AuthController extends Controller
         }
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -162,7 +162,7 @@ class AuthController extends Controller
         ]);
 
         try {
-            
+
             $user = User::where('email', $request->email)->first();
             if (!$user) {
                 return redirect()->back()->withInput()->withErrors([
@@ -170,7 +170,7 @@ class AuthController extends Controller
                 ]);
             }
 
-            if($user->active == 'inactive'){
+            if ($user->active == 'inactive') {
                 return redirect()->back()->withInput()->withErrors([
                     'email' => 'Thông tin xác thực không chính xác',
                 ]);
@@ -191,56 +191,80 @@ class AuthController extends Controller
             Auth::login($user);
 
             return redirect()->route('home');
-
         } catch (Exception $e) {
             return redirect()->back()->withInput()->with('error', 'Đã xảy ra lỗi trong quá trình đăng nhập. Vui lòng thử lại sau.');
         }
     }
 
-    public function redirectToGoogle()
+    public function redirectToGoogle(Request $request)
     {
-        return Socialite::driver('google')->redirect();
+        if ($request->has('choose_account')) {
+            $googleAuth = Socialite::driver('google')->stateless();
+            $googleAuth->with(['prompt' => 'select_account']);
+            return $googleAuth->redirect();
+        }else{
+            if (session()->has('google_id')) {
+                $user = User::where('google_id', session('google_id'))->first();
+            
+                if ($user) {
+                    Auth::login($user);
+                    return redirect()->route('home');
+                }
+            }
+
+        }
+
+        $googleAuth = Socialite::driver('google')->stateless()->with(['access_type' => 'offline', 'prompt' => 'consent']);
+
+        return $googleAuth->redirect();
     }
 
     public function handleGoogleCallback()
     {
-        $googleUser = Socialite::driver('google')->stateless()->user();
-        $imageContents = Http::get($googleUser->avatar)->body();
-        $imageName = Str::random(40) . '.jpg';
-        $imagePath = public_path('/uploads/images/avatars/' . $imageName);
-        
-        if (!File::exists(public_path('/uploads/images/avatars'))) {
-            File::makeDirectory(public_path('/uploads/images/avatars'), 0755, true);
+        try {
+            $googleUser = Socialite::driver('google')->stateless()->user();
+            $imageContents = Http::get($googleUser->avatar)->body();
+            $imageName = Str::random(40) . '.jpg';
+            $imagePath = public_path('/uploads/images/avatars/' . $imageName);
+
+            if (!File::exists(public_path('/uploads/images/avatars'))) {
+                File::makeDirectory(public_path('/uploads/images/avatars'), 0755, true);
+            }
+
+            File::put($imagePath, $imageContents);
+
+            $user = User::where('email', $googleUser->email)->first();
+            if (!$user) {
+                $user = new User();
+                $user->email = $googleUser->email;
+                $user->name = $googleUser->name;
+                $user->avatar = '/uploads/images/avatars/' . $imageName;
+                $user->active = 'active';
+                $user->password = bcrypt(Str::random(10));
+            }
+            $user->google_id = $googleUser->id;
+            $user->save();
+
+            Auth::login($user);
+            // Lưu session thông tin người dùng (nếu muốn)
+            session(['google_id' => $googleUser->id]);
+
+            return redirect()->route('home');
+        } catch (\Exception $e) {
+            return redirect()->route('login')->with(['error' => 'Có lỗi xảy ra trong quá trình đăng nhập']);
         }
-
-        File::put($imagePath, $imageContents);
-
-        $user = User::where('email', $googleUser->email)->first();
-        if (!$user) {
-            $user = new User();
-            $user->email = $googleUser->email;
-            $user->name = $googleUser->name;
-            $user->avatar = '/uploads/images/avatars/' . $imageName;
-            $user->active = 'active';
-            $user->password = bcrypt(Str::random(10));
-        } 
-        $user->google_id = $googleUser->id;
-        $user->save();
-
-        Auth::login($user);
-
-        return redirect()->route('home');
-        
     }
 
 
-    public function logout(){
-        Auth::logout(); 
-        return redirect()->route(('login')); 
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route(('login'));
     }
 
-    public function forgotPassword(Request $request){
-        if($request->has('email')){
+    public function forgotPassword(Request $request)
+    {
+        if ($request->has('email')) {
             try {
                 $request->validate([
                     'email' => 'required|email',
@@ -264,9 +288,9 @@ class AuthController extends Controller
                     ], 422);
                 }
 
-                
-                
-                if($request->has('email') && $request->has('otp')){
+
+
+                if ($request->has('email') && $request->has('otp')) {
 
                     try {
                         $request->validate([
@@ -288,8 +312,7 @@ class AuthController extends Controller
                         ], 422);
                     }
 
-                    if($request->has('email') && $request->has('otp') && $request->has('password'))
-                    {
+                    if ($request->has('email') && $request->has('otp') && $request->has('password')) {
                         try {
                             $request->validate([
                                 'password' => 'required|min:6',
@@ -303,21 +326,20 @@ class AuthController extends Controller
                                 'message' => $e->errors()
                             ], 422);
                         }
-            
+
                         try {
-                            
+
                             $user->key_reset_password = null;
                             $user->password = bcrypt($request->password);
                             $user->save();
-            
+
                             Auth::login($user);
-            
+
                             return response()->json([
                                 'status' => 'success',
                                 'message' => 'Đặt lại mật khẩu thành công',
                                 'url' => route('home'),
                             ]);
-            
                         } catch (Exception $e) {
                             return response()->json([
                                 'status' => 'error',
@@ -325,15 +347,14 @@ class AuthController extends Controller
                                 'error' => $e->getMessage(),
                             ], 500);
                         }
-                    
                     }
 
                     return response()->json([
                         'status' => 'success',
                         'message' => 'Hãy nhập mật khẩu mới của bạn',
-                    ],200);
+                    ], 200);
                 }
-                
+
                 if ($user->key_reset_password_at != null) {
                     $resetPasswordAt = Carbon::parse($user->key_reset_password_at);
                     if (!$resetPasswordAt->lt(Carbon::now()->subMinutes(3))) {
@@ -353,7 +374,7 @@ class AuthController extends Controller
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Hãy kiểm tra email của bạn để lấy mã OTP',
-                ],200);
+                ], 200);
             } catch (Exception $e) {
                 return response()->json([
                     'status' => 'error',

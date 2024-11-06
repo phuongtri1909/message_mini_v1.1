@@ -83,37 +83,37 @@
                 <h6 class="fw-bold">Ảnh đã gửi</h6>
                 <div class="images-list d-flex flex-wrap">
                     <!-- Thêm hình ảnh mẫu -->
-                    <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 1"
+                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 1"
                         class="img-thumbnail m-1 view-image " style="object-fit:cover; width: 90px; height: 90px;">
                     <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Ảnh đã gửi 7"
                         class="img-thumbnail m-1 view-image " style=" object-fit:cover;width: 90px; height: 90px;">
                     <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Ảnh đã gửi 7"
                         class="img-thumbnail m-1 view-image  " style=" object-fit:cover;width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 4"
+                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 4"
                         class="img-thumbnail m-1 view-image " style=" object-fit:cover; width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 5"
+                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 5"
                         class="img-thumbnail m-1 view-image " style=" object-fit:cover;width: 90px; height: 90px;">
                     <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Ảnh đã gửi 7"
                         class="img-thumbnail m-1 view-image " style=" object-fit:cover;width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 7"
+                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 7"
                         class="img-thumbnail m-1 view-image " style=" object-fit:cover; width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 8"
+                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 8"
                         class="img-thumbnail m-1 view-image " style=" object-fit:cover; width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 1"
+                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 1"
                         class="img-thumbnail m-1 view-image " style=" object-fit:cover;width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 2"
+                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 2"
                         class="img-thumbnail m-1 view-image " style=" object-fit:cover;width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 3"
+                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 3"
                         class="img-thumbnail m-1 view-image " style="object-fit:cover; width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 4"
+                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 4"
                         class="img-thumbnail m-1 view-image " style=" object-fit:cover;width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 5"
+                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 5"
                         class="img-thumbnail m-1 view-image " style="object-fit:cover; width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 6"
+                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 6"
                         class="img-thumbnail m-1 view-image " style=" object-fit:cover;width: 90px; height: 90px;">
                     <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Ảnh đã gửi 7"
                         class="img-thumbnail m-1 view-image " style=" object-fit:cover;width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Ảnh đã gửi 8"
+                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 8"
                         class="img-thumbnail m-1 view-image " style=" object-fit:cover; width: 90px; height: 90px;">
                 </div>
                 <!-- Nút "Xem tất cả" -->
@@ -138,7 +138,7 @@
             <ul class="list-unstyled">
                 <li class="d-flex align-items-center justify-content-between mb-3">
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 1"
+                        <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Thành viên 1"
                             class="rounded-circle me-2" style="object-fit:cover; width: 40px; height: 40px;">
                         <span>Thành viên 1</span>
                     </div>
@@ -146,7 +146,7 @@
                 </li>
                 <li class="d-flex align-items-center justify-content-between mb-3">
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 2"
+                        <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Thành viên 2"
                             class="rounded-circle me-2" style="object-fit:cover; width: 40px; height: 40px;">
                         <span>Thành viên 2</span>
                     </div>
@@ -154,7 +154,7 @@
                 </li>
                 <li class="d-flex align-items-center justify-content-between mb-3">
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 3"
+                        <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Thành viên 3"
                             class="rounded-circle me-2" style="object-fit:cover; width: 40px; height: 40px;">
                         <span>Thành viên 3</span>
                     </div>
@@ -162,7 +162,7 @@
                 </li>
                 <li class="d-flex align-items-center justify-content-between mb-3">
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 4"
+                        <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Thành viên 4"
                             class="rounded-circle me-2" style="object-fit:cover; width: 40px; height: 40px;">
                         <span>Thành viên 4</span>
                     </div>
@@ -170,7 +170,7 @@
                 </li>
                 <li class="d-flex align-items-center justify-content-between mb-3">
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('assets/images/logo/logohoanxu.png') }}" alt="Thành viên 5"
+                        <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Thành viên 5"
                             class="rounded-circle me-2" style="object-fit:cover; width: 40px; height: 40px;">
                         <span>Thành viên 5</span>
                     </div>
