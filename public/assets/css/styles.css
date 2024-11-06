@@ -666,12 +666,6 @@ footer .icon-footer {
 
 /* aaaa */
 
-html, body {
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
-}
-
 .message_mini {
     display: flex;
     flex-direction: column;
@@ -683,21 +677,23 @@ html, body {
     overflow: hidden;
 }
 
-.row {
-    height: 100%;
-}
+
 
 .sidebar {
     height: 100%;
     overflow-y: auto;
 }
 
+.window-chat {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
 .chat-window {
     height: 100%;
     overflow-y: auto;
-}
-.position-relative {
-    position: relative;
 }
 
 /* Ảnh Bìa */

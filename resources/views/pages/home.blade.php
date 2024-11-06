@@ -3,14 +3,7 @@
 @section('description', 'Săn sale hoàn xu với % khủng cùng Hoàn Xu')
 @section('keyword', 'sale, hoàn xu, giảm giá, khuyến mãi, lazada, shopee, tiktok')
 @push('styles')
-    <style>
-        .window-chat {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            position: relative;
-        }
-    </style>
+
 @endpush
 
 @section('content')

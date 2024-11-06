@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/send-message', [MessageController::class, 'sendMessage'])->name('send.message');
     Route::get('/conversation/{conversationId}', [MessageController::class, 'openConversation'])->name('conversation');
+    Route::get('/conversations/user/{userId}', [MessageController::class, 'openConversationByUser'])->name('conversation.user');
 });
 
 
