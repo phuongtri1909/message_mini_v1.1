@@ -221,7 +221,7 @@
                 </div>
         
                 <div class="d-flex w-100 justify-content-space-evenly border-top border-primary px-4">
-                    <textarea class="w-100 border-0" id="messageInput" placeholder="Nhập @, tin nhắn tới ..." rows="1" oninput="toggleSendIcon()" style="resize: none; overflow: hidden"></textarea>
+                    <textarea class="w-100 border-0" id="messageInput" placeholder="{{ __('messages.enterSendMessages')}}" rows="1" oninput="toggleSendIcon()" style="resize: none; overflow: hidden"></textarea>
             
                     <button class="border-0 bg-white" type="submit" id="sendIcon" style="display: none;">
                         <i class="fa-solid fa-paper-plane" style="font-size: 25px;"></i>

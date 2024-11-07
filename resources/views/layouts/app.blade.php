@@ -63,7 +63,7 @@
             <!-- Chat List -->
             <section class="d-none d-md-block col-md-3 col-xs-3 bg-white px-0" style="border-right: 0.5px solid rgba(224, 226, 225, 0.874);">
                 <div class="search-bar mb-4 d-flex align-items-center border-bottom px-3">
-                    <input type="text" class="form-control me-2" placeholder="Tìm kiếm" id="searchMessages" oninput="searchMessages()">
+                    <input type="text" class="form-control me-2" placeholder="{{ __('messages.search')}}" id="searchMessages" oninput="searchMessages()">
                     <button class="btn" style="border: none; background: none; padding-left: 2px;" data-bs-toggle="modal" data-bs-target="#addFriendModal">
                         <i class="fa-solid fa-user-plus"></i>
                     </button>
@@ -121,15 +121,15 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addFriendModalLabel">Thêm Bạn Mới</h5>
+                <h5 class="modal-title" id="addFriendModalLabel">{{ __('messages.addNewFriend')}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-3 row">
 
-                    <label for="friendEmail" class="form-label">Nhập Email:</label>
+                    <label for="friendEmail" class="form-label">{{ __('messages.enterEmail')}}:</label>
                     <div class=" col-10">
-                        <input type="email" class="form-control" id="friendEmail" placeholder="Nhập Email" required
+                        <input type="email" class="form-control" id="friendEmail" placeholder="{{ __('messages.enterEmail')}}" required
                             pattern="^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$"
                             title="Vui lòng nhập định dạng email hợp lệ." maxlength="100">
                     </div>
@@ -158,18 +158,12 @@
                         </div>
                     </div>
                     <div class="d-flex mt-3">
-                        <button type="button" class="btn btn-success" id="sendRequestButton" style="display: none;">Gửi
-                            yêu
-                            cầu kết bạn</button>
-                        <button type="button" class="btn btn-danger" id="cancelRequestButton" style="display: none;">Thu
-                            hồi
-                            yêu cầu</button>
-                        <button type="button" class="btn btn-info" id="messageButtonn" style="display: none;">Nhắn
-                            tin</button> <!-- Nút nhắn tin -->
+                        <button type="button" class="btn btn-success" id="sendRequestButton" style="display: none;">{{ __('messages.sendFriendRequest')}}</button>
+                        <button type="button" class="btn btn-danger" id="cancelRequestButton" style="display: none;">{{ __('messages.revokeRequest')}}</button>
+                        <button type="button" class="btn btn-info" id="messageButtonn" style="display: none;">{{ __('messages.sendaMessage')}}</button> <!-- Nút nhắn tin -->
                         <button type="button" class="btn btn-success" id="acceptRequestButton"
-                            style="display: none; margin-right: 5px; ">Chấp nhận</button>
-                        <button type="button" class="btn btn-danger" id="declineRequestButton" style="display: none;">Từ
-                            chối</button>
+                            style="display: none; margin-right: 5px; ">{{ __('messages.accept')}}</button>
+                        <button type="button" class="btn btn-danger" id="declineRequestButton" style="display: none;">{{ __('messages.refuse')}}</button>
                     </div>
                 </div>
 
@@ -178,7 +172,7 @@
                 <!-- Thêm phần thông báo lỗi -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.close')}}</button>
             </div>
         </div>
     </div>
@@ -308,13 +302,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createGroupModalLabel">Tạo Nhóm Mới</h5>
+                <h5 class="modal-title" id="createGroupModalLabel">{{ __('messages.createaNewGroup')}}</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="createGroupForm">
+                <form id="createGroupForm" method="POST" action="{{ route('groups.create') }}" enctype="multipart/form-data">
+                    @csrf
                     <div class="form-group d-flex">
                         <div class="group-image-container">
                             <label for="groupImageInput">
@@ -322,21 +317,21 @@
                                     <i class="fa-solid fa-camera"></i>
                                 </div>
                             </label>
-                            <input type="file" id="groupImageInput" style="display:none;" onchange="previewImageGruop(event)">
+                            <input type="file" id="groupImageInput" name="avatar" style="display:none;" onchange="previewImageGroup(event)">
                             <img id="groupImagePreview" src="" alt="Image Preview" style="display: none;">
                         </div>
                         <div class="group-name-container w-100" style="padding-left: 20px; top: 15px; position: relative;">
-                            <label for="groupName">Tên nhóm</label>
-                            <input type="text" class="form-control" id="groupName" placeholder="Nhập tên nhóm">
+                            <label for="groupName"> {{ __('messages.nameGroup')}}</label>
+                            <input type="text" class="form-control" id="groupName" name="name" placeholder="{{ __('messages.inputGroupName')}}" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="groupMembers">Tên Thành viên</label>
-                        <input type="text" class="form-control" id="groupMembers" placeholder="Nhập tên thành viên muốn tìm"oninput="filterMembers()">
+                        <label for="groupMembers">{{ __('messages.nameMember')}}</label>
+                        <input type="text" class="form-control" id="groupMembers" placeholder="{{ __('messages.enterName')}}" oninput="filterMembers()">
                     </div>
                     <!-- Danh sách thành viên -->
                     <div class="list-group" id="membersList">
-                        <label>Chọn thành viên</label>
+                        <label>{{ __('messages.checkboxMember')}}</label>
                         <div id="friendsListContent">
                             <!-- Danh sách bạn bè sẽ được load vào đây -->
                         </div>
@@ -344,8 +339,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary" onclick="submitGroup()">Tạo nhóm</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.close')}}</button>
+                <button type="button" class="btn btn-primary" onclick="submitGroup()">{{ __('messages.createGR')}}</button>
             </div>
         </div>
     </div>
@@ -423,4 +418,26 @@
             });
     });
 });
+function submitGroup() {
+    const formData = new FormData(document.getElementById('createGroupForm'));
+
+    fetch('{{ route('groups.create') }}', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast(data.message, 'success'); // Hiện thông báo thành công
+            // Đóng modal hoặc thực hiện các hành động khác
+            $('#createGroupModal').modal('hide');
+        } else {
+            showToast('Có lỗi xảy ra. Vui lòng thử lại.', 'error'); // Hiện thông báo lỗi
+        }
+    })
+    .catch(() => {
+        showToast('Có lỗi xảy ra. Vui lòng thử lại.', 'error');
+    });
+}
+
 </script>
