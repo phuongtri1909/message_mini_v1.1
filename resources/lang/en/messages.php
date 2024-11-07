@@ -75,5 +75,6 @@ return [
     'dayBefore' => 'day ago',
     'minuteBefore' => 'minute ago',
     'secondBefore' => 'second ago',
+    'enterSendMessages' => 'Enter @, message to...',
 ];
 

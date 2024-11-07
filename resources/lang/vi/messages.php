@@ -75,4 +75,5 @@ return [
     'dayBefore' => 'ngày trước',
     'minuteBefore' => 'phút trước',
     'secondBefore' => 'giây trước',
+    'enterSendMessages' => 'Nhập @, tin nhắn tới ...',
 ];
