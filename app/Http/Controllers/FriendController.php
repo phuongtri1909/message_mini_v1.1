@@ -437,24 +437,30 @@ public function showFriendsList()
 
 public function searchMessages(Request $request)
 {
-    // Lấy từ khóa tìm kiếm từ request
+    // Get the search keyword from the request
     $query = $request->input('query');
-    $userId = auth()->id(); // Lấy ID của người dùng hiện tại
+    $userId = auth()->id(); // Get the current user ID
 
-    // Tìm kiếm các tin nhắn theo từ khóa, chỉ nếu người gửi là bạn bè
-    $messages = Message::with('sender') // Nạp thông tin người gửi
+    // Search messages containing the keyword, only if the sender is a friend
+    $messages = Message::with('sender') // Load sender information
         ->whereHas('sender', function ($q) use ($userId) {
-            // Kiểm tra nếu người gửi là bạn bè của người dùng hiện tại
+            // Check if the sender is a friend of the current user
             $q->whereHas('friends', function ($q) use ($userId) {
                 $q->where('friend_id', $userId);
             });
         })
-        ->where('message', 'like', "%{$query}%") // Tìm tin nhắn chứa từ khóa
-        ->get(['message', 'sender_id']); // Chỉ lấy thông tin cần thiết
+        ->where('message', 'like', "%{$query}%") // Search for messages containing the keyword
+        ->get(['message', 'sender_id']); // Retrieve only necessary information
 
-    // Trả về kết quả tìm kiếm dưới dạng JSON
+    // Decrypt each message
+    foreach ($messages as $message) {
+        $message->message = decryptMessage($message->message);
+    }
+
+    // Return the search results as JSON
     return response()->json($messages);
 }
+
 public function getFriendsListGroup()
 {
     $user = Auth::user();
