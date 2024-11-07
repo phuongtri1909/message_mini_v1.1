@@ -9,6 +9,7 @@ use App\Http\Controllers\SocialsController;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\LanguageController; 
+use App\Http\Controllers\ConversationController; 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,9 +44,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/profile/update', [UserController::class, 'update'])->name('profile.update');
     Route::get('/search-messages', [FriendController::class, 'searchMessages'])->name('messages.search');
     Route::get('/friends/list/group', [FriendController::class, 'getFriendsListGroup'])->name('friends.list.group');
-
-
-
+    Route::post('/groups/create', [ConversationController::class, 'createGroup'])->name('groups.create');
 
 
     Route::post('/send-message', [MessageController::class, 'sendMessage'])->name('send.message');

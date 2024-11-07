@@ -314,7 +314,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="createGroupForm">
+                <form id="createGroupForm" method="POST" action="{{ route('groups.create') }}" enctype="multipart/form-data">
+                    @csrf
                     <div class="form-group d-flex">
                         <div class="group-image-container">
                             <label for="groupImageInput">
@@ -322,17 +323,17 @@
                                     <i class="fa-solid fa-camera"></i>
                                 </div>
                             </label>
-                            <input type="file" id="groupImageInput" style="display:none;" onchange="previewImageGruop(event)">
+                            <input type="file" id="groupImageInput" name="avatar" style="display:none;" onchange="previewImageGroup(event)">
                             <img id="groupImagePreview" src="" alt="Image Preview" style="display: none;">
                         </div>
                         <div class="group-name-container w-100" style="padding-left: 20px; top: 15px; position: relative;">
                             <label for="groupName">Tên nhóm</label>
-                            <input type="text" class="form-control" id="groupName" placeholder="Nhập tên nhóm">
+                            <input type="text" class="form-control" id="groupName" name="name" placeholder="Nhập tên nhóm" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="groupMembers">Tên Thành viên</label>
-                        <input type="text" class="form-control" id="groupMembers" placeholder="Nhập tên thành viên muốn tìm"oninput="filterMembers()">
+                        <input type="text" class="form-control" id="groupMembers" placeholder="Nhập tên thành viên muốn tìm" oninput="filterMembers()">
                     </div>
                     <!-- Danh sách thành viên -->
                     <div class="list-group" id="membersList">
@@ -423,4 +424,26 @@
             });
     });
 });
+function submitGroup() {
+    const formData = new FormData(document.getElementById('createGroupForm'));
+
+    fetch('{{ route('groups.create') }}', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast(data.message, 'success'); // Hiện thông báo thành công
+            // Đóng modal hoặc thực hiện các hành động khác
+            $('#createGroupModal').modal('hide');
+        } else {
+            showToast('Có lỗi xảy ra. Vui lòng thử lại.', 'error'); // Hiện thông báo lỗi
+        }
+    })
+    .catch(() => {
+        showToast('Có lỗi xảy ra. Vui lòng thử lại.', 'error');
+    });
+}
+
 </script>
