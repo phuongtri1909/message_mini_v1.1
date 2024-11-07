@@ -47,7 +47,7 @@
                     @endif
                 </h5>
                 <p class="text-muted mb-0">
-                    {{ $conversation->is_group ? $conversation->conversationUserInfo->count() : '' }}
+                    {{ $conversation->is_group ? $conversation->conversationUserInfo->count() . ' Thành viên' : '' }}
                 </p>
             </div>
         </div>
@@ -197,7 +197,7 @@
                 @endif
                 <p class="mb-0">{{ decryptMessage($message->message); }}</p>
                 <span
-                    class="message-time text-muted small">{{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}</span>
+                    class="message-time small text-dark">{{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}</span>
             </div>
             @if ($message->sender_id === Auth::id())
                 <img src="{{ $conversation->is_group ? asset('/assets/images/avatar_default.jpg') : asset($message->sender->avatar ?? '/assets/images/avatar_default.jpg') }}"
@@ -270,7 +270,7 @@
                         ` : ''}
                         <div class="message-content ${isSender ? 'bg-primary text-white' : 'bg-white'} p-2 rounded">
                             <p class="mb-0">${message.message}</p>
-                            <span class="message-time text-muted small">${message.time_diff}</span>
+                            <span class="message-time text-dark small">${message.time_diff}</span>
                         </div>
                         ${isSender ? `
                             <img src="${avatarUrl}" alt="User" class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">

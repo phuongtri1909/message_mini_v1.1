@@ -112,7 +112,7 @@
                         ` : ''}
                     <div class="message-content ${isSender ? 'bg-primary text-white' : 'bg-white'} p-2 rounded">
                         <p class="mb-0">${message.message}</p>
-                        <span class="message-time text-muted small">${message.time_diff}</span>
+                        <span class="message-time text-dark small">${message.time_diff}</span>
                     </div>
                     ${isSender ? `
                             <img src="${avatarUrl}" alt="User" class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">

@@ -353,7 +353,7 @@ public function showFriendsList()
         ->where('users.id', '!=', $user->id) // Loại bỏ người dùng hiện tại khỏi danh sách bạn bè
         ->select('users.id', 'users.name', 'users.email', 'users.avatar', 'users.gender', 'friends.created_at as friendship_start')
         ->distinct()
-        ->paginate(5); // Số lượng bạn bè hiển thị trên mỗi trang
+        ->paginate(10); // Số lượng bạn bè hiển thị trên mỗi trang
 
     return view('pages.friend.listfriend', ['friends' => $friends, 'message' => null]);
 }

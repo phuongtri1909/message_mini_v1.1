@@ -92,37 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
         loadFriendsList();
     });
 
-    // Hàm tải danh sách bạn bè
-    function loadFriendsList() {
-        fetch('/friends-list-modal', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === "success") {
-                    friendsList.innerHTML = ''; // Xóa nội dung hiện tại
-
-                    // Duyệt qua danh sách bạn bè và tạo HTML
-                    data.friends.forEach(friend => {
-                        friendsList.innerHTML += `
-                            <div class="friend-item">
-                                <img src="${asset(friend.avatar)}" alt="${friend.name}" class="avatar" style="height:96px; width:96px;">
-                                <p>${friend.name}</p>
-                            </div>
-                        `;
-                    });
-                } else {
-                    saveToast(data.message, 'error');
-                }
-            })
-            .catch(error => {
-                saveToast('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
-            });
-    }
+    
      // Hàm asset để tạo đường dẫn đầy đủ
      function asset(path) {
         return `${window.location.origin}/${path}`;
