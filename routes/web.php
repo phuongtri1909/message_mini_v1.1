@@ -45,7 +45,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/search-messages', [FriendController::class, 'searchMessages'])->name('messages.search');
     Route::get('/friends/list/group', [FriendController::class, 'getFriendsListGroup'])->name('friends.list.group');
     Route::post('/groups/create', [ConversationController::class, 'createGroup'])->name('groups.create');
-
+    Route::get('/friends/{id}', [FriendController::class, 'showFriendInfo'])->name('friend.show');
+    
 
     Route::post('/send-message', [MessageController::class, 'sendMessage'])->name('send.message');
     Route::get('/conversation/{conversationId}', [MessageController::class, 'openConversation'])->name('conversation');

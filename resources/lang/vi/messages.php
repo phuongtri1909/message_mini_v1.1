@@ -76,4 +76,5 @@ return [
     'minuteBefore' => 'phút trước',
     'secondBefore' => 'giây trước',
     'enterSendMessages' => 'Nhập @, tin nhắn tới ...',
+    'friend_info' => 'Thông tin bạn bè',
 ];
