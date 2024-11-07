@@ -540,20 +540,22 @@ function filterMembers() {
         }
     });
 }
-function previewImageGruop(event) {
-    const input = event.target;
+function previewImageGroup(event) {
     const preview = document.getElementById('groupImagePreview');
+    const file = event.target.files[0];
 
-    if (input.files && input.files[0]) {
+    if (file) {
         const reader = new FileReader();
-        
-        reader.onload = function (e) {
-            preview.src = e.target.result; // Gán đường dẫn ảnh đã chọn
-            preview.style.display = 'block'; // Hiển thị hình ảnh
-        }
-        
-        reader.readAsDataURL(input.files[0]); // Đọc file
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block'; // Hiển thị ảnh
+        };
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = '';
+        preview.style.display = 'none'; // Ẩn ảnh nếu không có file
     }
 }
+
 
 // ------------------------Đóng---------------------
