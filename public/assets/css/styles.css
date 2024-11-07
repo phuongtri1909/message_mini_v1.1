@@ -11,8 +11,8 @@ header .sticky-header {
 }
 
 .logohoanxu {
-    width: 210px;
-    height: 75px;
+    width: 200px;
+    height: 110px;
 }
 
 footer .icon-footer {
@@ -393,44 +393,24 @@ footer .icon-footer {
 }
 
 
-.chat-window {
-    position: relative;
-}
-
 .chat-input {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 100px;
+    height: auto;
     background-color: #fff;
     border-top: 1px solid #ddd;
-    /* Đường viền trên */
 }
 
 .chat-input input {
     flex-grow: 1;
     border-radius: 20px;
-    /* Bo tròn các góc */
     border: 1px solid #ddd;
-    /* Đường viền */
 }
 
 .container {
     max-height: 100%;
-}
-
-.input-icons {
-    position: absolute;
-    /* Đặt vị trí tuyệt đối cho .input-icons */
-    top: -1px;
-    /* Điều chỉnh chiều cao của icon lên trên */
-    left: 10px;
-    /* Căn lề bên trái cho icon */
-    z-index: 1;
-    /* Đặt độ ưu tiên cho icon */
-    font-size: 20px;
-
 }
 
 .input-icons a {
@@ -451,14 +431,6 @@ footer .icon-footer {
 }
 @media (max-width: 768px) {
 
-    .sidebar,
-    .chat-list,
-    .chat-window {
-        width: 100%;
-        /* Chiếm toàn bộ chiều ngang màn hình */
-        margin-bottom: 20px;
-        /* Khoảng cách giữa các phần */
-    }
 
     .chat-input {
         position: static;
@@ -677,12 +649,6 @@ footer .icon-footer {
 
 /* aaaa */
 
-html, body {
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
-}
-
 .message_mini {
     display: flex;
     flex-direction: column;
@@ -694,21 +660,23 @@ html, body {
     overflow: hidden;
 }
 
-.row {
-    height: 100%;
-}
+
 
 .sidebar {
     height: 100%;
     overflow-y: auto;
 }
 
+.window-chat {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
 .chat-window {
     height: 100%;
     overflow-y: auto;
-}
-.position-relative {
-    position: relative;
 }
 
 /* Ảnh Bìa */
@@ -750,4 +718,49 @@ html, body {
 
 .mt-n5 {
     margin-top: -5rem; /* Điều chỉnh vị trí ảnh đại diện gần với ảnh bìa hơn */
+}
+
+/* btn 165 */
+.btn-165 {
+    padding: 10px 25px;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 0.5rem;
+    border: 1px solid #bebebe;
+    gap: 10px;
+    color: #414141;
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    user-select: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    /*** full width block ***/
+    /* width: 100%; */
+}
+
+.btn-165 svg {
+    height: 24px;
+}
+
+.btn-165:hover {
+    border: solid 1px #464545;
+}
+
+.btn-165:active {
+    margin-top: 1px;
+}
+
+/*** disabled style ***/
+.btn-165:disabled {
+    pointer-events: none;
+    opacity: .65;
+    color: #7e7e7e;
+    background: #dcdcdc;
+    box-shadow: none;
+    text-shadow: none;
 }

@@ -3,14 +3,7 @@
 @section('description', 'Săn sale hoàn xu với % khủng cùng Hoàn Xu')
 @section('keyword', 'sale, hoàn xu, giảm giá, khuyến mãi, lazada, shopee, tiktok')
 @push('styles')
-    <style>
-        .window-chat {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            position: relative;
-        }
-    </style>
+
 @endpush
 
 @section('content')
@@ -22,13 +15,13 @@
         @foreach ($conversations as $item)
             <a class="text-decoration-none d-flex justify-content-between conversation-link mb-4" data-id="{{ $item->id }}">
                 <div class="d-flex align-items-center">
-                    <img src="{{ asset($item->is_group == false ? $item->friend->avatar : '/assets/images/avatar_default.jpg') }}"
-                        alt="User" class="rounded-circle me-3" style="object-fit: cover" width="50" height="50">
+                    <img src="{{ $item->is_group ? ($item->avatar ? asset($item->avatar) : asset('/assets/images/avatar_default_group.jpg')) : ($item->friend->avatar ? asset($item->friend->avatar) : asset('/assets/images/avatar_default.jpg')) }}"
+                    alt="User" class="rounded-circle me-3" style="object-fit: cover" width="50" height="50">
                     <div class="chat-info">
                         <h5 class="mb-0 text-dark">{{ $item->is_group == false ? $item->friend->name : $item->name }}</h5>
                         <p class="text-muted mb-0">
                             @if($item->latestMessage)
-                                {{ $item->latestMessage->message }}
+                                {{ decryptMessage($item->latestMessage->message); }}
                             @else
                                 @php
                                     $creator = $item->conversationUsers->firstWhere('user_id', $item->created_by);
@@ -92,20 +85,13 @@
     <script>
         // input gửi tin nhắn
         document.addEventListener('DOMContentLoaded', function() {
-            const folderIcon = document.getElementById('folderIcon');
             const imageIcon = document.getElementById('imageIcon');
             const fileIcon = document.getElementById('fileIcon');
-            const folderInput = document.getElementById('folderInput');
             const imageInput = document.getElementById('imageInput');
             const fileInput = document.getElementById('fileInput');
             const previewContainer = document.getElementById('previewContainer');
-            const previewContent = document.getElementById('previewContent');
             const sendIcon = document.getElementById('sendIcon');
             const messageInput = document.getElementById('messageInput');
-
-            folderIcon.addEventListener('click', function() {
-                folderInput.click();
-            });
 
             imageIcon.addEventListener('click', function() {
                 imageInput.click();
@@ -115,57 +101,56 @@
                 fileInput.click();
             });
 
-            function handleFileSelect(input) {
-                const files = input.files;
-                previewContent.innerHTML = '';
-
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    const reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        const fileType = file.type.split('/')[0];
-                        let element;
-
-                        if (fileType === 'image') {
-                            element = document.createElement('img');
-                            element.src = e.target.result;
-                            element.style.width = '50px';
-                            element.style.height = '50px';
-                            element.style.objectFit = 'cover';
-                            element.style.marginRight = '5px';
-                        } else {
-                            element = document.createElement('div');
-                            element.textContent = file.name;
-                            element.style.marginRight = '5px';
-                        }
-
-                        previewContent.appendChild(element);
-                    };
-
-                    reader.readAsDataURL(file);
-                }
-
-                previewContainer.style.display = 'block';
-                toggleSendIcon();
-            }
-
-            folderInput.addEventListener('change', function() {
-                handleFileSelect(this);
-            });
-
             imageInput.addEventListener('change', function() {
-                handleFileSelect(this);
+                handleFileSelect(this.files,'image');
             });
 
             fileInput.addEventListener('change', function() {
-                handleFileSelect(this);
+                handleFileSelect(this.files,'file');
             });
 
             messageInput.addEventListener('input', function() {
                 toggleSendIcon();
             });
 
+            function handleFileSelect(files,type) {
+                previewContainer.innerHTML = '';
+
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const previewElement = document.createElement('div');
+                        previewElement.classList.add('preview-element', 'm-2');
+                        previewElement.style.width = '100px';
+                        previewElement.style.height = '100px';
+                        previewElement.style.border = '1px solid #ccc';
+                        previewElement.style.display = 'flex';
+                        previewElement.style.alignItems = 'center';
+                        previewElement.style.justifyContent = 'center';
+                        previewElement.style.overflow = 'hidden';
+
+                        if (type === 'image') {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.style.width = '100%';
+                            img.style.height = '100%';
+                            img.style.objectFit = 'cover';
+                            previewElement.appendChild(img);
+                        } else {
+                            const fileName = document.createElement('span');
+                            fileName.textContent = file.name;
+                            fileName.style.fontSize = '12px';
+                            fileName.style.textAlign = 'center';
+                            previewElement.appendChild(fileName);
+                        }
+
+                        previewContainer.appendChild(previewElement);
+                    };
+                    reader.readAsDataURL(file);
+                }
+                toggleSendIcon();
+            }
 
         });
 

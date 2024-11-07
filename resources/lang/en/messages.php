@@ -62,5 +62,18 @@ return [
     'dobbefore_or_equal' => 'Date of birth cannot be greater than current date',
     'phoneregex' => 'Phone numbers contain only numbers', 
     'phonedigits_between' => 'The phone number must have 10 to 15 digits',
+    'createaNewGroup' => 'Create New Group',
+    'nameGroup' => 'Group name',
+    'nameMember' => 'Member name',
+    'checkboxMember' => 'Select member',
+    'enterName' => 'Enter the name of the member you want to find',
+    'inputGroupName' => 'Enter a group name',
+    'createGR' => 'Create Group',
+    'sendFriendRequest' => 'Send a friend request', 
+    'revokeRequest' => 'Revoke request'  ,
+    'sendaMessage' => 'Send a message' ,
+    'dayBefore' => 'day ago',
+    'minuteBefore' => 'minute ago',
+    'secondBefore' => 'second ago',
 ];
 

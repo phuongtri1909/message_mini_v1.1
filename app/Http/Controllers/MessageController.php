@@ -63,6 +63,64 @@ class MessageController extends Controller
         return response()->json(['html' => $html]);
     }
 
+
+    public function openConversationByUser($userId)
+    {
+        $currentUserId = Auth::id();
+
+        // Tìm hoặc tạo cuộc trò chuyện giữa người dùng hiện tại và người dùng được chọn
+        $conversation = Conversation::whereHas('users', function ($query) use ($currentUserId) {
+            $query->where('user_id', $currentUserId);
+        })
+            ->whereHas('users', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->where('is_group', false)
+            ->with(['latestMessage', 'users', 'messages.sender'])
+            ->first();
+
+        if (!$conversation) {
+            // Tạo cuộc trò chuyện mới nếu chưa tồn tại
+            $conversation = Conversation::create([
+                'is_group' => false,
+                'created_by' => $currentUserId,
+            ]);
+
+            // Thêm người dùng vào cuộc trò chuyện
+            $conversation->users()->attach([$currentUserId, $userId]);
+        }
+
+        // Lấy thông tin người bạn nếu không phải nhóm
+        if (!$conversation->is_group) {
+            $conversation->friend = $conversation->users->firstWhere('id', '!=', $currentUserId);
+        }
+
+        // Lấy tin nhắn cuối cùng và định dạng thời gian
+        $now = Carbon::now();
+        if ($conversation->latestMessage) {
+            $latestMessageTime = Carbon::parse($conversation->latestMessage->created_at);
+            $conversation->latestMessage->time_diff = $this->formatTimeDiff($latestMessageTime, $now);
+        } else {
+            $conversation->time_diff = $this->formatTimeDiff($conversation->created_at, $now);
+        }
+
+        // Lấy thông tin từ bảng conversation_user
+        $conversation->conversationUserInfo = ConversationUser::where('conversation_id', $conversation->id)->get();
+
+        // Lấy 20 tin nhắn mới nhất của cuộc trò chuyện này
+        $conversation->messages = Message::where('conversation_id', $conversation->id)
+            ->orderBy('created_at', 'desc')
+            ->take(20)
+            ->with('sender')
+            ->get();
+
+        $html = view('components.window_chat', ['conversation' => $conversation])->render();
+
+        return response()->json(['status' => 'success', 'html' => $html]);
+    }
+
+
+
     private function formatTimeDiff($latestTime, $now)
     {
         if ($latestTime->diffInSeconds($now) < 60) {
@@ -96,11 +154,14 @@ class MessageController extends Controller
             $message = Message::create([
                 'conversation_id' => $conversationId,
                 'sender_id' => $senderId,
-                'message' => $messageText
+                'message' => encryptMessage($messageText)
             ]);
 
             $message->load('sender');
             $message->sender->avatar_url = $message->sender->avatar ? asset($message->sender->avatar) : asset('/assets/images/avatar_default.jpg');
+            $message->time_diff = $this->formatTimeDiff($message->created_at, Carbon::now());
+
+            $message->message = decryptMessage($message->message);
 
             // Phát sự kiện tin nhắn
             broadcast(new MessageSent($message))->toOthers();
