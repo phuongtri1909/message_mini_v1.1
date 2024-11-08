@@ -351,7 +351,7 @@ public function showFriendsList()
                 ->orWhere('friends.friend_id', $user->id);
         })
         ->where('users.id', '!=', $user->id) // Loại bỏ người dùng hiện tại khỏi danh sách bạn bè
-        ->select('users.id', 'users.name', 'users.email', 'users.avatar', 'users.gender', 'friends.created_at as friendship_start')
+        ->select('users.id', 'users.name', 'users.email', 'users.avatar', 'users.gender','users.phone','users.dob','users.cover_image','users.description', 'friends.created_at as friendship_start')
         ->distinct()
         ->paginate(10); // Số lượng bạn bè hiển thị trên mỗi trang
 
@@ -481,6 +481,50 @@ public function getFriendsListGroup()
         ->get();
 
     return response()->json($friends);
+}
+
+public function showFriendInfo($friendId)
+{
+    $user = Auth::user();
+
+    // Lấy thông tin bạn bè từ bảng `friends` và `users`
+    $friend = DB::table('friends')
+        ->join('users', function ($join) use ($user, $friendId) {
+            $join->on('friends.friend_id', '=', 'users.id')
+                 ->orOn('friends.user_id', '=', 'users.id');
+        })
+        ->where(function ($query) use ($user, $friendId) {
+            $query->where([
+                    ['friends.user_id', $user->id],
+                    ['friends.friend_id', $friendId],
+                ])
+                ->orWhere([
+                    ['friends.friend_id', $user->id],
+                    ['friends.user_id', $friendId],
+                ]);
+        })
+        ->where('users.id', $friendId) // Lấy đúng thông tin của bạn
+        ->select(
+            'users.id', 
+            'users.name', 
+            'users.email', 
+            'users.avatar', 
+            'users.gender', 
+            'users.phone', 
+            'users.dob', 
+            'users.cover_image', 
+            'users.description', 
+            'friends.created_at as friendship_start'
+        )
+        ->first();
+
+    // Kiểm tra nếu bạn bè tồn tại
+    if (!$friend) {
+        return redirect()->back()->with('error', 'Không tìm thấy bạn bè.');
+    }
+
+    // Truyền dữ liệu bạn bè vào view
+    return view('profilefr', ['friend' => $friend]);
 }
 
 }
