@@ -44,7 +44,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/profile/update', [UserController::class, 'update'])->name('profile.update');
     Route::get('/search-messages', [FriendController::class, 'searchMessages'])->name('messages.search');
     Route::get('/friends/list/group', [FriendController::class, 'getFriendsListGroup'])->name('friends.list.group');
-    Route::post('/groups/create', [ConversationController::class, 'createGroup'])->name('groups.create');
+    Route::get('/groups/create', [ConversationController::class, 'create'])->name('groups.create');
+    Route::post('/groups', [ConversationController::class, 'createGroup'])->name('groups.store');
     Route::get('/friends/{id}', [FriendController::class, 'showFriendInfo'])->name('friend.show');
     
 

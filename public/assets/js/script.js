@@ -525,37 +525,110 @@ function toggleSendIcon() {
 
 // ---------------Modal tạo nhóm------------------
 
-function filterMembers() {
-    const input = document.getElementById('groupMembers').value.toLowerCase();
-    const memberCheckboxes = document.querySelectorAll('#friendsListContent .form-check');
 
-    memberCheckboxes.forEach(checkbox => {
-        const label = checkbox.querySelector('.form-check-label');
-        const memberName = label.textContent.toLowerCase();
-
-        if (memberName.includes(input)) {
-            checkbox.style.display = 'block'; // Hiện checkbox nếu tên thành viên phù hợp
-        } else {
-            checkbox.style.display = 'none'; // Ẩn checkbox nếu không phù hợp
-        }
-    });
-}
-function previewImageGroup(event) {
-    const preview = document.getElementById('groupImagePreview');
-    const file = event.target.files[0];
-
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            preview.src = e.target.result;
-            preview.style.display = 'block'; // Hiển thị ảnh
-        };
-        reader.readAsDataURL(file);
-    } else {
-        preview.src = '';
-        preview.style.display = 'none'; // Ẩn ảnh nếu không có file
-    }
-}
 
 
 // ------------------------Đóng---------------------
+document.addEventListener('DOMContentLoaded', function() {
+    function appendMessage(message, isSender) {
+        const avatarUrl = message.sender.avatar_url;
+        const messageHtml = `
+            <div class="message d-flex mb-3 ${isSender ? 'justify-content-end' : ''}">
+                ${!isSender ? `
+                        <img src="${avatarUrl}" alt="User" class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
+                    ` : ''}
+                <div class="message-content ${isSender ? 'bg-primary text-white' : 'bg-white'} p-2 rounded">
+                    <p class="mb-0">${message.message}</p>
+                    <span class="message-time text-dark small">${message.time_diff}</span>
+                </div>
+                ${isSender ? `
+                        <img src="${avatarUrl}" alt="User" class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">
+                    ` : ''}
+            </div>
+        `;
+        $('.box-chat').prepend(messageHtml);
+        var chatBox = document.querySelector('.box-chat');
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function initializeChat(conversationId, authId) {
+        Echo.private('chat.' + conversationId)
+            .listen('MessageSent', (e) => {
+                appendMessage(e.message, parseInt(e.message.sender_id) === parseInt(authId));
+            });
+    }
+
+    function initializeMessageForm(authId) {
+        $(document).on('submit', '#send-message-form', function(e) {
+            e.preventDefault();
+            let message = $('#messageInput').val();
+            $('#messageInput').val('');
+            $.ajax({
+                url: $('#send-message-form').attr('action'),
+                type: 'POST',
+                data: {
+                    _token: $('input[name="_token"]').val(),
+                    conversation_id: $('#conversation_id').val(),
+                    message: message
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        appendMessage(response.message, parseInt(response.message
+                            .sender_id) === parseInt(authId));
+                    } else {
+                        showToast(response.message, 'error');
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        // Validation error
+                        let errors = xhr.responseJSON.errors;
+                        let errorMessage = '';
+                        for (let key in errors) {
+                            if (errors.hasOwnProperty(key)) {
+                                errorMessage += errors[key][0] + '\n';
+                            }
+                        }
+                        showToast(errorMessage, 'error');
+                    } else {
+                        showToast(xhr.responseJSON.message, 'error');
+                    }
+                }
+            });
+        });
+    }
+
+    function openConversation(userId) {
+        fetch(`/conversations/user/${userId}`)
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(error => {
+                        throw new Error(error.message);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 'success') {
+                    document.querySelector('.window-chat').innerHTML = data.html;
+                    const conversationId = document.getElementById('conversation_id').value;
+                    const authId = document.getElementById('auth_id').value;
+
+                    initializeChat(conversationId, authId);
+                    initializeMessageForm(authId);
+                } else {
+                    showToast(data.message, 'error');
+                }
+            })
+            .catch(error => {
+                showToast(error.message, 'error');
+            });
+    }
+
+
+    $(document).on('click', '.open-conversation', function(event) {
+        event.preventDefault();
+        const userId = $(this).data('user-id');
+        openConversation(userId);
+    });
+});

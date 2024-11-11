@@ -30,7 +30,7 @@
         <div class="d-flex">
             {{-- chỗ này nếu avatar null thì lấy ảnh user ghép lại --}}
             <img class="rounded-circle" width="50" height="50px"
-            src="{{ $conversation->is_group ? ($conversation->avatar ? asset($conversation->avatar) : asset('/assets/images/avatar_default_group.jpg')) : ($conversation->friend->avatar ? asset($conversation->friend->avatar) : asset('/assets/images/avatar_default.jpg')) }}"
+            src="{{ $conversation->is_group ? ($conversation->avatar ? asset(str_replace('public/', 'storage/', $conversation->avatar)) : asset('/assets/images/avatar_default_group.jpg')) : ($conversation->friend->avatar ? asset($conversation->friend->avatar) : asset('/assets/images/avatar_default.jpg')) }}"
             alt="">
             <div class="ms-3">
                 <h5 class="mb-0">
@@ -186,7 +186,7 @@
     @foreach ($conversation->messages as $message)
         <div class="message d-flex mb-3 {{ $message->sender_id === Auth::id() ? 'justify-content-end' : '' }}">
             @if ($message->sender_id !== Auth::id())
-                <img src="{{ $conversation->is_group ? asset('/assets/images/avatar_default.jpg') : asset($message->sender->avatar ?? '/assets/images/avatar_default.jpg') }}"
+                <img src="{{ $message->sender->avatar ? asset($message->sender->avatar) : asset('/assets/images/avatar_default.jpg') }}"
                     alt="User" class="rounded-circle me-3" style="object-fit: cover" width="40"
                     height="40">
             @endif
@@ -200,7 +200,7 @@
                     class="message-time small text-dark">{{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}</span>
             </div>
             @if ($message->sender_id === Auth::id())
-                <img src="{{ $conversation->is_group ? asset('/assets/images/avatar_default.jpg') : asset($message->sender->avatar ?? '/assets/images/avatar_default.jpg') }}"
+                <img src="{{ $message->sender->avatar ? asset($message->sender->avatar) : asset('/assets/images/avatar_default.jpg') }}"
                     alt="User" class="rounded-circle ms-3" style="object-fit: cover" width="40"
                     height="40">
             @endif
