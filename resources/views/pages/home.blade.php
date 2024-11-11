@@ -11,40 +11,40 @@
 @endsection
 
 @section('content-1')
-    <div class="chat-list-container px-3">
-        @foreach ($conversations as $item)
-            <a class="text-decoration-none d-flex justify-content-between conversation-link mb-4" data-id="{{ $item->id }}">
-                <div class="d-flex align-items-center">
-                    <img src="{{ $item->is_group ? ($item->avatar ? asset($item->avatar) : asset('/assets/images/avatar_default_group.jpg')) : ($item->friend->avatar ? asset($item->friend->avatar) : asset('/assets/images/avatar_default.jpg')) }}"
-                    alt="User" class="rounded-circle me-3" style="object-fit: cover" width="50" height="50">
-                    <div class="chat-info">
-                        <h5 class="mb-0 text-dark">{{ $item->is_group == false ? $item->friend->name : $item->name }}</h5>
-                        <p class="text-muted mb-0">
-                            @if($item->latestMessage)
-                                {{ decryptMessage($item->latestMessage->message); }}
+<div class="chat-list-container px-3">
+    @foreach ($conversations as $item)
+        <a class="text-decoration-none d-flex justify-content-between conversation-link mb-4" data-id="{{ $item->id }}">
+            <div class="d-flex align-items-center">
+                <img src="{{ $item->is_group ? ($item->avatar ? asset(str_replace('public/', 'storage/', $item->avatar)) : asset('/assets/images/avatar_default_group.jpg')) : ($item->friend->avatar ? asset($item->friend->avatar) : asset('/assets/images/avatar_default.jpg')) }}"
+                alt="User" class="rounded-circle me-3" style="object-fit: cover" width="50" height="50">
+                <div class="chat-info">
+                    <h5 class="mb-0 text-dark">{{ $item->is_group == false ? $item->friend->name : $item->name }}</h5>
+                    <p class="text-muted mb-0">
+                        @if($item->latestMessage)
+                            {{ decryptMessage($item->latestMessage->message); }}
+                        @else
+                            @php
+                                $creator = $item->conversationUsers->firstWhere('user_id', $item->created_by);
+                            @endphp
+                            @if($item->created_by == Auth::id())
+                                Bạn đã tạo nhóm
                             @else
-                                @php
-                                    $creator = $item->conversationUsers->firstWhere('user_id', $item->created_by);
-                                @endphp
-                                @if($item->created_by == Auth::id())
-                                    Bạn đã tạo nhóm
-                                @else
-                                    {{ $creator->nickname ?? $creator->user->name }} đã tạo nhóm
-                                @endif
+                                {{ $creator->nickname ?? $creator->user->name }} đã tạo nhóm
                             @endif
-                        </p>
-                    </div>
+                        @endif
+                    </p>
                 </div>
-                <span class="chat-time text-muted small">
-                    @if(isset($item->latestMessage->time_diff))
-                        {{ $item->latestMessage->time_diff }}
-                    @else
-                        Tạo {{ $item->time_diff }}
-                    @endif
-                </span>
-            </a>
-        @endforeach
-    </div>
+            </div>
+            <span class="chat-time text-muted small">
+                @if(isset($item->latestMessage->time_diff))
+                    {{ $item->latestMessage->time_diff }}
+                @else
+                    Tạo {{ $item->time_diff }}
+                @endif
+            </span>
+        </a>
+    @endforeach
+</div>
 @endsection
 
 @section('content-2')
