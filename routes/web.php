@@ -49,6 +49,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/friends/{id}', [FriendController::class, 'showFriendInfo'])->name('friend.show');
     
 
+    Route::get('/conversation/{conversationId}/members', [ConversationController::class, 'getMembers'])->name('conversation.members'); // Danh sách thành viên
+    Route::post('/conversation/{conversationId}/remove-member', [ConversationController::class, 'removeMember'])->name('conversation.removeMember'); // Xóa thành viên khỏi nhóm
+    
     Route::post('/send-message', [MessageController::class, 'sendMessage'])->name('send.message');
     Route::get('/conversation/{conversationId}', [MessageController::class, 'openConversation'])->name('conversation');
     Route::get('/conversations/user/{userId}', [MessageController::class, 'openConversationByUser'])->name('conversation.user');

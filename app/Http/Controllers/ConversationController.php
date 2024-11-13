@@ -37,8 +37,58 @@ class ConversationController extends Controller
      */
     public function show(Conversation $conversation)
     {
-        //
+        // Lấy danh sách thành viên của nhóm chat
+        $members = $conversation->users()->get();
+
+        // Trả về view với dữ liệu nhóm chat và danh sách thành viên
+        return view('components.window_chat', compact('conversation', 'members'));
     }
+
+    public function getMembers(Request $request, $conversationId)
+    {
+       $conversation = Conversation::findOrFail($conversationId);
+    $perPage = $request->input('per_page', 5); // Số lượng thành viên mỗi trang
+    $page = $request->input('page', 1); // Trang hiện tại
+
+    $members = $conversation->users()->withPivot('role')
+        ->paginate($perPage, ['*'], 'page', $page);
+
+    // Thêm thông tin về vai trò vào danh sách thành viên
+    $members->getCollection()->transform(function ($member) {
+        $member->role = $member->pivot->role;
+        return $member;
+    });
+
+    // Lấy vai trò của người dùng hiện tại
+    $currentUserRole = auth()->user()->conversations()->where('conversation_id', $conversationId)->first()->pivot->role;
+
+    return response()->json([
+        'members' => $members->items(),
+        'currentUserRole' => $currentUserRole,
+        'nextPage' => $members->currentPage() + 1,
+        'hasMorePages' => $members->hasMorePages()
+    ]);
+    }
+    public function removeMember(Request $request, $conversationId)
+{
+    $conversation = Conversation::findOrFail($conversationId);
+    $user = auth()->user();
+
+    // Kiểm tra xem người dùng hiện tại có phải là trưởng nhóm không
+    if ($conversation->users()->where('user_id', $user->id)->wherePivot('role', 'gold')->exists()) {
+        $memberId = $request->input('member_id');
+
+        // Kiểm tra xem thành viên có còn trong nhóm hay không
+        if ($conversation->users()->where('user_id', $memberId)->exists()) {
+            $conversation->users()->detach($memberId);
+            return response()->json(['status' => 'success', 'message' => 'Thành viên đã được xóa khỏi nhóm.']);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'Thành viên không còn trong nhóm.'], 404);
+        }
+    } else {
+        return response()->json(['status' => 'error', 'message' => 'Bạn không có quyền xóa thành viên.'], 403);
+    }
+}
 
     /**
      * Show the form for editing the specified resource.

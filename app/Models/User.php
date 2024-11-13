@@ -80,9 +80,10 @@ class User extends Authenticatable
 
     public function conversations()
     {
-        return $this->belongsToMany(Conversation::class, 'conversation_user', 'user_id', 'conversation_id');
+        return $this->belongsToMany(Conversation::class, 'conversation_user')
+                    ->withPivot('role')
+                    ->withTimestamps();
     }
-
     public function messages()
     {
         return $this->hasMany(Message::class, 'sender_id');
