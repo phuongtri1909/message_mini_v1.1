@@ -1,0 +1,76 @@
+version: '3'
+networks:
+  app-networks: null
+services:
+  nginx:
+    image: 'nginx:stable-alpine'
+    container_name: 'nginx_${APP_NAME}'
+    ports:
+      - '81:80'
+    volumes:
+      - './:/var/www/html'
+      - './nginx.conf:/etc/nginx/conf.d/default.conf'
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - app-networks
+  mysql:
+    image: 'mysql:5.7'
+    container_name: 'mysql_${APP_NAME}'
+    restart: unless-stopped
+    tty: true
+    ports:
+      - '3307:3306'
+    environment:
+      MYSQL_DATABASE: message_mini_v1_1
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+      SERVICE_NAME: mysql
+    networks:
+      - app-networks    
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: 'php_${APP_NAME}'
+    user: '${UID:-1000}:${GID:-1000}'
+    volumes:
+      - './:/var/www/html'
+    ports:
+      - '9000:9000'
+      - '8000:8000'
+    networks:
+      - app-networks
+  composer:
+    image: composer:latest
+    container_name: 'composer_${APP_NAME}'
+    volumes:
+      - './:/var/www/html'
+    working_dir: /var/www/html
+    networks:
+      - app-networks
+  npm:
+    image: node:18
+    container_name: 'npm_${APP_NAME}'
+    volumes:
+      - './:/var/www/html'
+    working_dir: /var/www/html
+    entrypoint:
+      - 'npm'
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: 'phpmyadmin_${APP_NAME}'
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root
+    restart: always
+    ports:
+      - '8080:80'
+    networks:
+      - app-networks
+    depends_on:
+      - mysql
