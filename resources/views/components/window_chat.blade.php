@@ -26,6 +26,7 @@
 
 
 <div class="header-chat bg-white px-2 py-3 border-bottom">
+
     <div class="d-flex align-items-center justify-content-between">
         <div class="d-flex">
             {{-- chỗ này nếu avatar null thì lấy ảnh user ghép lại --}}
@@ -49,13 +50,26 @@
                 <p class="text-muted mb-0">
                     {{ $conversation->is_group ? $conversation->conversationUserInfo->count() . ' Thành viên' : '' }}
                 </p>
+                @if (!$conversation->is_group)
+                    <p class="text-muted mb-0">
+                        @if ($conversation->friend->isOnline())
+                            <span class="badge bg-success">Online</span>
+                        @else
+                            @if ($conversation->friend->last_seen)
+                                <span class="badge bg-secondary">Hoạt động: {{ \Carbon\Carbon::parse($conversation->friend->last_seen)->diffForHumans() }}</span>
+                            @else
+                                <span class="badge bg-secondary">Chưa bao giờ hoạt động</span>
+                            @endif
+                        @endif
+                    </p>
+                @endif
             </div>
         </div>
         <div>
-    <!-- Nút mở offcanvas để hiển thị thành viên và chọn thêm -->
-    @if ($conversation->is_group)
-    <button class="btn btn-primary openAddMembersModal" data-conversation-id="{{ $conversation->id }}" data-is-group="{{ $conversation->is_group }}"><i class="fa-solid fa-user-group"></i></button>
-@endif
+            <!-- Nút mở offcanvas để hiển thị thành viên và chọn thêm -->
+            @if ($conversation->is_group)
+            <button class="btn btn-primary openAddMembersModal" data-conversation-id="{{ $conversation->id }}" data-is-group="{{ $conversation->is_group }}"><i class="fa-solid fa-user-group"></i></button>
+            @endif
             <!-- Button các chức năng của nhóm -->
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                 aria-controls="offcanvasRight">
@@ -63,7 +77,6 @@
             </button>
         </div>
     </div>
-
     <!-- Offcanvas bên phải -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">

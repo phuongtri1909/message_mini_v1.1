@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -54,8 +55,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function updateLastSeen()
+    {
+        $this->last_seen = now();
+        $this->save();
+    }
 
-    public function friends()
+    public function isOnline()
+    {
+        return $this->last_seen && Carbon::parse($this->last_seen)->diffInMinutes(now()) < 1;
+    }
+        public function friends()
     {
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id');
     }
