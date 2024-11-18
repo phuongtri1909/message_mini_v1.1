@@ -705,29 +705,86 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-// modal thêm thành viên
-document.addEventListener('DOMContentLoaded', function() {
+$(document).ready(function() {
     // Khởi tạo modal Thêm thành viên
     const addMembersModal = new bootstrap.Modal(document.getElementById('addMembersModal'));
 
     // Sự kiện mở modal
-    document.getElementById('openAddMembersModal').addEventListener('click', function() {
-        addMembersModal.show();
+    $(document).on('click', '.openAddMembersModal', function() {
+        const conversationId = $(this).data('conversation-id');
+        const isGroup = $(this).data('is-group');
+
+        if (isGroup) {
+            loadFriends(conversationId);
+            addMembersModal.show();
+        } else {
+            // Nếu không phải nhóm, không làm gì cả
+            console.log('Cuộc trò chuyện này không phải là nhóm.');
+        }
     });
 
     // Sự kiện thêm thành viên đã chọn
-    document.getElementById('addSelectedMembers').addEventListener('click', function() {
+    $('#addSelectedMembers').on('click', function() {
         const selectedMembers = [];
-        document.querySelectorAll('#addMembersModal .form-check-input:checked').forEach(
-        checkbox => {
-            selectedMembers.push(checkbox.value);
+        $('#addMembersModal .form-check-input:checked').each(function() {
+            selectedMembers.push($(this).val());
         });
-        console.log("Các thành viên được thêm:", selectedMembers);
-        // Đóng modal
-        addMembersModal.hide();
-    });
-});
 
+        // Gửi danh sách bạn bè được chọn đến server để thêm vào nhóm chat
+        const conversationId = $('#conversation_id').val();
+        $.ajax({
+            url: `/conversation/${conversationId}/add-members`,
+            method: 'POST',
+            contentType: 'application/json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: JSON.stringify({ members: selectedMembers }),
+            success: function(data) {
+                if (data.status === 'success') {
+                    showToast(data.message, 'success');
+                    addMembersModal.hide();
+                } else {
+                    showToast(data.message, 'error');
+                }
+            },
+            error: function(error) {
+                if (error.responseJSON && error.responseJSON.message) {
+                    showToast(error.responseJSON.message, 'error');
+                } else {
+                    console.error('Error adding members:', error);
+                }
+            }
+        });
+    });
+
+    function loadFriends(conversationId) {
+        $.ajax({
+            url: `/friends/available-for-group/${conversationId}`,
+            method: 'GET',
+            success: function(friends) {
+                const friendsList = $('#addMembersModal .modal-body');
+                friendsList.empty(); // Xóa danh sách bạn bè hiện tại
+
+                friends.forEach(friend => {
+                    const friendHtml = `
+                        <div class="form-check">
+                            <input class="form-check-input" name="friend" type="checkbox" value="${friend.id}" id="friend${friend.id}">
+                            <label class="form-check-label" for="friend${friend.id}">
+                                <img src="${friend.avatar ? friend.avatar : '/assets/images/avatar_default.jpg'}" alt="${friend.name}" class="rounded-circle me-2" style="object-fit: cover" width="30" height="30">
+                                ${friend.name}
+                            </label>
+                        </div>
+                    `;
+                    friendsList.append(friendHtml);
+                });
+            },
+            error: function(error) {
+                console.error('Error loading friends:', error);
+            }
+        });
+    }
+});
 // Hàm để cuộn xuống dưới
 function scrollToBottom() {
     const chatMessages = document.querySelector('.chat-messages');
