@@ -52,8 +52,10 @@
             </div>
         </div>
         <div>
-            <!-- Nút mở offcanvas để hiển thị thành viên và chọn thêm -->
-            <button class="btn btn-primary" id="openAddMembersModal"><i class="fa-solid fa-user-group"></i></button>
+    <!-- Nút mở offcanvas để hiển thị thành viên và chọn thêm -->
+    @if ($conversation->is_group)
+    <button class="btn btn-primary openAddMembersModal" data-conversation-id="{{ $conversation->id }}" data-is-group="{{ $conversation->is_group }}"><i class="fa-solid fa-user-group"></i></button>
+@endif
             <!-- Button các chức năng của nhóm -->
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                 aria-controls="offcanvasRight">
@@ -65,7 +67,7 @@
     <!-- Offcanvas bên phải -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
-            <h5 id="offcanvasRightLabel">Thông tin nhóm</h5>
+            <h5 id="offcanvasRightLabel">Thông tin</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
@@ -121,8 +123,10 @@
             </div>
 
             <!-- Chức năng nhóm -->
+            @if ($conversation->is_group)
             <button class="btn btn-outline-primary w-100" id="view-all-members-btn">Xem tất cả thành
                 viên</button>
+                @endif
 
         </div>
     </div>
@@ -179,8 +183,27 @@
             </ul>
         </div>
     </div>
+
+
 </div>
 
+    <!-- Modal Thêm Thành Viên -->
+    <div class="modal fade" id="addMembersModal" tabindex="-1" aria-labelledby="addMembersModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addMembersModalLabel">Chọn thành viên để thêm vào nhóm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Danh sách các thành viên có thể chọn sẽ được tải vào đây -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="addSelectedMembers">Thêm</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <div id="chat-box" class="box-chat chat-messages flex-grow-1 p-3 overflow-auto">
     @foreach ($conversation->messages as $message)
@@ -333,5 +356,8 @@
             initializeEcho();
             initializeMessageForm();
         });
+
+       
+    
     </script>
 @endpush

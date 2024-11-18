@@ -88,33 +88,7 @@
 </div>
 
 
-<!-- Modal Thêm Thành Viên -->
-<div class="modal fade" id="addMembersModal" tabindex="-1" aria-labelledby="addMembersModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addMembersModalLabel">Chọn thành viên để thêm vào nhóm</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Danh sách các thành viên có thể chọn -->
-                <div class="form-check">
-                    <input class="form-check-input" name="member1" type="checkbox" value="Thành viên 1" id="member1">
-                    <label class="form-check-label" for="member1">Thành viên 1</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" name="member2" type="checkbox" value="Thành viên 2" id="member2">
-                    <label class="form-check-label" for="member2">Thành viên 2</label>
-                </div>
-                <!-- Thêm các thành viên khác vào đây -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="addSelectedMembers">Thêm</button>
 
-            </div>
-        </div>
-    </div>
-</div>
 
 <!--modal thêm bạn-->
 <div class="modal fade" id="addFriendModal" tabindex="-1" aria-labelledby="addFriendModalLabel" aria-hidden="true">
@@ -483,5 +457,6 @@ function previewImageGroup(event) {
         preview.style.display = 'none'; // Ẩn ảnh nếu không có file
     }
 }
+
 
 </script>

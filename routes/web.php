@@ -51,7 +51,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/conversation/{conversationId}/members', [ConversationController::class, 'getMembers'])->name('conversation.members'); // Danh sách thành viên
     Route::post('/conversation/{conversationId}/remove-member', [ConversationController::class, 'removeMember'])->name('conversation.removeMember'); // Xóa thành viên khỏi nhóm
-    
+    Route::get('/friends/available-for-group/{conversationId}', [ConversationController::class, 'getAvailableFriendsForGroup'])->name('friends.availableForGroup'); // Lấy danh sách bạn bè chưa có trong nhóm
+    Route::post('/conversation/{conversationId}/add-members', [ConversationController::class, 'addMembers'])->name('conversation.addMembers'); // Thêm thành viên vào nhóm
+
+
     Route::post('/send-message', [MessageController::class, 'sendMessage'])->name('send.message');
     Route::get('/conversation/{conversationId}', [MessageController::class, 'openConversation'])->name('conversation');
     Route::get('/conversations/user/{userId}', [MessageController::class, 'openConversationByUser'])->name('conversation.user');
