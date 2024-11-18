@@ -21,7 +21,7 @@
                     <h5 class="mb-0 text-dark">{{ $item->is_group == false ? $item->friend->name : $item->name }}</h5>
                     <p class="text-muted mb-0">
                         @if($item->latestMessage)
-                            {{ decryptMessage($item->latestMessage->message); }}
+                            {{ $item->latestMessage->message }}
                         @else
                             @php
                                 $creator = $item->conversationUsers->firstWhere('user_id', $item->created_by);

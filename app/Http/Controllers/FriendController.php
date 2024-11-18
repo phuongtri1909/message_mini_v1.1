@@ -452,11 +452,6 @@ public function searchMessages(Request $request)
         ->where('message', 'like', "%{$query}%") // Search for messages containing the keyword
         ->get(['message', 'sender_id']); // Retrieve only necessary information
 
-    // Decrypt each message
-    foreach ($messages as $message) {
-        $message->message = decryptMessage($message->message);
-    }
-
     // Return the search results as JSON
     return response()->json($messages);
 }

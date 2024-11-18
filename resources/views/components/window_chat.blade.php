@@ -182,7 +182,7 @@
 </div>
 
 
-<div class="box-chat chat-messages flex-grow-1 p-3 overflow-auto">
+<div id="chat-box" class="box-chat chat-messages flex-grow-1 p-3 overflow-auto">
     @foreach ($conversation->messages as $message)
         <div class="message d-flex mb-3 {{ $message->sender_id === Auth::id() ? 'justify-content-end' : '' }}">
             @if ($message->sender_id !== Auth::id())
@@ -195,7 +195,7 @@
                 @if ($conversation->is_group && $message->sender_id !== Auth::id())
                     <p class="mb-0 text-muted">{{ $message->sender->name }}</p>
                 @endif
-                <p class="mb-0">{{ decryptMessage($message->message); }}</p>
+                <p class="mb-0">{!! $message->message !!}</p>
                 <span
                     class="message-time small text-dark">{{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}</span>
             </div>

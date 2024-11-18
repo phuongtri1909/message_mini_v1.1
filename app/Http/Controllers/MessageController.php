@@ -154,14 +154,12 @@ class MessageController extends Controller
             $message = Message::create([
                 'conversation_id' => $conversationId,
                 'sender_id' => $senderId,
-                'message' => encryptMessage($messageText)
+                'message' => $messageText
             ]);
 
             $message->load('sender');
             $message->sender->avatar_url = $message->sender->avatar ? asset($message->sender->avatar) : asset('/assets/images/avatar_default.jpg');
             $message->time_diff = $this->formatTimeDiff($message->created_at, Carbon::now());
-
-            $message->message = decryptMessage($message->message);
 
             // Phát sự kiện tin nhắn
             broadcast(new MessageSent($message))->toOthers();
