@@ -12,6 +12,7 @@
         @endif
     });
 </script>
+@include('components.js.action_message')
 @stack('scripts')
 </body>
 </html>

@@ -113,52 +113,6 @@
                     .catch(error => showToast(error, 'error'));
             }
         
-            function initializeChat(conversationId, authId) {
-                Echo.private('chat.' + conversationId)
-                    .listen('MessageSent', (e) => {
-                        appendMessage(e.message, parseInt(e.message.sender_id) === parseInt(authId));
-                    });
-            }
-        
-            function initializeMessageForm(authId) {
-                $(document).on('submit', '#send-message-form', function(e) {
-                    e.preventDefault();
-                    let message = $('#messageInput').val();
-                    $('#messageInput').val('');
-                    $.ajax({
-                        url: $('#send-message-form').attr('action'),
-                        type: 'POST',
-                        data: {
-                            _token: $('input[name="_token"]').val(),
-                            conversation_id: $('#conversation_id').val(),
-                            message: message
-                        },
-                        success: function(response) {
-                            if (response.status === 'success') {
-                                appendMessage(response.message, parseInt(response.message.sender_id) === parseInt(authId));
-                            } else {
-                                showToast(response.message, 'error');
-                            }
-                        },
-                        error: function(xhr) {
-                            if (xhr.status === 422) {
-                                // Validation error
-                                let errors = xhr.responseJSON.errors;
-                                let errorMessage = '';
-                                for (let key in errors) {
-                                    if (errors.hasOwnProperty(key)) {
-                                        errorMessage += errors[key][0] + '\n';
-                                    }
-                                }
-                                showToast(errorMessage, 'error');
-                            } else {
-                                showToast(xhr.responseJSON.message, 'error');
-                            }
-                        }
-                    });
-                });
-            }
-        
             function reinitializeEvents() {
                 initializeModals();
                 initializeScrollToBottom();
@@ -254,7 +208,7 @@
                         const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
                         imageModal.show();
                     } else {
-                        console.error("Không tìm thấy phần tử 'modalImage'.");
+                        //console.error("Không tìm thấy phần tử 'modalImage'.");
                     }
                 }
             }
@@ -284,7 +238,7 @@
                 loadMembers(conversationId, currentPage);
             }
         } else {
-            console.error("Không tìm thấy phần tử 'view-all-members-btn' hoặc 'offcanvasMembers'");
+            //console.error("Không tìm thấy phần tử 'view-all-members-btn' hoặc 'offcanvasMembers'");
         }
     }
 

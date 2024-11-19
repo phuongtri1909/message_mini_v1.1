@@ -12,7 +12,7 @@ class Message extends Model
 
 
     // Model tin nhắn
-    protected $fillable = ['conversation_id', 'sender_id', 'message'];
+    protected $fillable = ['conversation_id', 'sender_id', 'message','type'];
 
     public function conversation()
     {

@@ -18,8 +18,13 @@
             margin-bottom: 75px;
         }
 
-        #messageInput:focus-visible{
+        #messageInput:focus-visible {
             outline: none !important;
+        }
+
+        #previewContainer {
+            max-height: 80px; /* Thiết lập chiều cao tối đa */
+            overflow-y: auto; /* Thêm cuộn dọc khi nội dung tràn */
         }
     </style>
 @endpush
@@ -52,10 +57,11 @@
             </div>
         </div>
         <div>
-    <!-- Nút mở offcanvas để hiển thị thành viên và chọn thêm -->
-    @if ($conversation->is_group)
-    <button class="btn btn-primary openAddMembersModal" data-conversation-id="{{ $conversation->id }}" data-is-group="{{ $conversation->is_group }}"><i class="fa-solid fa-user-group"></i></button>
-@endif
+            <!-- Nút mở offcanvas để hiển thị thành viên và chọn thêm -->
+            @if ($conversation->is_group)
+                <button class="btn btn-primary openAddMembersModal" data-conversation-id="{{ $conversation->id }}"
+                    data-is-group="{{ $conversation->is_group }}"><i class="fa-solid fa-user-group"></i></button>
+            @endif
             <!-- Button các chức năng của nhóm -->
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                 aria-controls="offcanvasRight">
@@ -124,9 +130,9 @@
 
             <!-- Chức năng nhóm -->
             @if ($conversation->is_group)
-            <button class="btn btn-outline-primary w-100" id="view-all-members-btn">Xem tất cả thành
-                viên</button>
-                @endif
+                <button class="btn btn-outline-primary w-100" id="view-all-members-btn">Xem tất cả thành
+                    viên</button>
+            @endif
 
         </div>
     </div>
@@ -187,38 +193,46 @@
 
 </div>
 
-    <!-- Modal Thêm Thành Viên -->
-    <div class="modal fade" id="addMembersModal" tabindex="-1" aria-labelledby="addMembersModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addMembersModalLabel">Chọn thành viên để thêm vào nhóm</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Danh sách các thành viên có thể chọn sẽ được tải vào đây -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="addSelectedMembers">Thêm</button>
-                </div>
+<!-- Modal Thêm Thành Viên -->
+<div class="modal fade" id="addMembersModal" tabindex="-1" aria-labelledby="addMembersModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMembersModalLabel">Chọn thành viên để thêm vào nhóm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Danh sách các thành viên có thể chọn sẽ được tải vào đây -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="addSelectedMembers">Thêm</button>
             </div>
         </div>
     </div>
+</div>
 
 <div id="chat-box" class="box-chat chat-messages flex-grow-1 p-3 overflow-auto">
     @foreach ($conversation->messages as $message)
         <div class="message d-flex mb-3 {{ $message->sender_id === Auth::id() ? 'justify-content-end' : '' }}">
             @if ($message->sender_id !== Auth::id())
                 <img src="{{ $message->sender->avatar ? asset($message->sender->avatar) : asset('/assets/images/avatar_default.jpg') }}"
-                    alt="User" class="rounded-circle me-3" style="object-fit: cover" width="40"
-                    height="40">
+                    alt="User" class="rounded-circle me-3 avatar" style="object-fit: cover">
             @endif
             <div
-                class="message-content {{ $message->sender_id === Auth::id() ? 'bg-primary text-white' : 'bg-white' }} p-2 rounded">
+                class="message-content {{ $message->sender_id === Auth::id() ? 'bg-primary text-white align-items-end' : 'bg-white' }} p-2 rounded d-flex flex-column">
                 @if ($conversation->is_group && $message->sender_id !== Auth::id())
                     <p class="mb-0 text-muted">{{ $message->sender->name }}</p>
                 @endif
-                <p class="mb-0">{!! $message->message !!}</p>
+                @if ($message->type === 'message')
+                    <p class="mb-0">{!! nl2br(e($message->message)) !!}</p>
+                @elseif ($message->type === 'image')
+                    <img src="{{ asset($message->message) }}" alt="Image" class="img-fluid img-send">
+                @elseif ($message->type === 'file')
+                    <a href="{{ asset($message->message) }}" target="_blank" class="{{ $message->sender_id === Auth::id() ? 'text-white' : 'text-dark'}}">
+                        {{ basename($message->message) }}
+                    </a>
+                @endif
                 <span
                     class="message-time small text-dark">{{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}</span>
             </div>
@@ -234,32 +248,34 @@
 <!-- Thêm input để gửi tin nhắn -->
 
 <div class="footer-send chat-input d-flex flex-column pb-2 border-top">
-    <form id="send-message-form" action="{{ route('send.message') }}">
+    <form id="send-message-form" action="{{ route('send.message') }}" enctype="multipart/form-data">
         @csrf
         <div class="">
             <div class="d-flex w-100 flex-column ">
                 <div class="px-5 d-flex py-2 ">
-                    <a class="me-3" title="Chọn ảnh" id="imageIcon"><i class="fa-solid fa-image fa-lg text-dark"></i></a>
+                    <a class="me-3" title="Chọn ảnh" id="imageIcon"><i
+                            class="fa-solid fa-image fa-lg text-dark"></i></a>
                     <a title="Chọn file" id="fileIcon"><i class="fa-solid fa-paperclip fa-lg text-dark"></i></a>
                 </div>
-        
+
                 <div class="d-flex w-100 justify-content-space-evenly border-top border-primary px-4">
-                    <textarea class="w-100 border-0" id="messageInput" placeholder="{{ __('messages.enterSendMessages')}}" rows="1" oninput="toggleSendIcon()" style="resize: none; overflow: hidden"></textarea>
-            
+                    <textarea class="w-100 border-0" id="messageInput" placeholder="{{ __('messages.enterSendMessages') }}"
+                        rows="1" oninput="toggleSendIcon()" style="resize: none; overflow: hidden"></textarea>
+
                     <button class="border-0 bg-white" type="submit" id="sendIcon" style="display: none;">
                         <i class="fa-solid fa-paper-plane" style="font-size: 25px;"></i>
                     </button>
                 </div>
 
-                <div id="previewContainer" class="d-flex flex-wrap"></div>
+                <div id="previewContainer" class="d-flex flex-wrap px-4"></div>
             </div>
 
             <!-- Các phần tử input file ẩn -->
             <div>
                 <input type="hidden" name="conversation_id" id="conversation_id" value="{{ $conversation->id }}">
                 <input type="hidden" name="auth_id" id="auth_id" value="{{ Auth::id() }}">
-                <input type="file" id="imageInput" style="display: none;" accept="image/*">
-                <input type="file" id="fileInput" style="display: none;">
+                <input type="file" id="imageInput" style="display: none;" accept="image/*" multiple>
+                <input type="file" id="fileInput" style="display: none;" accept=".pdf,.doc,.docx,.txt,.xls,.xlsx,.zip,.rar" multiple>
             </div>
         </div>
     </form>
@@ -278,86 +294,15 @@
 </div>
 
 @push('scripts')
-    @vite('resources/js/app.js')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const authId = {{ Auth::id() }};
-            const conversationId = document.getElementById('conversation_id').value;
-    
-            function appendMessage(message, isSender) {
-                const avatarUrl = message.sender.avatar_url;
-                const messageHtml = `
-                    <div class="message d-flex mb-3 ${isSender ? 'justify-content-end' : ''}">
-                        ${!isSender ? `
-                            <img src="${avatarUrl}" alt="User" class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
-                        ` : ''}
-                        <div class="message-content ${isSender ? 'bg-primary text-white' : 'bg-white'} p-2 rounded">
-                            <p class="mb-0">${message.message}</p>
-                            <span class="message-time text-dark small">${message.time_diff}</span>
-                        </div>
-                        ${isSender ? `
-                            <img src="${avatarUrl}" alt="User" class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">
-                        ` : ''}
-                    </div>
-                `;
-                $('.box-chat').prepend(messageHtml);
-                var chatBox = document.querySelector('.box-chat');
-                chatBox.scrollTop = chatBox.scrollHeight;
+        // Hàm xử lý nút gửi
+        function toggleSendIcon() {
+            // Hiển thị nút gửi nếu có tin nhắn hoặc ảnh/tệp đính kèm
+            if (messageInput.value.trim() !== '' || previewContainer.children.length > 0) {
+                sendIcon.style.display = 'block';
+            } else {
+                sendIcon.style.display = 'none';
             }
-    
-            function initializeEcho() {
-                Echo.private('chat.' + conversationId)
-                    .listen('MessageSent', (e) => {
-                        console.log(e.message);
-                        appendMessage(e.message, parseInt(e.message.sender_id) === parseInt(authId));
-                    });
-            }
-    
-            function initializeMessageForm() {
-                $(document).on('submit', '#send-message-form', function(e) {
-                    e.preventDefault();
-                    let message = $('#messageInput').val();
-                    $('#sendIcon').css('display', 'none')
-                    $('#messageInput').val('');
-                    $.ajax({
-                        url: '{{ route('send.message') }}',
-                        type: 'POST',
-                        data: {
-                            _token: $('input[name="_token"]').val(),
-                            conversation_id: $('#conversation_id').val(),
-                            message: message
-                        },
-                        success: function(response) {
-                            if (response.status === 'success') {
-                                appendMessage(response.message, parseInt(response.message.sender_id) === parseInt(authId));
-                            } else {
-                                showToast(response.message, 'error');
-                            }
-                        },
-                        error: function(xhr) {
-                            if (xhr.status === 422) {
-                                // Validation error
-                                let errors = xhr.responseJSON.errors;
-                                let errorMessage = '';
-                                for (let key in errors) {
-                                    if (errors.hasOwnProperty(key)) {
-                                        errorMessage += errors[key][0] + '\n';
-                                    }
-                                }
-                                showToast(errorMessage, 'error');
-                            } else {
-                                showToast(xhr.responseJSON.message, 'error');
-                            }
-                        }
-                    });
-                });
-            }
-    
-            initializeEcho();
-            initializeMessageForm();
-        });
-
-       
-    
+        }
     </script>
 @endpush

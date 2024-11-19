@@ -75,7 +75,7 @@ class HomeController extends Controller
             // Lấy 20 tin nhắn mới nhất của cuộc trò chuyện này
             $latestConversation->messages = Message::where('conversation_id', $latestConversation->id)
                 ->orderBy('created_at', 'desc')
-                ->take(10)
+                ->take(20)
                 ->with('sender')
                 ->get();
         }

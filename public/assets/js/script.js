@@ -513,15 +513,6 @@ function previewImage(event) {
             .catch(error => console.error('Fetch error:', error));
         });
 
-// Hàm xử lý tin nhắn
-function toggleSendIcon() {
-    // Hiển thị nút gửi nếu có tin nhắn hoặc ảnh/tệp đính kèm
-    if (messageInput.value.trim() !== '' || previewContainer.children.length > 0) {
-        sendIcon.style.display = 'block';
-    } else {
-        sendIcon.style.display = 'none';
-    }
-}
 
 // ---------------Modal tạo nhóm------------------
 
@@ -529,182 +520,6 @@ function toggleSendIcon() {
 
 
 // ------------------------Đóng---------------------
-document.addEventListener('DOMContentLoaded', function() {
-    function appendMessage(message, isSender) {
-        const avatarUrl = message.sender.avatar_url;
-        const messageHtml = `
-            <div class="message d-flex mb-3 ${isSender ? 'justify-content-end' : ''}">
-                ${!isSender ? `
-                        <img src="${avatarUrl}" alt="User" class="rounded-circle me-3" style="object-fit: cover" width="40" height="40">
-                    ` : ''}
-                <div class="message-content ${isSender ? 'bg-primary text-white' : 'bg-white'} p-2 rounded">
-                    <p class="mb-0">${message.message}</p>
-                    <span class="message-time text-dark small">${message.time_diff}</span>
-                </div>
-                ${isSender ? `
-                        <img src="${avatarUrl}" alt="User" class="rounded-circle ms-3" style="object-fit: cover" width="40" height="40">
-                    ` : ''}
-            </div>
-        `;
-        $('.box-chat').prepend(messageHtml);
-        var chatBox = document.querySelector('.box-chat');
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    function initializeChat(conversationId, authId) {
-        Echo.private('chat.' + conversationId)
-            .listen('MessageSent', (e) => {
-                appendMessage(e.message, parseInt(e.message.sender_id) === parseInt(authId));
-            });
-    }
-
-    function initializeMessageForm(authId) {
-        $(document).on('submit', '#send-message-form', function(e) {
-            e.preventDefault();
-            let message = $('#messageInput').val();
-            $('#messageInput').val('');
-            $.ajax({
-                url: $('#send-message-form').attr('action'),
-                type: 'POST',
-                data: {
-                    _token: $('input[name="_token"]').val(),
-                    conversation_id: $('#conversation_id').val(),
-                    message: message
-                },
-                success: function(response) {
-                    if (response.status === 'success') {
-                        appendMessage(response.message, parseInt(response.message
-                            .sender_id) === parseInt(authId));
-                    } else {
-                        showToast(response.message, 'error');
-                    }
-                },
-                error: function(xhr) {
-                    if (xhr.status === 422) {
-                        // Validation error
-                        let errors = xhr.responseJSON.errors;
-                        let errorMessage = '';
-                        for (let key in errors) {
-                            if (errors.hasOwnProperty(key)) {
-                                errorMessage += errors[key][0] + '\n';
-                            }
-                        }
-                        showToast(errorMessage, 'error');
-                    } else {
-                        showToast(xhr.responseJSON.message, 'error');
-                    }
-                }
-            });
-        });
-    }
-
-    function openConversation(userId) {
-        fetch(`/conversations/user/${userId}`)
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(error => {
-                        throw new Error(error.message);
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.status === 'success') {
-                    document.querySelector('.window-chat').innerHTML = data.html;
-                    const conversationId = document.getElementById('conversation_id').value;
-                    const authId = document.getElementById('auth_id').value;
-
-                    initializeChat(conversationId, authId);
-                    initializeMessageForm(authId);
-                } else {
-                    showToast(data.message, 'error');
-                }
-            })
-            .catch(error => {
-                showToast(error.message, 'error');
-            });
-    }
-
-
-    $(document).on('click', '.open-conversation', function(event) {
-        event.preventDefault();
-        const userId = $(this).data('user-id');
-        openConversation(userId);
-    });
-});
-
-
-// input gửi tin nhắn
-document.addEventListener('DOMContentLoaded', function() {
-    const imageIcon = document.getElementById('imageIcon');
-    const fileIcon = document.getElementById('fileIcon');
-    const imageInput = document.getElementById('imageInput');
-    const fileInput = document.getElementById('fileInput');
-    const previewContainer = document.getElementById('previewContainer');
-    const sendIcon = document.getElementById('sendIcon');
-    const messageInput = document.getElementById('messageInput');
-
-    imageIcon.addEventListener('click', function() {
-        imageInput.click();
-    });
-
-    fileIcon.addEventListener('click', function() {
-        fileInput.click();
-    });
-
-    imageInput.addEventListener('change', function() {
-        handleFileSelect(this.files,'image');
-    });
-
-    fileInput.addEventListener('change', function() {
-        handleFileSelect(this.files,'file');
-    });
-
-    messageInput.addEventListener('input', function() {
-        toggleSendIcon();
-    });
-
-    function handleFileSelect(files,type) {
-        previewContainer.innerHTML = '';
-
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const previewElement = document.createElement('div');
-                previewElement.classList.add('preview-element', 'm-2');
-                previewElement.style.width = '100px';
-                previewElement.style.height = '100px';
-                previewElement.style.border = '1px solid #ccc';
-                previewElement.style.display = 'flex';
-                previewElement.style.alignItems = 'center';
-                previewElement.style.justifyContent = 'center';
-                previewElement.style.overflow = 'hidden';
-
-                if (type === 'image') {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.style.width = '100%';
-                    img.style.height = '100%';
-                    img.style.objectFit = 'cover';
-                    previewElement.appendChild(img);
-                } else {
-                    const fileName = document.createElement('span');
-                    fileName.textContent = file.name;
-                    fileName.style.fontSize = '12px';
-                    fileName.style.textAlign = 'center';
-                    previewElement.appendChild(fileName);
-                }
-
-                previewContainer.appendChild(previewElement);
-            };
-            reader.readAsDataURL(file);
-        }
-        toggleSendIcon();
-    }
-
-});
-
 $(document).ready(function() {
     // Khởi tạo modal Thêm thành viên
     const addMembersModal = new bootstrap.Modal(document.getElementById('addMembersModal'));
@@ -830,7 +645,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     'imageModal'));
                 imageModal.show();
             } else {
-                console.error("Không tìm thấy phần tử 'modalImage'.");
+                //console.error("Không tìm thấy phần tử 'modalImage'.");
             }
         });
     });
@@ -860,7 +675,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     'imageModal'));
                 imageModal.show();
             } else {
-                console.error("Không tìm thấy phần tử 'modalImage'.");
+                //console.error("Không tìm thấy phần tử 'modalImage'.");
             }
         });
     });
