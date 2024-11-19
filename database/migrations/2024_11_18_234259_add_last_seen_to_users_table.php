@@ -8,14 +8,18 @@ class AddLastSeenToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->timestamp('last_seen')->nullable();
+            if (!Schema::hasColumn('users', 'last_seen')) {
+                $table->timestamp('last_seen')->nullable();
+            }
         });
     }
 
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('last_seen');
+            if (Schema::hasColumn('users', 'last_seen')) {
+                $table->dropColumn('last_seen');
+            }
         });
     }
 }
