@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 use App\Models\ConversationUser;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class MessageController extends Controller
 {
@@ -225,5 +226,18 @@ class MessageController extends Controller
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
+    }
+    public function showChat($conversationId)
+    {
+        $user = Auth::user();
+        $conversation = Conversation::findOrFail($conversationId);
+
+        // Lấy danh sách bạn bè của người dùng hiện tại
+        $friends = User::whereHas('friends', function ($query) use ($user) {
+            $query->where('friend_id', $user->id)
+                  ->orWhere('user_id', $user->id);
+        })->get();
+
+        return view('window_chat', compact('friends', 'conversation'));
     }
 }

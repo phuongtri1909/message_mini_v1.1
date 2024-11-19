@@ -521,5 +521,14 @@ public function showFriendInfo($friendId)
     // Truyền dữ liệu bạn bè vào view
     return view('profilefr', ['friend' => $friend]);
 }
+public function showChat($conversationId)
+{
+    $user = Auth::user();
+    $friends = User::whereHas('friends', function ($query) use ($user) {
+        $query->where('friend_id', $user->id)
+              ->orWhere('user_id', $user->id);
+    })->get();
 
+    return view('components.window_chat', compact('friends', 'conversationId'));
+}
 }

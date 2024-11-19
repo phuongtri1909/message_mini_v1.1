@@ -37,6 +37,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\SetLocale::class, // Thêm dòng này chuyển đổi ngôn ngữ
+            \App\Http\Middleware\UpdateLastSeen::class,
         ],
 
         'api' => [
