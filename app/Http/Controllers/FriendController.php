@@ -435,26 +435,6 @@ public function showFriendsList()
     return view('pages.friend.listfriend', ['friends' => $friends, 'query' => $query, 'message' => $message]);
 }
 
-public function searchMessages(Request $request)
-{
-    // Get the search keyword from the request
-    $query = $request->input('query');
-    $userId = auth()->id(); // Get the current user ID
-
-    // Search messages containing the keyword, only if the sender is a friend
-    $messages = Message::with('sender') // Load sender information
-        ->whereHas('sender', function ($q) use ($userId) {
-            // Check if the sender is a friend of the current user
-            $q->whereHas('friends', function ($q) use ($userId) {
-                $q->where('friend_id', $userId);
-            });
-        })
-        ->where('message', 'like', "%{$query}%") // Search for messages containing the keyword
-        ->get(['message', 'sender_id']); // Retrieve only necessary information
-
-    // Return the search results as JSON
-    return response()->json($messages);
-}
 
 public function getFriendsListGroup()
 {
