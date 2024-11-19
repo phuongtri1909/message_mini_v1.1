@@ -137,35 +137,92 @@ class MessageController extends Controller
 
     public function sendMessage(Request $request)
     {
+        //return response()->json(['status' => 'error', 'message' => $request->all()]);
         try {
             $request->validate([
                 'conversation_id' => 'required|exists:conversations,id',
-                'message' => 'required|string'
+                'message' => 'nullable|string',
+                'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120', // 5MB = 5120KB
+                'files.*' => 'nullable|mimes:pdf,doc,docx,txt,xls,xlsx,zip,rar|max:5120' // 5MB = 5120KB
             ], [
                 'conversation_id.required' => 'Không tìm thấy cuộc trò chuyện',
                 'conversation_id.exists' => 'Cuộc trò chuyện không tồn tại',
-                'message.required' => 'Nội dung tin nhắn không được để trống',
-                'message.string' => 'Nội dung tin nhắn phải là chuỗi'
+                'message.string' => 'Nội dung tin nhắn phải là chuỗi',
+                'images.*.image' => 'Tệp phải là hình ảnh',
+                'images.*.mimes' => 'Hình ảnh phải có định dạng: jpeg, png, jpg, gif, svg',
+                'images.*.max' => 'Hình ảnh không được vượt quá 5MB',
+                'files.*.mimes' => 'Tệp phải có định dạng: pdf, doc, docx, txt, xls, xlsx, zip, rar',
+                'files.*.max' => 'Tệp không được vượt quá 5MB'
             ]);
 
             $conversationId = $request->input('conversation_id');
             $senderId = Auth::id();
             $messageText = $request->input('message');
 
-            $message = Message::create([
-                'conversation_id' => $conversationId,
-                'sender_id' => $senderId,
-                'message' => $messageText
-            ]);
+            if (empty($messageText) && $request->hasFile('images') && $request->hasFile('files')) {
+                return response()->json(['status' => 'error', 'message' => 'Nội dung tin nhắn không được để trống'], 422);
+            }
 
-            $message->load('sender');
-            $message->sender->avatar_url = $message->sender->avatar ? asset($message->sender->avatar) : asset('/assets/images/avatar_default.jpg');
-            $message->time_diff = $this->formatTimeDiff($message->created_at, Carbon::now());
+            $messages = [];
 
-            // Phát sự kiện tin nhắn
-            broadcast(new MessageSent($message))->toOthers();
+            if (!empty($messageText)) {
+                $message = Message::create([
+                    'conversation_id' => $conversationId,
+                    'sender_id' => $senderId,
+                    'message' => $messageText,
+                    'type' => 'message'
+                ]);
+                $messages[] = $message;
+            }
 
-            return response()->json(['status' => 'success', 'message' => $message]);
+            if ($request->hasFile('images')) {
+                $images = $request->file('images');
+                foreach ($images as $image) {
+                    $currentDate = now()->format('Y/m/d');
+                    $filename = 'image_' . now()->timestamp . '.' . $image->getClientOriginalExtension();
+                    $path = $image->move(public_path("/uploads/images/{$currentDate}"), $filename);
+                    $messageContent = "/uploads/images/{$currentDate}/{$filename}";
+
+                    $message = Message::create([
+                        'conversation_id' => $conversationId,
+                        'sender_id' => $senderId,
+                        'message' => $messageContent,
+                        'type' => 'image'
+                    ]);
+                    $messages[] = $message;
+                }
+            }
+
+            if ($request->hasFile('files')) {
+                $files = $request->file('files');
+                foreach ($files as $file) {
+                    $currentDate = now()->format('Y/m/d');
+                    $filename = 'file_' . now()->timestamp . '.' . $file->getClientOriginalExtension();
+                    $path = $file->move(public_path("/uploads/files/{$currentDate}"), $filename);
+                    $messageContent = "/uploads/files/{$currentDate}/{$filename}";
+
+                    $message = Message::create([
+                        'conversation_id' => $conversationId,
+                        'sender_id' => $senderId,
+                        'message' => $messageContent,
+                        'type' => 'file'
+                    ]);
+                    $messages[] = $message;
+                }
+            }
+
+            foreach ($messages as $message) {
+                $message->load('sender');
+                $message->sender->avatar_url = $message->sender->avatar ? asset($message->sender->avatar) : asset('/assets/images/avatar_default.jpg');
+                $message->time_diff = $this->formatTimeDiff($message->created_at, Carbon::now());
+
+                $message->conversation = $message->conversation;
+
+                // Phát sự kiện tin nhắn
+                broadcast(new MessageSent($message))->toOthers();
+            }
+
+            return response()->json(['status' => 'success', 'messages' => $messages]);
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }

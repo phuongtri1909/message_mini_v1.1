@@ -199,3 +199,40 @@
 
 
 @endsection
+
+@push('scripts')
+<script>
+    // Hàm mở cuộc trò chuyện
+    document.addEventListener('DOMContentLoaded', function() {
+        function openConversation(userId) {
+            fetch(`/conversations/user/${userId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(error => {
+                            throw new Error(error.message);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.status === 'success') {
+                        document.querySelector('.window-chat').innerHTML = data.html;
+                    } else {
+                        showToast(data.message, 'error');
+                    }
+                })
+                .catch(error => {
+                    showToast(error.message, 'error');
+                });
+        }
+
+
+        $(document).on('click', '.open-conversation', function(event) {
+            event.preventDefault();
+            const userId = $(this).data('user-id');
+            openConversation(userId);
+        });
+    });
+</script>
+
+@endpush
