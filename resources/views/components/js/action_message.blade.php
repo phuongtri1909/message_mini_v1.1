@@ -1,4 +1,3 @@
-@vite('resources/js/app.js')
 <script>
     $(document).ready(function() {
         const authId = {{ Auth::id() }};

@@ -12,6 +12,7 @@
         @endif
     });
 </script>
+@vite('resources/js/app.js')
 @include('components.js.action_message')
 @stack('scripts')
 </body>

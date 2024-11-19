@@ -21,3 +21,7 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('chat.{conversationId}', function ($user, $conversationId) {
     return $user->canJoinConversation($conversationId);
 });
+
+Broadcast::channel('notifications.{notificationId}', function ($user, $notificationId) {
+    return $user->canJoinConversation($notificationId);
+});
