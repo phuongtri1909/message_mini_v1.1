@@ -325,43 +325,78 @@
 @include('layouts.partials.footer')
 <script>
     function searchMessages() {
-        const query = document.getElementById('searchMessages').value;
+    let query = document.getElementById('searchMessages').value;
 
-        if (query.length === 0) {
-            document.getElementById('searchResults').style.display = 'none'; // Ẩn kết quả nếu input rỗng
-            return;
-        }
-
-        fetch(`{{ route('messages.search') }}?query=${query}`)
-            .then(response => response.json())
-            .then(data => {
-                const resultsList = document.getElementById('searchResultsList');
-                resultsList.innerHTML = ''; // Xóa kết quả cũ
-
-                if (data.length > 0) {
-                    data.forEach(message => {
-                        const listItem = document.createElement('li');
-                        listItem.classList.add('list-group-item');
-
-                        // Tạo HTML cho từng kết quả tìm kiếm
-                        listItem.innerHTML = `
-                            <div class="d-flex align-items-center">
-                                <img src="${message.sender.avatar}" alt="${message.sender.name}" class="rounded-circle me-2" style="width: 40px; height: 40px;">
-                                <div>
-                                    <strong>${message.sender.name}</strong>: ${message.message}
-                                </div>
-                            </div>
-                        `; // Hiển thị avatar, tên và nội dung tin nhắn
-
-                        resultsList.appendChild(listItem);
-                    });
-                    document.getElementById('searchResults').style.display = 'block'; // Hiện kết quả
-                } else {
-                    document.getElementById('searchResults').style.display = 'none'; // Ẩn kết quả nếu không có
-                }
-            })
-            .catch(error => console.error('Error fetching messages:', error));
+    if (query.trim() === '') {
+        document.getElementById('searchResults').style.display = 'none';
+        return;
     }
+
+    fetch(`/search-messages?q=${encodeURIComponent(query)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Mã lỗi: ' + response.status); // Kiểm tra lỗi phản hồi từ máy chủ
+            }
+            return response.json();
+        })
+        .then(data => {
+            let searchResultsList = document.getElementById('searchResultsList');
+            searchResultsList.innerHTML = '';
+
+            if (data.status === 'success' && data.results.length > 0) {
+                data.results.forEach(item => {
+                    console.log(item.conversation_id);
+                    
+                    let listItem = document.createElement('li');
+                    listItem.classList.add('list-group-item');
+
+                    listItem.innerHTML = `
+                        <div class="d-flex align-items-center">
+                            <img src="${item.avatar_url}" alt="Avatar" class="rounded-circle me-2" width="40" height="40">
+                            <div>
+                                <strong>${item.sender_name} - ${item.conversation_name}</strong>
+                                <p class="mb-0">${item.message}</p>
+                                <small class="text-muted">${item.created_at}</small>
+                            </div>
+                        </div>
+                        <a data-conversation-id="${item.conversation_id}" class="dropdown-item open-conversation" style="padding: 8px 15px; color: #333; text-decoration: none; display: block;">
+        Xem tin nhắn
+    </a>
+                    `;
+                    searchResultsList.appendChild(listItem);
+                });
+                document.getElementById('searchResults').style.display = 'block';
+            } else {
+                searchResultsList.innerHTML = '<li class="list-group-item text-muted">Không tìm thấy tin nhắn phù hợp</li>';
+                document.getElementById('searchResults').style.display = 'block';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra khi tìm kiếm tin nhắn.');
+        });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    function loadConversation(conversation_id) {
+
+                fetch(`/conversation/${conversation_id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.querySelector('.window-chat').innerHTML = data.html;
+                        
+                       
+                    })
+                    .catch(error => showToast(error, 'error'));
+            }
+
+
+        $(document).on('click', '.open-conversation', function(event) {
+            event.preventDefault();
+            const conversation_id = $(this).data('conversation-id');
+            loadConversation(conversation_id);
+        });
+    });
 
     document.addEventListener("DOMContentLoaded", function() {
     // Khi mở modal, tải danh sách bạn bè qua AJAX
@@ -457,6 +492,7 @@ function previewImageGroup(event) {
         preview.style.display = 'none'; // Ẩn ảnh nếu không có file
     }
 }
+
 
 
 </script>

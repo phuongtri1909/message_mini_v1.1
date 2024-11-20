@@ -240,4 +240,63 @@ class MessageController extends Controller
 
         return view('window_chat', compact('friends', 'conversation'));
     }
+    public function searchMessages(Request $request)
+{
+    $query = $request->input('q');
+
+    // Kiểm tra nếu truy vấn trống
+    if (empty($query)) {
+        return response()->json(['status' => 'error', 'message' => 'Truy vấn tìm kiếm không được để trống'], 400);
+    }
+
+    $userId = Auth::id();
+
+    // Tìm các tin nhắn khớp chính xác với từ khóa tìm kiếm
+    $exactMatches = Message::where('message', $query)
+        ->whereHas('conversation', function ($conversationQuery) use ($userId) {
+            $conversationQuery->whereHas('users', function ($userQuery) use ($userId) {
+                $userQuery->where('user_id', $userId); // Người dùng hiện tại phải có trong cuộc hội thoại
+            });
+        })
+        ->with('sender')
+        ->with('conversation')
+        ->get();
+
+    // Tìm các tin nhắn khớp gần đúng với từ khóa tìm kiếm
+    $broadMatches = Message::where('message', 'like', '%' . $query . '%')
+        ->where('message', '!=', $query)
+        ->whereHas('conversation', function ($conversationQuery) use ($userId) {
+            $conversationQuery->whereHas('users', function ($userQuery) use ($userId) {
+                $userQuery->where('user_id', $userId);
+            });
+        })
+        ->with('sender')
+        ->with('conversation')
+        ->get();
+
+    // Kết hợp kết quả khớp chính xác và gần đúng
+    $messages = $exactMatches->merge($broadMatches);
+
+    if ($messages->isEmpty()) {
+        return response()->json(['status' => 'error', 'message' => 'Không tìm thấy tin nhắn phù hợp']);
+    }
+
+    $results = $messages->map(function ($message) {
+       
+        // Kiểm tra xem cuộc trò chuyện là nhóm hay cá nhân
+        $conversationType = $message->conversation->is_group ? 'Cuộc trò chuyện nhóm' : 'Cuộc trò chuyện cá nhân';
+
+        return [
+            'sender_name' => $message->sender->name,
+            'message' => $message->message,
+            'created_at' => $message->created_at->diffForHumans(),
+            'avatar_url' => $message->sender->avatar ? asset($message->sender->avatar) : asset('/assets/images/avatar_default.jpg'),
+            'conversation_name' => $conversationType,
+            'conversation_id' => $message->conversation->id, // Thêm conversation_id vào kết quả
+        ];
+    });
+
+    return response()->json(['status' => 'success', 'results' => $results]);
+}
+
 }
