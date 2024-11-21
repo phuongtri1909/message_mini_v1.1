@@ -682,3 +682,98 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+document.addEventListener("DOMContentLoaded", function() {
+    // Khi mở modal, tải danh sách bạn bè qua AJAX
+    document.getElementById('createGroupModal').addEventListener('shown.bs.modal', function() {
+        fetch('/friends/list/group')
+            .then(response => response.json())
+            .then(friends => {
+                let content = '';
+                if (friends.length > 0) {
+                    friends.forEach(friend => {
+                        content += `
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="${friend.id}" id="member${friend.id}" name="members[]">
+                                <label class="form-check-label" for="member${friend.id}">
+                                    <img src="${friend.avatar ? friend.avatar : '/assets/images/avatar_default.jpg'}" alt="avatar" width="60" height="60" style="border-radius: 50%">
+                                    ${friend.name}
+                                </label>
+                            </div>`;
+                    });
+                } else {
+                    content = '<p>Không có bạn bè nào.</p>';
+                }
+                document.getElementById('friendsListContent').innerHTML = content;
+            })
+            .catch(() => {
+                document.getElementById('friendsListContent').innerHTML = '<p>Không thể tải danh sách bạn bè.</p>';
+            });
+    });
+});
+
+
+function submitGroup() {
+    const formData = new FormData(document.getElementById('createGroupForm'));
+
+    fetch('/groups', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast(data.message, 'success'); // Hiện thông báo thành công
+            // Đóng modal hoặc thực hiện các hành động khác
+            $('#createGroupModal').modal('hide');
+            // Mở cuộc trò chuyện của nhóm mới tạo
+            loadConversation(data.group_id);
+        } else {
+            showToast('Có lỗi xảy ra. Vui lòng thử lại.', 'error'); // Hiện thông báo lỗi
+        }
+    })
+    .catch(() => {
+        showToast('Có lỗi xảy ra. Vui lòng thử lại.', 'error');
+    });
+}
+
+function loadConversation(conversationId) {
+    fetch(`/conversation/${conversationId}`)
+        .then(response => response.json())
+        .then(data => {
+            document.querySelector('.window-chat').innerHTML = data.html;
+        })
+        .catch(error => showToast(error, 'error'));
+}
+
+function filterMembers() {
+    const input = document.getElementById('groupMembers').value.toLowerCase();
+    const memberCheckboxes = document.querySelectorAll('#friendsListContent .form-check');
+
+    memberCheckboxes.forEach(checkbox => {
+        const label = checkbox.querySelector('.form-check-label');
+        const memberName = label.textContent.toLowerCase();
+
+        if (memberName.includes(input)) {
+            checkbox.style.display = 'block'; // Hiện checkbox nếu tên thành viên phù hợp
+        } else {
+            checkbox.style.display = 'none'; // Ẩn checkbox nếu không phù hợp
+        }
+    });
+}
+
+function previewImageGroup(event) {
+    const preview = document.getElementById('groupImagePreview');
+    const file = event.target.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block'; // Hiển thị ảnh
+        };
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = '';
+        preview.style.display = 'none'; // Ẩn ảnh nếu không có file
+    }
+}

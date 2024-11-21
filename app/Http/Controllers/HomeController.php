@@ -78,6 +78,13 @@ class HomeController extends Controller
                 ->take(20)
                 ->with('sender')
                 ->get();
+                $latestConversation->images = $latestConversation->messages->filter(function ($message) {
+                    return $message->type === 'image';
+                }); 
+                $latestConversation->files = $latestConversation->messages->filter(function ($message) {
+                    return $message->type === 'file';
+                });
+                // dd($latestConversation->files);
         }
         return view('pages.home', compact('conversations', 'latestConversation'));
     }

@@ -59,6 +59,12 @@ class MessageController extends Controller
             ->take(20)
             ->with('sender')
             ->get();
+            $conversation->images = $conversation->messages->filter(function ($message) {
+                return $message->type === 'image';
+            }); 
+            $conversation->files = $conversation->messages->filter(function ($message) {
+                return $message->type === 'file';
+            });
 
         $html = view('components.window_chat', ['conversation' => $conversation])->render();
         return response()->json(['html' => $html]);
@@ -114,7 +120,12 @@ class MessageController extends Controller
             ->take(20)
             ->with('sender')
             ->get();
-
+            $conversation->images = $conversation->messages->filter(function ($message) {
+                return $message->type === 'image';
+            }); 
+            $conversation->files = $conversation->messages->filter(function ($message) {
+                return $message->type === 'file';
+            });
         $html = view('components.window_chat', ['conversation' => $conversation])->render();
 
         return response()->json(['status' => 'success', 'html' => $html]);
@@ -238,7 +249,7 @@ class MessageController extends Controller
                   ->orWhere('user_id', $user->id);
         })->get();
 
-        return view('window_chat', compact('friends', 'conversation'));
+        return view('components.window_chat', compact('friends', 'conversation'));
     }
     public function searchMessages(Request $request)
 {
