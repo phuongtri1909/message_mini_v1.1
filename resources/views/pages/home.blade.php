@@ -259,6 +259,7 @@
             .then(response => response.json())
             .then(data => {
                 const { members, currentUserRole, nextPage, hasMorePages } = data;
+                console.log(currentUserRole);
                 const membersList = document.querySelector('#offcanvasMembers .list-unstyled');
                 if (page === 1) {
                     membersList.innerHTML = ''; // Xóa danh sách thành viên hiện tại nếu là trang đầu tiên

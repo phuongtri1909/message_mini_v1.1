@@ -93,8 +93,11 @@
             <div class="group-info mb-4">
                 <h6 class="fw-bold">File đã gửi</h6>
                 <ul class="list-unstyled">
-                    <li><a href="path/to/file1.pdf" target="_blank">File 1.pdf</a></li>
-                    <li><a href="path/to/file2.docx" target="_blank">File 2.docx</a></li>
+                    @foreach ($conversation->messages->where('type', 'file')->take(100) as $message)
+                        <li><a href="{{ asset($message->message) }}" target="_blank">{{ basename($message->message) }}</a></li>
+                        
+                    @endforeach
+                    
                     <!-- Thêm các file khác -->
                 </ul>
             </div>
@@ -103,38 +106,10 @@
                 <h6 class="fw-bold">Ảnh đã gửi</h6>
                 <div class="images-list d-flex flex-wrap">
                     <!-- Thêm hình ảnh mẫu -->
-                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 1"
-                        class="img-thumbnail m-1 view-image " style="object-fit:cover; width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Ảnh đã gửi 7"
-                        class="img-thumbnail m-1 view-image " style=" object-fit:cover;width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Ảnh đã gửi 7"
-                        class="img-thumbnail m-1 view-image  " style=" object-fit:cover;width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 4"
-                        class="img-thumbnail m-1 view-image " style=" object-fit:cover; width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 5"
-                        class="img-thumbnail m-1 view-image " style=" object-fit:cover;width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Ảnh đã gửi 7"
-                        class="img-thumbnail m-1 view-image " style=" object-fit:cover;width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 7"
-                        class="img-thumbnail m-1 view-image " style=" object-fit:cover; width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 8"
-                        class="img-thumbnail m-1 view-image " style=" object-fit:cover; width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 1"
-                        class="img-thumbnail m-1 view-image " style=" object-fit:cover;width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 2"
-                        class="img-thumbnail m-1 view-image " style=" object-fit:cover;width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 3"
-                        class="img-thumbnail m-1 view-image " style="object-fit:cover; width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 4"
-                        class="img-thumbnail m-1 view-image " style=" object-fit:cover;width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 5"
-                        class="img-thumbnail m-1 view-image " style="object-fit:cover; width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 6"
-                        class="img-thumbnail m-1 view-image " style=" object-fit:cover;width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/uocmo.jpg') }}" alt="Ảnh đã gửi 7"
-                        class="img-thumbnail m-1 view-image " style=" object-fit:cover;width: 90px; height: 90px;">
-                    <img src="{{ asset('assets/images/logo/logochat.png') }}" alt="Ảnh đã gửi 8"
-                        class="img-thumbnail m-1 view-image " style=" object-fit:cover; width: 90px; height: 90px;">
+                    @foreach ($conversation->messages->where('type', 'image')->take(100) as $message)
+                        <img src="{{ asset($message->message) }}" alt="Ảnh" class="img-fluid img-thumbnail me-2 mb-2 view-image"
+                            style="width: 100px; height: 100px; object-fit: cover;">
+                    @endforeach
                 </div>
                 <!-- Nút "Xem tất cả" -->
                 <button class="btn btn-outline-primary mt-2" id="view-toggle-btn">Xem tất cả</button>

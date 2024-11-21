@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Carbon\Carbon;
+use app\Services\UserService;
 
 class User extends Authenticatable
 {
@@ -55,11 +56,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function updateLastSeen()
-    {
-        $this->last_seen = now();
-        $this->save();
-    }
 
     public function isOnline()
     {
@@ -90,7 +86,9 @@ class User extends Authenticatable
 
     public function conversations()
     {
-        return $this->belongsToMany(Conversation::class, 'conversation_user', 'user_id', 'conversation_id');
+        return $this->belongsToMany(Conversation::class, 'conversation_user', 'user_id', 'conversation_id')
+            ->withPivot('role', 'invited_by', 'nickname') // Thêm 'nickname' vào pivot
+            ->withTimestamps();
     }
     public function messages()
     {
