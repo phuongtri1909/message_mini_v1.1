@@ -31,6 +31,11 @@ class MessageSent implements ShouldBroadcast
         : asset('/assets/images/avatar_default.jpg');
         $this->message->time_diff = $this->formatTimeDiff($this->message->created_at, Carbon::now());
 
+
+        $notification = $this->message->conversation;
+
+        broadcast(new NotificationSentMessage($notification))->toOthers();
+
         return new PrivateChannel('chat.'.$this->message->conversation->id);
     }
 

@@ -25,6 +25,7 @@
     
     @stack('styles')
     @include('components.toast')
+    @include('components.notification_message')
     {{-- end styles --}}
 </head>
 

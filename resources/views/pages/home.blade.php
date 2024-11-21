@@ -11,40 +11,53 @@
 @endsection
 
 @section('content-1')
-<div class="chat-list-container px-3">
-    @foreach ($conversations as $item)
-        <a class="text-decoration-none d-flex justify-content-between conversation-link mb-4" data-id="{{ $item->id }}">
-            <div class="d-flex align-items-center">
-                <img src="{{ $item->is_group ? ($item->avatar ? asset(str_replace('public/', 'storage/', $item->avatar)) : asset('/assets/images/avatar_default_group.jpg')) : ($item->friend->avatar ? asset($item->friend->avatar) : asset('/assets/images/avatar_default.jpg')) }}"
-                alt="User" class="rounded-circle me-3" style="object-fit: cover" width="50" height="50">
-                <div class="chat-info">
-                    <h5 class="mb-0 text-dark">{{ $item->is_group == false ? $item->friend->name : $item->name }}</h5>
-                    <p class="text-muted mb-0">
-                        @if($item->latestMessage)
-                            {{ $item->latestMessage->message }}
-                        @else
-                            @php
-                                $creator = $item->conversationUsers->firstWhere('user_id', $item->created_by);
-                            @endphp
-                            @if($item->created_by == Auth::id())
-                                Bạn đã tạo nhóm
+    <div class="chat-list-container px-3">
+        @foreach ($conversations as $item)
+            <a class="text-decoration-none d-flex justify-content-between conversation-link mb-4"
+                data-id="{{ $item->id }}">
+                <div class="d-flex align-items-center">
+                    <img src="{{ $item->is_group ? ($item->avatar ? asset(str_replace('public/', 'storage/', $item->avatar)) : asset('/assets/images/avatar_default_group.jpg')) : ($item->friend->avatar ? asset($item->friend->avatar) : asset('/assets/images/avatar_default.jpg')) }}"
+                        alt="User" class="rounded-circle me-3" style="object-fit: cover" width="50" height="50">
+                    <div class="chat-info">
+                        <h5 class="mb-0 text-dark">{{ $item->is_group == false ? $item->friend->name : $item->name }}</h5>
+                        <p class="text-muted mb-0">
+                            @if ($item->latestMessage)
+                                @php
+                                    $senderName =
+                                        $item->latestMessage->sender_id == Auth::id()
+                                            ? 'Bạn'
+                                            : $item->latestMessage->sender->name;
+                                @endphp
+                                @if ($item->latestMessage->type == 'image')
+                                    {{ $senderName }} đã gửi hình
+                                @elseif ($item->latestMessage->type == 'file')
+                                    {{ $senderName }} đã gửi file
+                                @else
+                                    {{ $item->latestMessage->message }}
+                                @endif
                             @else
-                                {{ $creator->nickname ?? $creator->user->name }} đã tạo nhóm
+                                @php
+                                    $creator = $item->conversationUsers->firstWhere('user_id', $item->created_by);
+                                @endphp
+                                @if ($item->created_by == Auth::id())
+                                    Bạn đã tạo nhóm
+                                @else
+                                    {{ $creator->nickname ?? $creator->user->name }} đã tạo nhóm
+                                @endif
                             @endif
-                        @endif
-                    </p>
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <span class="chat-time text-muted small">
-                @if(isset($item->latestMessage->time_diff))
-                    {{ $item->latestMessage->time_diff }}
-                @else
-                    Tạo {{ $item->time_diff }}
-                @endif
-            </span>
-        </a>
-    @endforeach
-</div>
+                <span class="chat-time text-muted small">
+                    @if (isset($item->latestMessage->time_diff))
+                        {{ $item->latestMessage->time_diff }}
+                    @else
+                        Tạo {{ $item->time_diff }}
+                    @endif
+                </span>
+            </a>
+        @endforeach
+    </div>
 
 <!-- Modal xác nhận xóa thành viên -->
 <div class="modal fade" id="confirmRemoveMemberModal" tabindex="-1" aria-labelledby="confirmRemoveMemberModalLabel" aria-hidden="true">
@@ -90,7 +103,6 @@
 @endsection
 
 @push('scripts')
-
     {{-- load conversation đã chọn --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {

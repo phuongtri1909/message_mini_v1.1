@@ -23,7 +23,7 @@
 @endpush
 
 @push('scripts')
-@vite('resources/js/app.js')
+
 <script>
     showSavedToast();
 </script>
