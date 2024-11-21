@@ -377,7 +377,26 @@
         });
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    function loadConversation(conversation_id) {
 
+                fetch(`/conversation/${conversation_id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.querySelector('.window-chat').innerHTML = data.html;
+                        
+                       
+                    })
+                    .catch(error => showToast(error, 'error'));
+            }
+
+
+        $(document).on('click', '.open-conversation', function(event) {
+            event.preventDefault();
+            const conversation_id = $(this).data('conversation-id');
+            loadConversation(conversation_id);
+        });
+    });
 
     document.addEventListener("DOMContentLoaded", function() {
     // Khi mở modal, tải danh sách bạn bè qua AJAX
