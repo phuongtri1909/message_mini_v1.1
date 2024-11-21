@@ -345,8 +345,6 @@
 
             if (data.status === 'success' && data.results.length > 0) {
                 data.results.forEach(item => {
-                    console.log(item.conversation_id);
-                    
                     let listItem = document.createElement('li');
                     listItem.classList.add('list-group-item');
 
@@ -359,9 +357,9 @@
                                 <small class="text-muted">${item.created_at}</small>
                             </div>
                         </div>
-                        <a data-conversation-id="${item.conversation_id}" class="dropdown-item open-conversation" style="padding: 8px 15px; color: #333; text-decoration: none; display: block;">
-        Xem tin nhắn
-    </a>
+                        <a data-conversation-id="${item.conversation_id}" class="dropdown-item open-conversation-search" style="padding: 8px 15px; color: #333; text-decoration: none; display: block;">
+                            Xem tin nhắn
+                        </a>
                     `;
                     searchResultsList.appendChild(listItem);
                 });
@@ -377,6 +375,23 @@
         });
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    function loadConversation(conversation_id) {
+        fetch(`/conversation/${conversation_id}`)
+            .then(response => response.json())
+            .then(data => {
+                document.querySelector('.window-chat').innerHTML = data.html;
+            })
+            .catch(error => showToast(error.message, 'error'));
+    }
+
+    // Chỉ gắn sự kiện cho nút Xem tin nhắn trong kết quả tìm kiếm
+    $(document).on('click', '.open-conversation-search', function(event) {
+        event.preventDefault();
+        const conversation_id = $(this).data('conversation-id');
+        loadConversation(conversation_id);
+    });
+});
 
 
     document.addEventListener("DOMContentLoaded", function() {
