@@ -66,6 +66,20 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id');
     }
     
+    public function isFriends()
+    {
+        $userId = $this->id;
+
+        // Lấy danh sách bạn bè từ bảng friends
+        $friendIds = Friend::where(function ($query) use ($userId) {
+            $query->where('user_id', $userId)
+                  ->orWhere('friend_id', $userId);
+        })->get()->map(function ($friend) use ($userId) {
+            return $friend->user_id == $userId ? $friend->friend_id : $friend->user_id;
+        })->unique()->toArray();
+
+        return User::whereIn('id', $friendIds)->get();
+    }
 
     public function friendRequests()
     {

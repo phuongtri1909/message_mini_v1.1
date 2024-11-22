@@ -16,16 +16,19 @@
                         </div>
                         <ul class="nav flex-column align-items-center">
                             <li class="nav-item mb-3">
-                                <a href="{{ route('home') }}" class="nav-link p-0"><i
-                                        class="fa-solid fa-message text-white" style="font-size: 24px;"></i></a>
+                                <a href="{{ route('home') }}" class="nav-link p-0">
+                                    <i class="fa-solid fa-message text-white {{ Route::currentRouteNamed('home') ? 'active' : '' }}" style="font-size: 24px;"></i>
+                                </a>
                             </li>
                             <li class="nav-item mb-3">
-                                <a href="#" class="nav-link p-0"><i class="fa-solid fa-cloud text-white"
-                                        style="font-size: 24px;"></i></a>
+                                <a href="{{ route('posts.index') }}" class="nav-link p-0">
+                                    <i class="fa-solid fa-globe text-white {{ Route::currentRouteNamed('posts.*') ? 'active' : '' }}" style="font-size: 24px;"></i>
+                                </a>
                             </li>
                             <li class="nav-item mb-3">
-                                <a href="{{ route('friends.list') }}" class="nav-link p-0"><i
-                                        class="fa-solid fa-user text-white" style="font-size: 24px;"></i></a>
+                                <a href="{{ route('friends.list') }}" class="nav-link p-0">
+                                    <i class="fa-solid fa-user text-white {{ Route::currentRouteNamed('friends.list') ? 'active' : '' }}" style="font-size: 24px;"></i>
+                                </a>
                             </li>
                             <li class="nav-item mb-3">
                                 <!-- Nút mở modal danh sách bạn bè -->
