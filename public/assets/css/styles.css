@@ -14,6 +14,9 @@
     --chat-color:#252728;
     --border-color:#3a3c3d;
 }
+.user-theme{
+    color: var(--text-color);
+}
 .bg-white{
     --bs-bg-opacity: 0;
 }
