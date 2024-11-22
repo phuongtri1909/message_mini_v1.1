@@ -819,3 +819,7 @@ footer .icon-footer {
     box-shadow: none;
     text-shadow: none;
 }
+
+.nav-link .active {
+    color: #ee2907 !important; 
+}

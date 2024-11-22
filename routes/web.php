@@ -11,6 +11,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\LanguageController; 
 use App\Http\Controllers\ConversationController; 
 use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\PostController;
 
 
 /*
@@ -64,6 +65,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/send-message', [MessageController::class, 'sendMessage'])->name('send.message');
     Route::get('/conversation/{conversationId}', [MessageController::class, 'openConversation'])->name('conversation');
     Route::get('/conversations/user/{userId}', [MessageController::class, 'openConversationByUser'])->name('conversation.user');
+
+    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
+    Route::post('/posts/{post}/like', [PostController::class, 'like']);
+    Route::get('/posts/{post}/likes', [PostController::class, 'getLikes']);
+    Route::get('/posts/{post}/comments', [PostController::class, 'getComments']);
+    Route::post('/posts/{post}/comments', [PostController::class, 'storeComment']);
+    Route::post('/comments/{comment}/replies', [PostController::class, 'storeReply']);
 });
 
 
