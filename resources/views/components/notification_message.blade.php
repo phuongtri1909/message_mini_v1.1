@@ -10,7 +10,7 @@
             @endforeach
 
             showNotification = (notification) => {
-                $('#liveNotification .conversation-link').attr('data-id', notification.id);
+                $('#liveNotification .conversation-notification').attr('data-id', notification.id);
                 $('#liveNotification .img-avatar').attr('src', notification.is_group == false ? (notification.friend.avatar ? notification.friend.avatar : '/assets/images/avatar_default.jpg') : (notification.avatar ? notification.avatar : '/assets/images/avatar_default_group.jpg'));
                 $('#liveNotification .chat-info h5').text(notification.is_group == false ? notification.friend.name : notification.name);
                 
@@ -32,8 +32,6 @@
                     }
                 }
 
-
-               
                 let toast = new bootstrap.Toast(liveNotification);
                 toast.show();
             }
@@ -46,7 +44,7 @@
     <div id="liveNotification" class="toast align-items-center bg-white" role="alert" aria-live="assertive"
         aria-atomic="true">
         <div class="d-flex">
-            <a class="text-decoration-none d-flex justify-content-between conversation-link p-2"
+            <a class="text-decoration-none d-flex justify-content-between conversation-link p-2 conversation-notification"
                 data-id="{{--{{ id conversation }}--}}">
                 <div class="d-flex align-items-center">
                     <img src="{{--{{ avatar }}--}}"
