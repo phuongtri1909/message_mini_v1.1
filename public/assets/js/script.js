@@ -777,3 +777,54 @@ function previewImageGroup(event) {
         preview.style.display = 'none'; // Ẩn ảnh nếu không có file
     }
 }
+
+// Lắng nghe sự kiện WebSocket khi người dùng rời nhóm
+Echo.private(`chat.${conversationId}`)
+    .listen('UserLeftGroup', (e) => {
+        if (e.user_id === currentUserId) {
+            showToast('Bạn đã rời nhóm.', 'info');
+            removeConversationFromList(conversationId);
+            clearChatWindow();
+        }
+    });
+
+function leaveGroup(conversationId) {
+    fetch(`/conversation/${conversationId}/leave`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            showToast(data.message, 'success');
+            // Cập nhật giao diện người dùng sau khi rời nhóm thành công
+            removeConversationFromList(conversationId);
+            clearChatWindow();
+        } else {
+            showToast(data.message, 'error');
+        }
+    })
+    .catch(error => console.error('Error leaving group:', error));
+}
+
+function removeConversationFromList(conversationId) {
+    const conversationElement = document.querySelector(`.conversation-link[data-id="${conversationId}"]`);
+    if (conversationElement) {
+        conversationElement.remove();
+    }
+}
+
+function clearChatWindow() {
+    const chatWindow = document.querySelector('.window-chat');
+    if (chatWindow) {
+        chatWindow.innerHTML = `
+            <div style="text-align: center; padding: 20px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px;">
+                <p style="font-size: 18px; font-weight: bold;">Bạn đã rời nhóm.</p>
+                <p>Vui lòng chọn một cuộc trò chuyện khác.</p>
+            </div>
+        `;
+    }
+}

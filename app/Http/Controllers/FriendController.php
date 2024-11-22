@@ -424,7 +424,7 @@ public function showFriendsList()
         })
         ->select('users.id', 'users.name', 'users.email', 'users.avatar', 'users.gender', 'friends.created_at as friendship_start')
         ->distinct()
-        ->paginate(3); // Số lượng bạn bè hiển thị trên mỗi trang
+        ->paginate(10); // Số lượng bạn bè hiển thị trên mỗi trang
 
     // Kiểm tra số lượng kết quả trả về
     $message = null;

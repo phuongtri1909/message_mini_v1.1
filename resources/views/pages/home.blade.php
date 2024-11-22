@@ -7,105 +7,106 @@
 @endpush
 
 @section('content')
-    @include('components.toast')
+@include('components.toast')
 @endsection
 
 @section('content-1')
-    <div class="chat-list-container px-3">
-        @foreach ($conversations as $item)
-            <a id="conversation-{{ $item->id }}" class="text-decoration-none d-flex justify-content-between conversation-link mb-4"
-                data-id="{{ $item->id }}">
-                <div class="d-flex align-items-center">
-                    <img src="{{ $item->is_group ? ($item->avatar ? asset(str_replace('public/', 'storage/', $item->avatar)) : asset('/assets/images/avatar_default_group.jpg')) : ($item->friend->avatar ? asset($item->friend->avatar) : asset('/assets/images/avatar_default.jpg')) }}"
-                        alt="User" class="rounded-circle me-3" style="object-fit: cover" width="50" height="50">
-                    <div class="chat-info">
-                        <h5 class="mb-0 text-dark">{{ $item->is_group == false ? $item->friend->name : $item->name }}</h5>
-                        <p class="text-muted mb-0">
-                            @if ($item->latestMessage)
-                                @php
-                                    $senderName =
-                                        $item->latestMessage->sender_id == Auth::id()
-                                            ? 'Bạn'
-                                            : $item->latestMessage->sender->name;
-                                @endphp
-                                @if ($item->latestMessage->type == 'image')
-                                    {{ $senderName }} đã gửi hình
-                                @elseif ($item->latestMessage->type == 'file')
-                                    {{ $senderName }} đã gửi file
-                                @else
-                                    {{ $item->latestMessage->message }}
-                                @endif
-                            @else
-                                @php
-                                    $creator = $item->conversationUsers->firstWhere('user_id', $item->created_by);
-                                @endphp
-                                @if ($item->created_by == Auth::id())
-                                    Bạn đã tạo nhóm
-                                @else
-                                    {{ $creator->nickname ?? $creator->user->name }} đã tạo nhóm
-                                @endif
-                            @endif
-                        </p>
-                    </div>
-                </div>
-                <span class="chat-time text-muted small">
-                    @if (isset($item->latestMessage->time_diff))
-                        {{ $item->latestMessage->time_diff }}
+<div class="chat-list-container px-3">
+    @foreach ($conversations as $item)
+    <a id="conversation-{{ $item->id }}"
+        class="text-decoration-none d-flex justify-content-between conversation-link mb-4" data-id="{{ $item->id }}">
+        <div class="d-flex align-items-center">
+            <img src="{{ $item->is_group ? ($item->avatar ? asset(str_replace('public/', 'storage/', $item->avatar)) : asset('/assets/images/avatar_default_group.jpg')) : ($item->friend->avatar ? asset($item->friend->avatar) : asset('/assets/images/avatar_default.jpg')) }}"
+                alt="User" class="rounded-circle me-3" style="object-fit: cover" width="50" height="50">
+            <div class="chat-info">
+                <h5 class="mb-0 text-dark">{{ $item->is_group == false ? $item->friend->name : $item->name }}</h5>
+                <p class="text-muted mb-0">
+                    @if ($item->latestMessage)
+                    @php
+                    $senderName =
+                    $item->latestMessage->sender_id == Auth::id()
+                    ? 'Bạn'
+                    : $item->latestMessage->sender->name;
+                    @endphp
+                    @if ($item->latestMessage->type == 'image')
+                    {{ $senderName }} đã gửi hình
+                    @elseif ($item->latestMessage->type == 'file')
+                    {{ $senderName }} đã gửi file
                     @else
-                        Tạo {{ $item->time_diff }}
+                    {{ $item->latestMessage->message }}
                     @endif
-                </span>
-            </a>
-        @endforeach
-    </div>
+                    @else
+                    @php
+                    $creator = $item->conversationUsers->firstWhere('user_id', $item->created_by);
+                    @endphp
+                     @if ($item->created_by == Auth::id())
+                     Bạn đã tạo nhóm
+                 @elseif ($creator)
+                     {{ $creator->nickname ?? $creator->user->name }} đã tạo nhóm
+                 @else
+                     Người tạo nhóm đã rời đi
+                 @endif
+             @endif
+                </p>
+            </div>
+        </div>
+        <span class="chat-time text-muted small">
+            @if (isset($item->latestMessage->time_diff))
+            {{ $item->latestMessage->time_diff }}
+            @else
+            Tạo {{ $item->time_diff }}
+            @endif
+        </span>
+    </a>
+    @endforeach
+</div>
 
-    <!-- Modal xác nhận xóa thành viên -->
-    <div class="modal fade" id="confirmRemoveMemberModal" tabindex="-1" aria-labelledby="confirmRemoveMemberModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmRemoveMemberModalLabel">Xác nhận xóa thành viên</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Bạn có chắc chắn muốn xóa thành viên này khỏi nhóm không?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-danger" id="confirmRemoveMemberBtn">Xóa</button>
-                </div>
+<!-- Modal xác nhận xóa thành viên -->
+<div class="modal fade" id="confirmRemoveMemberModal" tabindex="-1" aria-labelledby="confirmRemoveMemberModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmRemoveMemberModalLabel">Xác nhận xóa thành viên</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn xóa thành viên này khỏi nhóm không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="confirmRemoveMemberBtn">Xóa</button>
             </div>
         </div>
     </div>
-    <!-- Offcanvas để hiển thị thành viên -->
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMembers"
-        aria-labelledby="offcanvasMembersLabel">
-        <div class="offcanvas-header">
-            <h5 id="offcanvasMembersLabel">Danh sách thành viên</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <ul class="list-unstyled">
-                <!-- Danh sách thành viên sẽ được tải vào đây -->
-            </ul>
-            <button id="load-more-members-btn" class="btn btn-primary w-100 mt-3" style="display: none;">Xem thêm</button>
-        </div>
+</div>
+<!-- Offcanvas để hiển thị thành viên -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMembers" aria-labelledby="offcanvasMembersLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasMembersLabel">Danh sách thành viên</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
+    <div class="offcanvas-body">
+        <ul class="list-unstyled">
+            <!-- Danh sách thành viên sẽ được tải vào đây -->
+        </ul>
+        <button id="load-more-members-btn" class="btn btn-primary w-100 mt-3" style="display: none;">Xem thêm</button>
+    </div>
+</div>
 @endsection
 
 @section('content-2')
-    <div class="window-chat">
-        @if (isset($latestConversation))
-            @include('components.window_chat', ['conversation' => $latestConversation])
-        @endif
-    </div>
+<div class="window-chat">
+    @if (isset($latestConversation))
+    @include('components.window_chat', ['conversation' => $latestConversation])
+    @endif
+</div>
 @endsection
 
 @push('scripts')
-    {{-- load conversation đã chọn --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+{{-- load conversation đã chọn --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
 
             @foreach($IsConversations as $conversation)
                 Echo.private('notifications.{{ $conversation->id }}')
@@ -387,11 +388,11 @@
     // Gọi hàm khởi tạo sự kiện khi DOMContentLoaded
     initializeViewAllMembers();
         });
-        </script>
+</script>
 
-    <script>
-        showSavedToast();
-    </script>
+<script>
+    showSavedToast();
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
     // Khi mở modal, tải danh sách bạn bè qua AJAX
