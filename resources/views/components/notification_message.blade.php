@@ -76,7 +76,7 @@
                         alt="User" class="rounded-circle me-3 img-avatar" style="object-fit: cover" width="50"
                         height="50">
                     <div class="chat-info">
-                         <h5 class="mb-0 text-dark"> {{--{{ name }}--}}</h5> 
+                         <h5 class="mb-0 "> {{--{{ name }}--}}</h5> 
                         <p class="text-muted mb-0 text-message">
                             {{--{{ message }}--}}
                         </p>

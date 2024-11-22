@@ -10,6 +10,9 @@ use App\Http\Controllers\FriendController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\LanguageController; 
 use App\Http\Controllers\ConversationController; 
+use App\Http\Controllers\ThemeController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +24,8 @@ use App\Http\Controllers\ConversationController;
 |
 */
 Route::get('/language/{lang}', [LanguageController::class, 'changeLanguage'])->name('language.switch');
+Route::get('/', [ThemeController::class, 'index'])->name('home');
+Route::post('/change-theme', [ThemeController::class, 'changeTheme'])->name('change.theme');
 
 
 Route::group(['middleware' => ['auth']], function () {

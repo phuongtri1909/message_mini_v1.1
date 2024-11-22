@@ -357,7 +357,7 @@ function loadFriendRequests() {
                     const requestTime = new Date(request.created_at).toLocaleString(); // Chuyển đổi thời gian thành chuỗi dễ đọc
                     friendRequestsList.innerHTML += `
                        <div class="friend-request-item"
-    style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px;">
+    style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border: 1px solid #ddd; border-radius: 5px; ">
     <div style="display: flex; align-items: center;">
         <img src="${asset(request.sender.avatar)}" alt="${request.sender.name}"
             style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
@@ -367,7 +367,7 @@ function loadFriendRequests() {
         </div>
     </div>
     <div style="display: flex; align-items: center;">
-        <button class="btn btn-success" style="margin-right: 5px; position: relative; width: 110px; height: 40px; background-color: #2dea1c; display: flex; align-items: center; color: white; flex-direction: column; justify-content: center; border: none; padding: 12px; gap: 12px; border-radius: 8px; cursor: pointer;
+        <button class="btn btn-success" style="margin-right: 5px; position: relative; width: 110px; height: 40px;  display: flex; align-items: center; color: white; flex-direction: column; justify-content: center; border: none; padding: 12px; gap: 12px; border-radius: 8px; cursor: pointer;
     }" onclick="acceptRequest(${request.id})">Chấp nhận</button> 
     <button class="btn btn-danger" style="width: 110px; height: 40px;  border-radius: 5px; padding: 10px 25px cursor: pointer; transition: all 0.3s ease; position: relative; display: inline-block 
      outline: none;" onclick="declineRequest(${request.id})">Từ chối</button>
@@ -678,6 +678,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 //console.error("Không tìm thấy phần tử 'modalImage'.");
             }
         });
+    });
+});
+document.addEventListener('DOMContentLoaded', function () {
+    const themeSelect = document.getElementById('themeSelect');
+    const saveSettingsBtnTheme = document.getElementById('saveSettingsBtnTheme');
+    const currentTheme = localStorage.getItem('theme') || 'light';
+
+    // Áp dụng theme hiện tại từ localStorage
+    if (currentTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        themeSelect.value = 'dark'; // Dark Mode tương ứng với 'dark'
+    } else {
+        themeSelect.value = 'light'; // Light Mode tương ứng với 'light'
+    }
+
+    // Lưu theme khi người dùng nhấn nút "Đồng ý"
+    saveSettingsBtnTheme.addEventListener('click', function () {
+        const selectedTheme = themeSelect.value;
+        if (selectedTheme === 'dark') { // Nếu chọn "Dark Mode"
+            document.body.classList.add('dark-mode');
+            localStorage.setItem('theme', 'dark');
+        } else { // Nếu chọn "Light Mode"
+            document.body.classList.remove('dark-mode');
+            localStorage.setItem('theme', 'light');
+        }
+
+        // Ẩn modal sau khi lưu cài đặt
+        const modalElement = document.getElementById('themeSettingsModal');
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        modal.hide();
     });
 });
 

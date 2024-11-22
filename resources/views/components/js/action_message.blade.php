@@ -23,7 +23,7 @@
                     <div class="message-content ${isSender ? 'bg-primary text-white align-items-end' : 'bg-white'} p-2 rounded d-flex flex-column">
                         ${message.conversation.is_group && !isSender ? `<p class="mb-0 text-muted">${message.sender.name}</p>` : ''}
                         ${messageContent}
-                        <span class="message-time small text-dark">${message.time_diff}</span>
+                        <span class="message-time small ">${message.time_diff}</span>
                     </div>
                     ${isSender ? `
                         <img src="${avatarUrl}" alt="User" class="rounded-circle ms-3 avatar" style="object-fit: cover" width="40" height="40">

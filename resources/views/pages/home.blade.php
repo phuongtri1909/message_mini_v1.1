@@ -19,8 +19,8 @@
             <img src="{{ $item->is_group ? ($item->avatar ? asset(str_replace('public/', 'storage/', $item->avatar)) : asset('/assets/images/avatar_default_group.jpg')) : ($item->friend->avatar ? asset($item->friend->avatar) : asset('/assets/images/avatar_default.jpg')) }}"
                 alt="User" class="rounded-circle me-3" style="object-fit: cover" width="50" height="50">
             <div class="chat-info">
-                <h5 class="mb-0 text-dark">{{ $item->is_group == false ? $item->friend->name : $item->name }}</h5>
-                <p class="text-muted mb-0">
+                <h5 class="mb-0">{{ $item->is_group == false ? $item->friend->name : $item->name }}</h5>
+                <p class=" mb-0">
                     @if ($item->latestMessage)
                     @php
                     $senderName =
@@ -50,7 +50,7 @@
                 </p>
             </div>
         </div>
-        <span class="chat-time text-muted small">
+        <span class="chat-time small">
             @if (isset($item->latestMessage->time_diff))
             {{ $item->latestMessage->time_diff }}
             @else

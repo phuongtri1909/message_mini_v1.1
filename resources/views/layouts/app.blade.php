@@ -52,7 +52,11 @@
                                         <li><a class="dropdown-item" href="{{ route('logout') }}" id="logoutOption">{{ __('messages.logout')}}</a></li>
                                         <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
                                                 data-bs-target="#languageSettingsModal">{{ __('messages.settingLanguage')}}</a></li>
+                                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                                data-bs-target="#themeSettingsModal">{{ __('messages.settingThemes')}}</a></li>
+               
                                     </ul>
+                                    
                                 </div>
                             </li>
                         </ul>
@@ -61,7 +65,7 @@
             </section>
 
             <!-- Chat List -->
-            <section class="d-none d-md-block col-md-3 col-xs-3 bg-white px-0" style="border-right: 0.5px solid rgba(224, 226, 225, 0.874);">
+            <section class="chat-list d-none d-md-block col-md-3 col-xs-3 bg-white px-0" style="border-right: 0.5px solid rgba(224, 226, 225, 0.874);">
                 <div class="search-bar mb-4 d-flex align-items-center border-bottom px-3">
                     <input type="text" class="form-control me-2" placeholder="{{ __('messages.search')}}" id="searchMessages" oninput="searchMessages()">
                     <button class="btn" style="border: none; background: none; padding-left: 2px;" data-bs-toggle="modal" data-bs-target="#addFriendModal">
@@ -236,7 +240,45 @@
         </div>
     </div>
 </div>
-
+<!--modal cài đặt chủ đề -->
+<div class="modal fade" id="themeSettingsModal" tabindex="-1" aria-labelledby="themeSettingsLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- Thay đổi văn bản "Cài đặt" bằng khóa 'settings' từ tệp ngôn ngữ -->
+                <h5 class="modal-title" id="themeSettingsLabel">{{ __('messages.settings') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-container">
+                    <div class="row">
+                        <div class="col-4">
+                            <!-- Thay đổi văn bản "Cài đặt chung" bằng khóa 'general_settings' -->
+                            <button type="button" class="btn btn-light" id="generalSettingsBtn">
+                                <i class="fa-solid fa-gear"></i> {{ __('messages.general_settings') }}
+                            </button>
+                        </div>
+                        <div class="col-8">
+                            <!-- Thay đổi văn bản "Thay đổi ngôn ngữ" bằng khóa 'change_language' -->
+                            <label for="themeSelect" class="form-label">{{ __('messages.changeThemes') }}</label>
+                            <select class="form-select" id="themeSelect" aria-label="Language select">
+                                <option value="light">{{ __('messages.light')}}</option>
+                                <option value="dark">{{ __('messages.dark')}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- Thay đổi văn bản "Hủy" bằng khóa 'cancel' -->
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.cancel') }}</button>
+                <!-- Thay đổi văn bản "Đồng ý" bằng khóa 'confirm' -->
+                <button type="button" class="btn btn-primary" id="saveSettingsBtnTheme">{{ __('messages.confirm') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!--Modal tìm kiếm kết bạn-->
 <div class="modal fade" id="friendSearchModal" tabindex="-1" aria-labelledby="friendSearchLabel" aria-hidden="true">
