@@ -38,7 +38,7 @@
             <img class="rounded-circle" width="50" height="50px"
             src="{{ $conversation->is_group ? ($conversation->avatar ? asset(str_replace('public/', 'storage/', $conversation->avatar)) : asset('/assets/images/avatar_default_group.jpg')) : ($conversation->friend->avatar ? asset($conversation->friend->avatar) : asset('/assets/images/avatar_default.jpg')) }}"
             alt="">
-            <div class="ms-3">
+            <div class="chat-name ms-3">
                 <h5 class="mb-0">
                     @if ($conversation->is_group)
                         {{ $conversation->name }}
@@ -52,11 +52,11 @@
                         {{ $userInfo->nickname ?? $conversation->friend->name }}
                     @endif
                 </h5>
-                <p class="text-muted mb-0">
-                    {{ $conversation->is_group ? $conversation->conversationUserInfo->count() . ' Thành viên' : '' }}
+                <p class=" mb-0">
+                    {{ $conversation->is_group ? $conversation->conversationUserInfo->count()  : '' }} {{ __('messages.member') }}
                 </p>
                 @if (!$conversation->is_group)
-                    <p class="text-muted mb-0">
+                    <p class=" mb-0">
                         @if ($conversation->friend->isOnline())
                             <span class="badge bg-success">Online</span>
                         @else
@@ -89,13 +89,13 @@
     <!-- Offcanvas bên phải -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
-            <h5 id="offcanvasRightLabel">Thông tin</h5>
+            <h5 id="offcanvasRightLabel">{{ __('messages.message_info') }}</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
             <!--Gửi file-->
             <div class="group-info mb-4">
-                <h6 class="fw-bold">File đã gửi</h6>
+                <h6 class="fw-bold">{{ __('messages.message_file') }}</h6>
                 <ul class="list-unstyled">
                     @foreach ($conversation->messages->where('type', 'file')->take(100) as $message)
                         <li><a href="{{ asset($message->message) }}" target="_blank">{{ basename($message->message) }}</a></li>
@@ -107,7 +107,7 @@
             </div>
             <!-- Thông tin nhóm -->
             <div class="group-info mb-4">
-                <h6 class="fw-bold">Ảnh đã gửi</h6>
+                <h6 class="fw-bold">{{ __('messages.message_img') }}</h6>
                 <div class="images-list d-flex flex-wrap">
                     <!-- Thêm hình ảnh mẫu -->
                     @foreach ($conversation->messages->where('type', 'image')->take(100) as $message)
@@ -116,13 +116,12 @@
                     @endforeach
                 </div>
                 <!-- Nút "Xem tất cả" -->
-                <button class="btn btn-outline-primary mt-2" id="view-toggle-btn">Xem tất cả</button>
+                <button class="btn btn-outline-primary mt-2" id="view-toggle-btn">{{ __('messages.message_img') }}</button>
             </div>
 
             <!-- Chức năng nhóm -->
             @if ($conversation->is_group)
-                <button class="btn btn-outline-primary w-100" id="view-all-members-btn">Xem tất cả thành
-                    viên</button>
+                <button class="btn btn-outline-primary w-100" id="view-all-members-btn">{{ __('messages.see_member') }}</button>
             @endif
 
         </div>
@@ -225,7 +224,7 @@
                     </a>
                 @endif
                 <span
-                    class="message-time small text-dark">{{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}</span>
+                    class="message-time small ">{{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}</span>
             </div>
             @if ($message->sender_id === Auth::id())
                 <img src="{{ $message->sender->avatar ? asset($message->sender->avatar) : asset('/assets/images/avatar_default.jpg') }}"
@@ -238,22 +237,22 @@
 
 <!-- Thêm input để gửi tin nhắn -->
 
-<div class="footer-send chat-input d-flex flex-column pb-2 border-top">
+<div class="footer-send chat-input d-flex flex-column border-top">
     <form id="send-message-form" action="{{ route('send.message') }}" enctype="multipart/form-data">
         @csrf
         <div class="">
             <div class="d-flex w-100 flex-column ">
-                <div class="px-5 d-flex py-2 ">
+                <div class="color-chat px-5 d-flex py-2 ">
                     <a class="me-3" title="Chọn ảnh" id="imageIcon"><i
-                            class="fa-solid fa-image fa-lg text-dark"></i></a>
-                    <a title="Chọn file" id="fileIcon"><i class="fa-solid fa-paperclip fa-lg text-dark"></i></a>
+                            class="fa-solid fa-image fa-lg "></i></a>
+                    <a title="Chọn file" id="fileIcon"><i class="fa-solid fa-paperclip fa-lg "></i></a>
                 </div>
 
-                <div class="d-flex w-100 justify-content-space-evenly border-top border-primary px-4">
-                    <textarea class="w-100 border-0" id="messageInput" placeholder="{{ __('messages.enterSendMessages') }}"
+                <div class="chatbox1 d-flex w-100 justify-content-space-evenly border-top border-primary px-4">
+                    <textarea class="chatbox2 w-100 border-0" id="messageInput" placeholder="{{ __('messages.enterSendMessages') }}"
                         rows="1" oninput="toggleSendIcon()" style="resize: none; overflow: hidden"></textarea>
 
-                    <button class="border-0 bg-white" type="submit" id="sendIcon" style="display: none;">
+                    <button class="buttonsent border-0 bg-white" type="submit" id="sendIcon" style="display: none;">
                         <i class="fa-solid fa-paper-plane" style="font-size: 25px;"></i>
                     </button>
                 </div>

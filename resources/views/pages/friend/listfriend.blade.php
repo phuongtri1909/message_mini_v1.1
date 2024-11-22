@@ -139,7 +139,7 @@
                 class="friend-img rounded-circle me-3" style="width: 40px; height: 40px;">
             <div>
                 <span class="friend-name">{{ $friend->name }}</span>
-                <p style="margin: 0; color: #888;" class="d-flex">{{ __('messages.friendAlready') }}:
+                <p style="margin: 0;" class="d-flex">{{ __('messages.friendAlready') }}:
                     {{ \Carbon\Carbon::parse($friend->friendship_start)->diffForHumans() }}</p>
             </div>
             <a href="#" class="ms-auto toggle-menu" data-dropdown-id="dropdown-menu-{{ $friend->id }}"

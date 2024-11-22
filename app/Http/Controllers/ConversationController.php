@@ -157,7 +157,7 @@ class ConversationController extends Controller
             'role' => 'gold', // Gán vai trò là trưởng nhóm (gold)
         ]);
     
-        return response()->json(['success' => true, 'message' => 'Nhóm đã được tạo thành công.', 'group_id' => $group->id]);
+        return response()->json(['success' => true, 'message' => __('messages.group_ok'), 'group_id' => $group->id]);
     }
 
     // lấy danh sách bạn bè chưa có trong nhóm
@@ -194,13 +194,13 @@ class ConversationController extends Controller
     $user = Auth::user();
 
     if (!$conversation->users()->where('user_id', $user->id)->exists()) {
-        return response()->json(['status' => 'error', 'message' => 'Bạn không phải là thành viên của nhóm.'], 403);
+        return response()->json(['status' => 'error', 'message' => __('messages.group_no')], 403);
     }
 
     $memberIds = $request->input('members', []);
 
     if (empty($memberIds)) {
-        return response()->json(['status' => 'error', 'message' => 'Vui lòng chọn ít nhất 1 thành viên để thêm!'], 400);
+        return response()->json(['status' => 'error', 'message' => __('messages.group_1')], 400);
     }
 
     // Sử dụng cơ chế khóa để đảm bảo không có thao tác thêm trùng lặp

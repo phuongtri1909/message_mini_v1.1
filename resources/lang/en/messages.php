@@ -1,5 +1,10 @@
 <?php
 return [
+    'member'=>"Member",
+    'light' => "Light",
+    'dark' => "Dark",
+    'settingThemes' => "Setting Themes",
+    'changeThemes' => "Change Themes",
     'settings' => 'Settings',
     'general_settings' => 'General Settings',
     'change_language' => 'Change Language',
@@ -72,10 +77,19 @@ return [
     'sendFriendRequest' => 'Send a friend request', 
     'revokeRequest' => 'Revoke request'  ,
     'sendaMessage' => 'Send a message' ,
-    'dayBefore' => 'day ago',
-    'minuteBefore' => 'minute ago',
-    'secondBefore' => 'second ago',
+    'dayBefore' => ' day ago',
+    'hourBefore' => ' hour ago',
+    'minuteBefore' => ' minute ago',
+    'secondBefore' => ' second ago',
     'friend_info' => 'Friend Infomation',
     'enterSendMessages' => 'Enter @, message to...',
+    'message_info' => 'Infomation',
+    'message_file' => 'Sent file',
+    'message_img' => 'Sent photo',
+    'see_all' => 'See all',
+    'see_member' => 'See member',
+    'group_ok' => 'Create a successful group',
+    'group_no' => 'You are not a member of the group.',
+    'group_1'=>'Please select at least 1 member to add!',
 ];
 

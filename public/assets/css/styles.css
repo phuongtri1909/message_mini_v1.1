@@ -1,8 +1,57 @@
+:root{
+    --background-color: #f4f4f5;
+    --font-family: 'Quicksand', sans-serif;
+    --button-color:#2789df;
+    --text-color:black;
+    --chat-color:white;
+    --border-color:#e4e6e5;
+}
+.dark-mode{
+    --text-color:white;
+    --background-color: #242526;
+    --font-family: 'Quicksand', sans-serif;
+    --button-color:#3b3d3e;
+    --chat-color:#252728;
+    --border-color:#3a3c3d;
+}
+.bg-white{
+    --bs-bg-opacity: 0;
+}
+.modal-body{
+    background-color: var(--border-color)!important;
+    color: var(--text-color);
+}
+.listfr-item,.friend-item,.listfr-header,.list-group-item,.modal-header,.modal-footer,.friend-request-item,.offcanvas{
+    background-color: var(--border-color)!important;
+    color: var(--text-color);
+}
+.border-bottom, .border-top{
+    border-color: var(--border-color)!important;
+}
+.fa-image,.fa-paperclip,.chat-name,.fa-user-plus,.fa-people-group,.friend-name{
+    color: var(--text-color)!important;
+}
+.chatbox1 , .chatbox2, .buttonsent ,.color-chat,.chat-list,.chat-info{
+    background-color: var(--chat-color)!important;
+    color: var(--text-color)!important;
+}
 body {
-    background: #f4f4f5;
-    font-family: 'Quicksand', sans-serif;
+    background: var(--background-color);
+    font-family: var(--font-family);
 }
 
+.btn-primary,.button{
+    border-color: var(--text-color);
+    background-color: var(--button-color);
+}
+.btn-outline-primary{
+    border-color: var(--text-color);
+    color: var(--text-color);
+}
+.header-chat{
+    background-color: var(--background-color)!important;
+    color: white;
+}
 header .sticky-header {
     position: fixed;
     top: 0;
@@ -275,7 +324,7 @@ footer .icon-footer {
 }
 
 .sidebar {
-    background-color: #0084ff;
+    background-color:var(--button-color);
 }
 
 .profile img {
@@ -312,7 +361,7 @@ footer .icon-footer {
     height: 30px;
     padding: 10px;
     border-radius: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid;
     flex-grow: 1;
     /* Để thanh tìm kiếm chiếm hết không gian trống */
     flex-wrap: nowrap;
@@ -357,7 +406,6 @@ footer .icon-footer {
 .chat-info p {
     margin: 0;
     font-size: 12px;
-    color: #888;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -368,8 +416,6 @@ footer .icon-footer {
     font-size: 10px;
     color: #888;
 }
-
-
 .message img.avatar {
     width: 40px;
     height: 40px;
@@ -384,7 +430,8 @@ footer .icon-footer {
 }
 
 .message-content {
-    background-color: #fff;
+    background-color: var(--button-color)!important;
+    color: white;
     border-radius: 5px;
     position: relative;
     max-width: 500px;
@@ -394,7 +441,7 @@ footer .icon-footer {
 
 .message-time {
     font-size: 10px;
-    color: #888;
+    color: white;
     margin-left: 5px;
 }
 
@@ -591,7 +638,6 @@ footer .icon-footer {
   
   .friend-name {
     font-size: 16px;
-    color: #333;
   }
   
   .friend-item a {

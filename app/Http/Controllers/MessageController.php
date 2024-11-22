@@ -136,13 +136,13 @@ class MessageController extends Controller
     private function formatTimeDiff($latestTime, $now)
     {
         if ($latestTime->diffInSeconds($now) < 60) {
-            return $latestTime->diffInSeconds($now) . ' giây trước';
+            return $latestTime->diffInSeconds($now) . __('messages.secondBefore');
         } elseif ($latestTime->diffInMinutes($now) < 60) {
-            return $latestTime->diffInMinutes($now) . ' phút trước';
+            return $latestTime->diffInMinutes($now) . __('messages.minuteBefore');
         } elseif ($latestTime->diffInHours($now) < 24) {
-            return $latestTime->diffInHours($now) . ' giờ trước';
+            return $latestTime->diffInHours($now) . __('messages.hourBefore');
         } else {
-            return $latestTime->diffInDays($now) . ' ngày trước';
+            return $latestTime->diffInDays($now) . __('messages.dayBefore');
         }
     }
 
