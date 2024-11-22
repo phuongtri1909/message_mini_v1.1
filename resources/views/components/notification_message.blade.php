@@ -1,10 +1,35 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+
+            let originalTitle = document.title;
+            let blinkInterval;
+
+            function startTitleBlink() {
+                if (!blinkInterval) {
+                    blinkInterval = setInterval(() => {
+                        document.title = document.title === 'Có tin nhắn mới!' ? originalTitle : 'Có tin nhắn mới!';
+                    }, 1000);
+                }
+            }
+
+            function stopTitleBlink() {
+                clearInterval(blinkInterval);
+                document.title = originalTitle;
+                blinkInterval = null;
+            }
+
+            // Dừng nhấp nháy tiêu đề khi người dùng quay lại tab
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    stopTitleBlink();
+                }
+            });
+
             @foreach($IsConversations as $conversation)
                 Echo.private('notifications.{{ $conversation->id }}')
                     .listen('NotificationSentMessage', (e) => {
-                      
+                        startTitleBlink();
                         showNotification(e.notification);
                     });
             @endforeach
