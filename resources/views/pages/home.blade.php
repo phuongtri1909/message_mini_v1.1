@@ -13,7 +13,7 @@
 @section('content-1')
     <div class="chat-list-container px-3">
         @foreach ($conversations as $item)
-            <a class="text-decoration-none d-flex justify-content-between conversation-link mb-4"
+            <a id="conversation-{{ $item->id }}" class="text-decoration-none d-flex justify-content-between conversation-link mb-4"
                 data-id="{{ $item->id }}">
                 <div class="d-flex align-items-center">
                     <img src="{{ $item->is_group ? ($item->avatar ? asset(str_replace('public/', 'storage/', $item->avatar)) : asset('/assets/images/avatar_default_group.jpg')) : ($item->friend->avatar ? asset($item->friend->avatar) : asset('/assets/images/avatar_default.jpg')) }}"
@@ -59,39 +59,39 @@
         @endforeach
     </div>
 
-<!-- Modal xác nhận xóa thành viên -->
-<div class="modal fade" id="confirmRemoveMemberModal" tabindex="-1" aria-labelledby="confirmRemoveMemberModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmRemoveMemberModalLabel">Xác nhận xóa thành viên</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Bạn có chắc chắn muốn xóa thành viên này khỏi nhóm không?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-danger" id="confirmRemoveMemberBtn">Xóa</button>
+    <!-- Modal xác nhận xóa thành viên -->
+    <div class="modal fade" id="confirmRemoveMemberModal" tabindex="-1" aria-labelledby="confirmRemoveMemberModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmRemoveMemberModalLabel">Xác nhận xóa thành viên</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn xóa thành viên này khỏi nhóm không?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger" id="confirmRemoveMemberBtn">Xóa</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Offcanvas để hiển thị thành viên -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMembers"
-    aria-labelledby="offcanvasMembersLabel">
-    <div class="offcanvas-header">
-        <h5 id="offcanvasMembersLabel">Danh sách thành viên</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-            aria-label="Close"></button>
+    <!-- Offcanvas để hiển thị thành viên -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMembers"
+        aria-labelledby="offcanvasMembersLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasMembersLabel">Danh sách thành viên</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="list-unstyled">
+                <!-- Danh sách thành viên sẽ được tải vào đây -->
+            </ul>
+            <button id="load-more-members-btn" class="btn btn-primary w-100 mt-3" style="display: none;">Xem thêm</button>
+        </div>
     </div>
-    <div class="offcanvas-body">
-        <ul class="list-unstyled">
-            <!-- Danh sách thành viên sẽ được tải vào đây -->
-        </ul>
-        <button id="load-more-members-btn" class="btn btn-primary w-100 mt-3" style="display: none;">Xem thêm</button>
-    </div>
-</div>
 @endsection
 
 @section('content-2')
@@ -106,6 +106,54 @@
     {{-- load conversation đã chọn --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+
+            @foreach($IsConversations as $conversation)
+                Echo.private('notifications.{{ $conversation->id }}')
+                    .listen('NotificationSentMessage', (e) => {
+                        updateConversationList(e.notification);
+                        console.log('Có tin nhắn mới từ cuộc trò chuyện ' + e.notification.id);
+                    });
+            @endforeach
+
+            function updateConversationList(notification) {
+                const conversationId = notification.id;
+                const conversationElement = $(`#conversation-${conversationId}`);
+
+                // Cập nhật nội dung cuộc trò chuyện
+                const avatarUrl = notification.is_group == false ? (notification.friend.avatar ? notification.friend.avatar : '/assets/images/avatar_default.jpg') : (notification.avatar ? notification.avatar : '/assets/images/avatar_default_group.jpg');
+                const name = notification.is_group == false ? notification.friend.name : notification.name;
+                let message = '';
+                if (notification.latestMessage) {
+                    let senderName = notification.latestMessage.sender_id == {{ Auth::id() }} ? 'Bạn' : notification.latestMessage.sender.name; 
+                    if (notification.latestMessage.type == 'image') {
+                        message = `${senderName} đã gửi hình`;
+                    } else if (notification.latestMessage.type == 'file') {
+                        message = `${senderName} đã gửi file`;
+                    } else {
+                        message = notification.latestMessage.message;
+                    }
+                } else {
+                    let creator = notification.conversationUsers.find(user => user.user_id == notification.created_by);
+                    if (notification.created_by == {{ Auth::id() }}) {
+                        message = 'Bạn đã tạo nhóm';
+                    } else {
+                        message = `${creator.nickname ? creator.nickname : creator.user.name} đã tạo nhóm`;
+                    }
+                }
+                const time = notification.latestMessage ? notification.latestMessage.time_diff : `Tạo ${notification.time_diff}`;
+
+                // Cập nhật nội dung HTML
+                conversationElement.find('img').attr('src', avatarUrl);
+                conversationElement.find('.chat-info h5').text(name);
+                conversationElement.find('.chat-info p').text(message);
+                conversationElement.find('.chat-time').text(time);
+
+                console.log('Cập nhật cuộc trò chuyện:', conversationId);
+                
+                // Di chuyển cuộc trò chuyện lên đầu danh sách
+                conversationElement.detach().prependTo('.chat-list-container');
+            }
+
             document.querySelectorAll('.conversation-link').forEach(function(element) {
                 element.addEventListener('click', function(event) {
                     event.preventDefault();

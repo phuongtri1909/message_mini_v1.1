@@ -1,7 +1,7 @@
 <script>
     $(document).ready(function() {
-        const authId = {{ Auth::id() }};
-        const conversationId = $('#conversation_id').val();
+
+       
 
         function appendMessage(message, isSender) {
             const avatarUrl = message.sender.avatar_url;
@@ -36,9 +36,10 @@
         }
 
         function initializeEcho() {
+            const conversationId = $('#conversation_id').val();
             Echo.private('chat.' + conversationId)
                 .listen('MessageSent', (e) => {
-                    appendMessage(e.message, parseInt(e.message.sender_id) === parseInt(authId));
+                    appendMessage(e.message, parseInt(e.message.sender_id) === parseInt({{ Auth::id() }}));
                 });
         }
 
@@ -92,7 +93,7 @@
 
                         if (response.status === 'success') {
                             response.messages.forEach(message => {
-                                appendMessage(message, parseInt(message.sender_id) === parseInt(authId));
+                                appendMessage(message, parseInt(message.sender_id) === parseInt({{ Auth::id() }}));
                             });
                         } else {
                             showToast(response.message, 'error');
