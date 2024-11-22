@@ -6,6 +6,7 @@ use App\Models\Conversation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Events\UserLeftGroup;
 
 class ConversationController extends Controller
 {
@@ -74,10 +75,14 @@ class ConversationController extends Controller
 {
     $conversation = Conversation::findOrFail($conversationId);
     $user = auth()->user();
+    $memberId = $request->input('member_id');
 
     // Kiểm tra xem người dùng hiện tại có phải là trưởng nhóm không
     if ($conversation->users()->where('user_id', $user->id)->wherePivot('role', 'gold')->exists()) {
-        $memberId = $request->input('member_id');
+        // Kiểm tra xem nhóm trưởng có đang cố gắng tự xóa mình không
+        if ($user->id == $memberId) {
+            return response()->json(['status' => 'error', 'message' => 'Nhóm trưởng không thể tự xóa mình.'], 403);
+        }
 
         // Kiểm tra xem thành viên có còn trong nhóm hay không
         if ($conversation->users()->where('user_id', $memberId)->exists()) {
@@ -220,6 +225,24 @@ class ConversationController extends Controller
     } catch (\Exception $e) {
         DB::rollBack();
         return response()->json(['status' => 'error', 'message' => 'Đã xảy ra lỗi khi thêm thành viên!'], 500);
+    }
+}
+public function leaveGroup($conversationId)
+{
+    $conversation = Conversation::findOrFail($conversationId);
+    $user = auth()->user();
+
+    // Kiểm tra xem người dùng có phải là thành viên của nhóm không
+    if ($conversation->users()->where('user_id', $user->id)->exists()) {
+        // Xóa người dùng khỏi nhóm
+        $conversation->users()->detach($user->id);
+
+        // Phát sự kiện WebSocket để thông báo rằng người dùng đã rời nhóm
+        broadcast(new UserLeftGroup($conversationId, $user->id))->toOthers();
+
+        return response()->json(['status' => 'success', 'message' => 'Bạn đã rời nhóm thành công.']);
+    } else {
+        return response()->json(['status' => 'error', 'message' => 'Bạn không phải là thành viên của nhóm hoặc đã rời nhóm.'], 403);
     }
 }
 }

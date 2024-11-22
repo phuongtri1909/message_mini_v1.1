@@ -75,6 +75,10 @@
             @if ($conversation->is_group)
             <button class="btn btn-primary openAddMembersModal" data-conversation-id="{{ $conversation->id }}" data-is-group="{{ $conversation->is_group }}"><i class="fa-solid fa-user-group"></i></button>
             @endif
+
+            @if ($conversation->is_group)
+        <button id="leaveGroupBtn" class="btn btn-danger" onclick="leaveGroup({{ $conversation->id }})">Rời nhóm</button>
+@endif
             <!-- Button các chức năng của nhóm -->
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                 aria-controls="offcanvasRight">
