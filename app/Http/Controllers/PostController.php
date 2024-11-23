@@ -220,6 +220,16 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        // Kiểm tra xem người dùng hiện tại có quyền xóa bài viết hay không
+        if ($post->user_id !== auth()->id()) {
+            return response()->json(['status' => 'error', 'message' => 'Bạn không có quyền xóa bài viết này.'], 403);
+        }
+    
+        try {
+            $post->delete();
+            return response()->json(['status' => 'success', 'message' => 'Bài viết đã được xóa.']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => 'Có lỗi xảy ra khi xóa bài viết.'], 500);
+        }
     }
 }
