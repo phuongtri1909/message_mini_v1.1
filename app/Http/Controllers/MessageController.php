@@ -146,6 +146,19 @@ class MessageController extends Controller
         }
     }
 
+    public function checkMembership(Request $request)
+    {
+        $conversationId = $request->input('conversation_id');
+        $userId = $request->input('user_id');
+
+        $isMember = Conversation::where('id', $conversationId)
+                                ->whereHas('conversationUsers', function($query) use ($userId) {
+                                    $query->where('user_id', $userId);
+                                })->exists();
+
+        return response()->json(['is_member' => $isMember]);
+    }
+
     public function sendMessage(Request $request)
     {
         //return response()->json(['status' => 'error', 'message' => $request->all()]);

@@ -108,13 +108,27 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
-            @foreach($IsConversations as $conversation)
-                Echo.private('notifications.{{ $conversation->id }}')
-                    .listen('NotificationSentMessage', (e) => {
-                        updateConversationList(e.notification);
-                        console.log('Có tin nhắn mới từ cuộc trò chuyện ' + e.notification.id);
+        @foreach($IsConversations as $conversation)
+            Echo.private('notifications.{{ $conversation->id }}')
+                .listen('NotificationSentMessage', (e) => {
+                    // Check if the user is still part of the group
+                    $.ajax({
+                        url: '/check-membership',
+                        method: 'POST',
+                        data: {
+                            conversation_id: {{ $conversation->id }},
+                            user_id: {{ Auth::id() }},
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if (response.is_member) {
+                                updateConversationList(e.notification);
+                                console.log('Có tin nhắn mới từ cuộc trò chuyện ' + e.notification.id);
+                            }
+                        }
                     });
-            @endforeach
+                });
+        @endforeach
 
             function updateConversationList(notification) {
                 const conversationId = notification.id;

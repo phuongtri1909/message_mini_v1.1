@@ -29,8 +29,22 @@
             @foreach($IsConversations as $conversation)
                 Echo.private('notifications.{{ $conversation->id }}')
                     .listen('NotificationSentMessage', (e) => {
-                        startTitleBlink();
-                        showNotification(e.notification);
+                        // Check if the user is still part of the group
+                        $.ajax({
+                            url: '/check-membership',
+                            method: 'POST',
+                            data: {
+                                conversation_id: {{ $conversation->id }},
+                                user_id: {{ Auth::id() }},
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                if (response.is_member) {
+                                    startTitleBlink();
+                                    showNotification(e.notification);
+                                }
+                            }
+                        });
                     });
             @endforeach
 

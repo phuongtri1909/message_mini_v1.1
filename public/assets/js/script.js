@@ -809,14 +809,14 @@ function previewImageGroup(event) {
 }
 
 // Lắng nghe sự kiện WebSocket khi người dùng rời nhóm
-Echo.private(`chat.${conversationId}`)
-    .listen('UserLeftGroup', (e) => {
-        if (e.user_id === currentUserId) {
-            showToast('Bạn đã rời nhóm.', 'info');
-            removeConversationFromList(conversationId);
-            clearChatWindow();
-        }
-    });
+// Echo.private(`chat.${conversationId}`)
+//     .listen('UserLeftGroup', (e) => {
+//         if (e.user_id === currentUserId) {
+//             showToast('Bạn đã rời nhóm.', 'info');
+//             removeConversationFromList(conversationId);
+//             clearChatWindow();
+//         }
+//     });
 
 function leaveGroup(conversationId) {
     fetch(`/conversation/${conversationId}/leave`, {

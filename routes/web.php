@@ -12,7 +12,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ConversationController; 
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\PostController;
-
+use Illuminate\Mail\Message;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,6 +74,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/posts/{post}/comments', [PostController::class, 'storeComment']);
     Route::post('/comments/{comment}/replies', [PostController::class, 'storeReply']);
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+
+    Route::post('/check-membership', [MessageController::class, 'checkMembership'])->name('check.membership');
 });
 
 

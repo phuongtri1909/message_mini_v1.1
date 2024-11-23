@@ -1,4 +1,5 @@
 <script>
+    
     $(document).ready(function() {
 
        
@@ -39,7 +40,24 @@
             const conversationId = $('#conversation_id').val();
             Echo.private('chat.' + conversationId)
                 .listen('MessageSent', (e) => {
-                    appendMessage(e.message, parseInt(e.message.sender_id) === parseInt({{ Auth::id() }}));
+                    // Check if the user is still part of the group
+                    $.ajax({
+                        url: '/check-membership',
+                        method: 'POST',
+                        data: {
+                            conversation_id: conversationId,
+                            user_id: {{ Auth::id() }},
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if (response.is_member) {
+                                appendMessage(e.message, parseInt(e.message.sender_id) === parseInt({{ Auth::id() }}));
+                            }
+                        },
+                        error: function(xhr) {
+                            showToast(xhr.responseJSON.message, 'error');
+                        }
+                    });
                 });
         }
 
