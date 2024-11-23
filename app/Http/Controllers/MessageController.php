@@ -186,11 +186,12 @@ class MessageController extends Controller
                 $messages[] = $message;
             }
 
+
             if ($request->hasFile('images')) {
                 $images = $request->file('images');
                 foreach ($images as $image) {
                     $currentDate = now()->format('Y/m/d');
-                    $filename = 'image_' . now()->timestamp . '.' . $image->getClientOriginalExtension();
+                    $filename = 'image_' . now()->timestamp . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
                     $path = $image->move(public_path("/uploads/images/{$currentDate}"), $filename);
                     $messageContent = "/uploads/images/{$currentDate}/{$filename}";
 
@@ -208,7 +209,7 @@ class MessageController extends Controller
                 $files = $request->file('files');
                 foreach ($files as $file) {
                     $currentDate = now()->format('Y/m/d');
-                    $filename = 'file_' . now()->timestamp . '.' . $file->getClientOriginalExtension();
+                    $filename = 'file_' . now()->timestamp . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                     $path = $file->move(public_path("/uploads/files/{$currentDate}"), $filename);
                     $messageContent = "/uploads/files/{$currentDate}/{$filename}";
 
