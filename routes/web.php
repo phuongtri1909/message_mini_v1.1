@@ -73,6 +73,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/posts/{post}/comments', [PostController::class, 'getComments']);
     Route::post('/posts/{post}/comments', [PostController::class, 'storeComment']);
     Route::post('/comments/{comment}/replies', [PostController::class, 'storeReply']);
+    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 });
 
 
