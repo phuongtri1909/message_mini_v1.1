@@ -57,9 +57,9 @@
                                                 data-bs-target="#languageSettingsModal">{{ __('messages.settingLanguage')}}</a></li>
                                         <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
                                                 data-bs-target="#themeSettingsModal">{{ __('messages.settingThemes')}}</a></li>
-               
+                                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#shortcutListModal">{{ __('messages.settingShortcuts') }}</a></li>
                                     </ul>
-                                    
+
                                 </div>
                             </li>
                         </ul>
@@ -78,11 +78,11 @@
                         <a href="#"><i class="fa-solid fa-people-group"></i></a>
                     </button>
                 </div>
-                
+
                 <div id="searchResults" class="mt-2" style="display: none;">
                     <ul class="list-group" id="searchResultsList"></ul>
                 </div>
-                
+
                 @yield('content-1')
             </section>
             <!-- Main Chat Window -->
@@ -364,36 +364,76 @@
         </div>
     </div>
 </div>
+<!-- Modal danh sách phím tắt -->
+<div class="modal fade" id="shortcutListModal" tabindex="-1" aria-labelledby="shortcutListModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="shortcutListModalLabel">{{ __('messages.shortcutList') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="fw-bold">{{ __('messages.infoTab') }}</h6>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        {{ __('messages.logout') }} <span><strong>Alt + 1</strong></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        {{ __('messages.friendList') }} <span><strong>Alt + 2</strong></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        {{ __('messages.createaNewGroup') }} <span><strong>Alt + 3</strong></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        {{ __('messages.addNewFriend') }} <span><strong>Alt + 4</strong></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        {{ __('messages.profile_info') }} <span><strong>Alt + 5</strong></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        {{ __('messages.search') }} <span><strong>Alt + 6</strong></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        {{ __('messages.changeThemes') }} <span><strong>Alt + 7</strong></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        {{ __('messages.change_language') }} <span><strong>Alt + 8</strong></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
 @include('layouts.partials.footer')
 <script>
     function searchMessages() {
-    let query = document.getElementById('searchMessages').value;
+        let query = document.getElementById('searchMessages').value;
 
-    if (query.trim() === '') {
-        document.getElementById('searchResults').style.display = 'none';
-        return;
-    }
+        if (query.trim() === '') {
+            document.getElementById('searchResults').style.display = 'none';
+            return;
+        }
 
-    fetch(`/search-messages?q=${encodeURIComponent(query)}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Mã lỗi: ' + response.status); // Kiểm tra lỗi phản hồi từ máy chủ
-            }
-            return response.json();
-        })
-        .then(data => {
-            let searchResultsList = document.getElementById('searchResultsList');
-            searchResultsList.innerHTML = '';
+        fetch(`/search-messages?q=${encodeURIComponent(query)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Mã lỗi: ' + response.status); // Kiểm tra lỗi phản hồi từ máy chủ
+                }
+                return response.json();
+            })
+            .then(data => {
+                let searchResultsList = document.getElementById('searchResultsList');
+                searchResultsList.innerHTML = '';
 
-            if (data.status === 'success' && data.results.length > 0) {
-                data.results.forEach(item => {
-                    let listItem = document.createElement('li');
-                    listItem.classList.add('list-group-item');
+                if (data.status === 'success' && data.results.length > 0) {
+                    data.results.forEach(item => {
+                        let listItem = document.createElement('li');
+                        listItem.classList.add('list-group-item');
 
-                    listItem.innerHTML = `
+                        listItem.innerHTML = `
                         <div class="d-flex align-items-center">
                             <img src="${item.avatar_url}" alt="Avatar" class="rounded-circle me-2" width="40" height="40">
                             <div>
@@ -406,20 +446,59 @@
                             Xem tin nhắn
                         </a>
                     `;
-                    searchResultsList.appendChild(listItem);
-                });
-                document.getElementById('searchResults').style.display = 'block';
-            } else {
-                searchResultsList.innerHTML = '<li class="list-group-item text-muted">Không tìm thấy tin nhắn phù hợp</li>';
-                document.getElementById('searchResults').style.display = 'block';
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Có lỗi xảy ra khi tìm kiếm tin nhắn.');
-        });
-}
+                        searchResultsList.appendChild(listItem);
+                    });
+                    document.getElementById('searchResults').style.display = 'block';
+                } else {
+                    searchResultsList.innerHTML = '<li class="list-group-item text-muted">Không tìm thấy tin nhắn phù hợp</li>';
+                    document.getElementById('searchResults').style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi tìm kiếm tin nhắn.');
+            });
+    }
+    document.addEventListener('keydown', function(event) {
+    // Kiểm tra nếu bất kỳ modal nào đang mở
+    const modalIsOpen = document.querySelector('.modal.show');
 
+    // Nếu modal đang mở, không xử lý phím tắt
+    if (modalIsOpen) {
+        return;
+    }
 
-
+    // Tổ hợp phím "Alt + 1" (Đăng xuất)
+    if (event.altKey && event.key === '1') {
+        window.location.href = '{{ route("logout") }}'; // Chuyển hướng tới trang đăng xuất
+    }
+    // Tổ hợp phím "Alt + 2" (Danh sách bạn bè)
+    else if (event.altKey && event.key === '2') {
+        $('#friendsListModal').modal('show'); // Mở modal danh sách bạn bè
+    }
+    // Tổ hợp phím "Alt + 3" (Tạo nhóm)
+    else if (event.altKey && event.key === '3') {
+        $('#createGroupModal').modal('show'); // Mở modal tạo nhóm
+    }
+    // Tổ hợp phím "Alt + 4" (Thêm bạn)
+    else if (event.altKey && event.key === '4') {
+        $('#addFriendModal').modal('show'); // Mở modal thêm bạn
+    }
+    // Tổ hợp phím "Alt + 5" (Thông tin cá nhân)
+    else if (event.altKey && event.key === '5') {
+        $('#profileModal').modal('show'); // Mở modal thông tin cá nhân
+    }
+     // Tổ hợp phím "Alt + 6" (Tìm kiếm)
+     else if (event.altKey && event.key === '6') {
+            document.getElementById('searchMessages').focus(); // Tập trung vào ô tìm kiếm
+        }
+    // Tổ hợp phím "Alt + 7" (Cài đặt chủ đề)
+    else if (event.altKey && event.key === '7') {
+        $('#themeSettingsModal').modal('show'); // Mở modal cài đặt chủ đề
+    }
+    // Tổ hợp phím "Alt + 8" (Cài đặt chủ đề)
+    else if (event.altKey && event.key === '8') {
+        $('#languageSettingsModal').modal('show'); // Mở modal cài đặt chủ đề
+    }
+});
 </script>
