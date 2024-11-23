@@ -91,5 +91,10 @@ return [
     'group_ok' => 'Create a successful group',
     'group_no' => 'You are not a member of the group.',
     'group_1'=>'Please select at least 1 member to add!',
+    'settingShortcuts' => 'Shortcuts',
+    'shortcutList' => 'Shortcut List',
+    'infoTab' => 'Infomation Tab',
+    'confirmDelete' => 'Infomation Tab',
+    'a' => 'Are you sure you want to unfriend this person?',
 ];
 

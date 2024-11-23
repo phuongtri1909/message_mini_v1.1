@@ -151,18 +151,16 @@
                 style="display: none; position: absolute; top: 100%; right: 0; background: #fff; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); z-index: 10;">
                 <a href="#" class="dropdown-item"data-bs-toggle="modal" data-bs-target="#friendInfoModal-{{ $friend->id }}"
                     style="padding: 8px 15px; color: #333; text-decoration: none; display: block;">
-                    Xem thông tin</a>
+                    {{ __('messages.viewInformation') }}</a>
 
                 <a data-user-id='{{ $friend->id }}' class="dropdown-item open-conversation"
-                    style="padding: 8px 15px; color: #333; text-decoration: none; display: block;">Gửi tin
-                    nhắn</a>
+                    style="padding: 8px 15px; color: #333; text-decoration: none; display: block;"> {{ __('messages.sendMessage') }}</a>
 
                 <form action="{{ route('unfriend') }}" method="POST" style="margin: 0;" id="deleteFriendForm">
                     @csrf
                     <input type="hidden" name="friend_id" id="friendIdToDelete" value="{{ $friend->id }}">
                     <button type="button" class="dropdown-item delete-friend-button"
-                        style="padding: 8px 15px; color: #333; text-decoration: none; background: none; border: none; cursor: pointer;">Xóa
-                        bạn</button>
+                        style="padding: 8px 15px; color: #333; text-decoration: none; background: none; border: none; cursor: pointer;">{{ __('messages.deleteFriend') }}</button>
                 </form>
             </div>
         </div>
@@ -181,15 +179,15 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeleteModalLabel">Xác nhận xóa bạn</h5>
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">{{ __('messages.confirmDelete') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Bạn có chắc chắn muốn hủy kết bạn với người này không?
+                {{ __('messages.a') }}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Đồng ý</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.cancel') }}</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">{{ __('messages.confirm') }}</button>
                 </div>
             </div>
         </div>

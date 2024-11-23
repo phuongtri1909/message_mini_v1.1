@@ -18,36 +18,46 @@
                 <div class="text-center">
                     <h6 class="fw-bold">{{ $friend->name }}</h6>
                 </div>
-                <!-- Thông tin Bạn Bè dưới dạng Input -->
+                <hr>
                 <div class="row text-start">
-
-                    <!-- Email -->
-                    <div class="col-12 mb-3">
-                        <label class="fw-bold">{{ __('messages.email') }}:</label>
-                        <input type="email" name="email" class="form-control" value="{{ $friend->email ?? '' }}" readonly>
+                    <!-- Gmail -->
+                    <div class="col-4 mb-3">
+                        <p class="mb-0 text-primary"><strong>{{ __('messages.email') }}:</strong></p>
+                    </div>
+                    <div class="col-8 mb-3">
+                        <p class="mb-0"><strong>{{ $friend->email}}</strong></p>
                     </div>
                     <!-- Giới Tính -->
-                    <div class="col-12 mb-3">
-                        <label class="fw-bold">{{ __('messages.gender') }}:</label>
-                        <select id="gender" name="gender" class="form-control" readonly>
-                            <option value="female" {{ Auth::user()->gender == 'female' ? 'selected' : '' }}>{{ __('messages.female')}}</option>
-                            <option value="male" {{ Auth::user()->gender == 'male' ? 'selected' : '' }}>{{ __('messages.male')}}</option>
-                        </select>
+                    <div class="col-4 mb-3">
+                        <p class="mb-0 text-primary"><strong>{{ __('messages.gender') }}: </strong></p>
                     </div>
+                    <div class="col-8 mb-3">
+                        <p class="mb-0"><strong>{{ $friend->gender == 'female' ? __('messages.female') : ($friend->gender == 'male' ? __('messages.male') : __('')) }}</strong></p>
+                    </div>
+
                     <!-- Ngày Sinh -->
-                    <div class="col-12 mb-3">
-                        <label class="fw-bold">{{ __('messages.dob') }}:</label>
-                        <input type="date" name="dob" class="form-control" value="{{ $friend->dob ?? '' }}" readonly>
+                    <div class="col-4 mb-3">
+                        <label class="fw-bold text-primary">{{ __('messages.dob') }}: </label>
                     </div>
+                    <div class="col-8 mb-3">
+                        <label class="fw-bold">
+                            {{ $friend->dob ? \Carbon\Carbon::parse($friend->dob)->format('d/m/Y') : '' }}
+                        </label>
+                    </div>
+
                     <!-- Số điện thoại -->
-                    <div class="col-12 mb-3">
-                        <label class="fw-bold">{{ __('messages.phone') }}:</label>
-                        <input type="tel" name="phone" class="form-control" value="{{ $friend->phone ?? '' }}" readonly>
+                    <div class="col-4 mb-3">
+                        <label class="fw-bold text-primary">{{ __('messages.phone') }}:</label>
+                    </div>
+                    <div class="col-8 mb-3">
+                        <label class="fw-bold">{{ $friend->phone ?? '' }}</label>
                     </div>
                     <!-- Description -->
                     <div class="col-12 mb-3">
-                        <label class="fw-bold">{{ __('messages.description') }}:</label>
-                        <textarea name="description" class="form-control" rows="3" readonly>{{ $friend->description ?? '' }}</textarea>
+                        <label class="fw-bold text-primary">{{ __('messages.description') }}:</label>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="fw-bold">{{ $friend->description ?? '' }}</label>
                     </div>
                 </div>
             </div>

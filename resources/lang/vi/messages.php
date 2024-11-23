@@ -91,4 +91,9 @@ return [
     'group_ok'=>'Tạo nhóm thành công',
     'group_no' => 'Bạn không phải là thành viên của nhóm.',
     'group_1'=>'Vui lòng chọn ít nhất 1 thành viên để thêm!',
+    'settingShortcuts' => 'Phím Tắt',
+    'shortcutList' => 'Danh Sách Phím Tắt',
+    'infoTab' => 'Tab Thông Tin',
+    'confirmDelete' => 'Confirm friend deletion',
+    'a' => ' Bạn có chắc chắn muốn hủy kết bạn với người này không?',
 ];
