@@ -348,12 +348,34 @@
                                         </select>
                                     </form>
                                 </li>
-                              <li><a class="dropdown-item" href="#"><i class="fa-solid fa-trash text-danger"></i> Xóa bài viết</a></li>
+                                @if($item->user_id == auth()->id())
+                                <li>
+                                    <a class="dropdown-item text-danger" href="#" onclick="showDeleteModal({{ $item->id }})">
+                                        <i class="fa-solid fa-trash text-danger"></i> Xóa bài viết
+                                    </a>
+                                </li>
+                                @endif
                             </ul>
                           </div>
                     </div>
                 </div>
-
+                <div class="modal fade" id="deletePostModal" tabindex="-1" aria-labelledby="deletePostModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deletePostModalLabel">Xác nhận xóa bài viết</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Bạn có chắc chắn muốn xóa bài viết này không?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                <button type="button" class="btn btn-danger" id="confirmDeletePost">Xóa</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="content mt-2">
                     <p class="message">{!! $item->content !!}</p>
 
@@ -730,4 +752,40 @@
             });
         });
     </script>
+<script>
+    let postIdToDelete = null;
+
+    function showDeleteModal(postId) {
+        postIdToDelete = postId;
+        const deleteModal = new bootstrap.Modal(document.getElementById('deletePostModal'));
+        deleteModal.show();
+    }
+
+    document.getElementById('confirmDeletePost').addEventListener('click', function() {
+        if (postIdToDelete) {
+            deletePost(postIdToDelete);
+        }
+    });
+
+    function deletePost(postId) {
+        fetch(`/posts/${postId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                location.reload();
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script>
 @endpush
