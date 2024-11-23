@@ -379,7 +379,7 @@
                 <div class="content mt-2">
                     <p class="message">{!! $item->content !!}</p>
 
-                    @if (empty($item->images))
+                    @if (is_array($item->images) && !empty($item->images))
                         <div class="post-images row">
                             @foreach ($item->images as $image)
                                 <a class="text-decoration-none col-4" href="{{ asset($image) }}" data-fancybox="gallery">

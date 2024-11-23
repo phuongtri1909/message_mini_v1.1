@@ -204,7 +204,7 @@ class PostController extends Controller
             Post::create([
                 'user_id' => auth()->id(),
                 'content' => $request->content,
-                'images' => json_encode($images),
+                'images' => $images,
                 'privacy' => $request->privacy,
             ]);
 
