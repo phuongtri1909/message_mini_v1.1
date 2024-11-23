@@ -337,11 +337,6 @@ public function update(Request $request)
 
     $user = Auth::user();
 
-    // Kiểm tra nếu dữ liệu đã bị thay đổi ở nơi khác
-    if ($request->input('updated_at') != $user->updated_at->toDateTimeString()) {
-        return redirect()->back()->withErrors(['user' => 'Dữ liệu đã được cập nhật ở nơi khác. Vui lòng tải lại trang.'])
-            ->with('error',  __('messages.Datahasbeenupdatedelsewhere'));
-    }
 
     // Xử lý tải lên avatar
    
